@@ -1,0 +1,144 @@
+/*Description:
+Name: eHomeoffer
+Author: Theme_IT
+Author URI: https://themeforest.net/user/theme_it
+Version: 1.0
+
+ ============================================================*/
+
+/* ---------{ 01. Default  CSS } ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&family=Roboto:wght@300;400;500;700;900&display=swap');
+
+/*font-family: 'Open Sans', sans-serif;
+font-family: "Walkway";*/
+
+/* Variables */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    overflow-x: hidden;
+    font-size: 14px;
+    line-height: 25px;
+    font-weight: 400;
+    font-family: "Walkway";
+    color: #666;
+    overflow-x: hidden !important;
+}
+p {
+    line-height: 30px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "Walkway";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #666;
+    margin: 0;
+}
+h4 {
+    font-weight: 500;
+}
+a{
+    color: #336699;
+}
+a,
+a:hover,
+a:focus {
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+    outline: none;
+}
+ol,
+ul {
+    margin: 0;
+    padding: 0;
+}
+ol li,
+ul li {
+    list-style: outside none none;
+    list-style-type: none;
+}
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
+.main-footer {
+    position: relative;
+    background-color: #1b1b1b;
+    padding: 50px 0 20px;
+}
+
+.main-footer .widget {
+    position: relative;
+    padding-bottom: 40px;
+}
+
+.main-footer .widget h3{
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.main-footer .widget p {
+    color: #ffffff;
+}
+
+.main-footer .widget h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.main-footer .widget ul li a {
+    color: #fff;
+    font-size: 13px;
+    padding: 2px 0;
+    display: block;
+}
+
+.main-footer .widget.social-widget a {
+    width: 25px;
+    display: inline-block;
+    height: 25px;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    line-height: 25px;
+    margin-right: 5px;
+}
+.main-footer .widget.social-widget a.fb {
+    background-color: #3b5998;
+}
+
+.main-footer .widget.social-widget a.twt {
+    background-color: #00aced;
+}
+
+.main-footer .widget.social-widget a.lined {
+    background-color: #007bb6;
+}
+.main-footer .widget.contact-widget p {
+    margin-bottom: 0;
+}
+
+.main-footer .widget.contact-widget p i {
+    margin-right: 8px;
+}
+.bottom-footer{
+    position: relative;
+    padding:15px 0 10px;
+    background-color: #1b1b1b;
+}

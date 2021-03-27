@@ -1,0 +1,15 @@
+export const CHOOSE_LOCATION = "CHOOSE_LOCATION";
+export const CHOOSE_CLASS = "CHOOSE_CLASS";
+export const RANGE_DATE= "RANGE_DATE";
+export const PICKUP_TIME = "PICKUP_TIME";
+export const DROPOFF_TIME= "DROPOFF_TIME";
+export const DRIVER= "DRIVER";
+export const DELIVERY= "DELIVERY";
+export const COVERAGE= "COVERAGE";
+export const COMPLETED= "COMPLETED";
+export const CLEAR= "CLEAR";
+export const CAR_NAME= "CAR_NAME";
+export const CAR_NUMBER= "CAR_NUMBER";
+export const PURPOSE= "PURPOSE";
+export const SURVEY_DATA= "SURVEY_DATA";
+export const LOGIN_MODAL= "LOGIN_MODAL";

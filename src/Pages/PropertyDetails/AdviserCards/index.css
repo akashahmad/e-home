@@ -1,0 +1,71 @@
+.top p{
+    margin: 0;
+}
+.elogo{
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+.customImage{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.ecard p{
+    font-size: 10px;
+    padding-left: 10px;
+}
+.ecard .info{
+    padding-left: 5px;
+}
+.ecard .info p{
+    font-size: 11px;
+    padding: 0;
+    margin: 0;
+    line-height: 16px;
+    font-family: "Open Sans", Tahoma, Geneva, sans-serif;
+}
+.ecard .info a {
+    color: rgb(0, 106, 255);
+    -webkit-font-smoothing: antialiased;
+    text-transform: none;
+    font-family: "Open Sans", Tahoma, Geneva, sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 24px;
+    margin: 0px;
+    letter-spacing: 0px;
+}
+.ecard .info p:first-child{
+    font-weight: bold;
+
+}
+.eform{
+    padding: 0 10px 10px 10px
+}
+.eform input{
+    width: 100%;
+    padding-left: 5px;
+    margin-top: 10px;
+}
+.eform .checkbox{
+    padding-top: 10px;
+}
+.eform .checkbox input{
+    width: 20px;
+    height: 20px;
+    margin: 0 5px 0 0;
+}
+.eform .checkbox label{
+    margin: 0;
+    padding: 0;
+    font-size: 11px;
+}
+.eform button{
+    background: #34689A;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 4px 10px;
+}
