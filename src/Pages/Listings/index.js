@@ -70,6 +70,8 @@ class Listings extends Component {
       this.setState({ blogs: res.data });
      
     });
+    
+    
     // this.props.getAllAdverts()
   }
   onSaleProperties = () => {
@@ -90,6 +92,7 @@ class Listings extends Component {
   };
 
   handelPropertyType = (type) => {
+ 
     if (type == 'sale') {
       this.props.getAllAdverts();
       this.setState({ activePropertyType: 'sale', isLoader: true });
