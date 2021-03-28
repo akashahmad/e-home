@@ -29,6 +29,7 @@ class Listings extends Component {
       beds: '',
       price: '',
       baths: '',
+      blogs: null,
     };
     window.scrollTo(0, 0);
   }
@@ -49,6 +50,26 @@ class Listings extends Component {
     if (path[3]) {
       this.togglePropertyModal();
     }
+    let search = this.props.history.location.search;
+    if (search) {
+      let agentId = search.split('=')[1];
+      if (agentId) {
+        axios.get('https://ehomeoffer.wpengine.com/index.php?rest_route=/advisors/get/agents/uid=' + agentId).then((res) => {
+          localStorage.setItem('agentData', JSON.stringify(res.data));
+        });
+      }
+    }
+    if (typeof window !== 'undefined') {
+      window.addEventListener('beforeunload', (ev) => {
+        ev.preventDefault();
+        localStorage.removeItem('agentData');
+      });
+    }
+    // call for blogs
+    axios.get('https://ehomeoffer.wpengine.com/index.php?rest_route=/ehomesearch/get/posts').then((res) => {
+      this.setState({ blogs: res.data });
+     
+    });
     // this.props.getAllAdverts()
   }
   onSaleProperties = () => {
@@ -115,10 +136,11 @@ class Listings extends Component {
 
   onMapPress = () => {
     this.setState({ mapView: true, listView: false });
-  };
+  }; 
 
   render() {
     const { onCardClick, togglePropertyModal, handelPropertyType, handleFormChange } = this;
+    
     const { history } = this.props;
     let { activeProperty, mapView, propertyModal, activePropertyType, searchText, beds, baths, price, type, isLoader } = this.state;
     const propertyId = this.props.location.state ? this.props.location.state.propertyId : '';
@@ -323,7 +345,7 @@ class Listings extends Component {
         {
           <Modal modalClassName='property-details' toggle={togglePropertyModal} isOpen={propertyModal}>
             <ModalBody>
-              <PropertyDetails history={history} propertyId={propertyId} propertyMarket={propertyMarket} propertyType={type} />
+              <PropertyDetails blogsData={this.state.blogs} history={history} propertyId={propertyId} propertyMarket={propertyMarket} propertyType={type} />
             </ModalBody>
           </Modal>
         }

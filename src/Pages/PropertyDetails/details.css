@@ -1871,7 +1871,7 @@ input[type='radio'] + label {
   font-weight: 500;
 }
 .scroll-contant .listing-block .property-card .bottom p {
-  font-size: 10px;
+  font-size: 8px;
   color: #171717;
   font-weight: 400;
   margin: 25px 0 0;
@@ -1879,7 +1879,7 @@ input[type='radio'] + label {
 .scroll-contant .listing-block .property-card .bottom .property-utils {
   display: flex;
   margin: 10px 0 0;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
 }
 .scroll-contant .listing-block .property-card .bottom .property-utils figure {
   display: flex;
@@ -1889,10 +1889,42 @@ input[type='radio'] + label {
   width: 18px;
 }
 .scroll-contant .listing-block .property-card .bottom .property-utils figure span {
-  font-size: 12px;
+  font-size: 8px;
   line-height: 32px;
   color: #171717;
   font-weight: 400;
   margin: 0 0 0 10px;
   white-space: nowrap;
+}
+/* css for blog card */
+.blogCard {
+  box-shadow: 0.835px 5.942px 8px rgba(0, 0, 0, 0.13);
+  border-radius: 15px;
+  cursor: pointer;
+  background-color: white;
+  cursor: pointer !important;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+.blogCard .imageArea {
+  min-height: 180px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+.blogCard .blogBody {
+  padding: 15px;
+}
+.blogCard .blogBody h1 {
+  font-size: 16px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.blogCard .blogBody p {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #666!important;
+  margin-bottom: 0!important;
 }

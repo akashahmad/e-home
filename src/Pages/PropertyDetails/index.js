@@ -13,9 +13,12 @@ import { apiUrl, publicToken } from '../../config';
 import axios from 'axios';
 import Carousel from 'react-multi-carousel';
 
-const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myProperty, propertyType, history }) => {
+const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myProperty, propertyType, history, blogsData }) => {
   const [activeMenu, setActiveMenu] = useState('overview');
   const [relatedResult, setRelatedResults] = useState(null);
+  const [agentData, setAgnetData] = useState(null);
+  const [blogs, setblogs] = useState(null);
+
   // Calling api for single record
   useEffect(() => {
     if (propertyId) {
@@ -26,6 +29,8 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
       searchProperty({ data });
     }
   }, []);
+
+  // useEffect for calling related properties
   useEffect(() => {
     if (myProperty) {
       let config = {
@@ -40,17 +45,26 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
     }
   }, [myProperty]);
 
+  // useEffect for getting agentData from local storage
+  useEffect(() => {
+    let agentDataLocal = localStorage.getItem('agentData');
+    if (agentDataLocal) {
+      setAgnetData(JSON.parse(agentDataLocal));
+    }
+  }, []);
+
   //   method for formatiing price in US dollars
   let dollarUSLocale = Intl.NumberFormat('en-US');
+
   //   Setting data for displaying features
   const features = {
     type: myProperty && myProperty.xf_subproptype && myProperty.xf_subproptype,
-    yearBuilt:myProperty && myProperty.yearBuilt && myProperty.yearBuilt,
-    heating:myProperty && myProperty.xf_heating && myProperty.xf_heating,
-    cooling:myProperty && myProperty.xf_cooling && myProperty.xf_cooling,
-    lot:myProperty && myProperty.lotSize && myProperty.lotSize.sqft,
+    yearBuilt: myProperty && myProperty.yearBuilt && myProperty.yearBuilt,
+    heating: myProperty && myProperty.xf_heating && myProperty.xf_heating,
+    cooling: myProperty && myProperty.xf_cooling && myProperty.xf_cooling,
+    lot: myProperty && myProperty.lotSize && myProperty.lotSize.sqft,
   };
-  console.log(myProperty,"check my property")
+
   //   hide/show horizontal scroll arrow
   const scrollHandler = (scrollType) => {
     if (typeof window !== 'undefined') {
@@ -62,6 +76,7 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
       }
     }
   };
+
   // For activating current menu item
   const activeMenuhandler = (text) => {
     if (text === activeMenu) {
@@ -89,10 +104,44 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
       items: 1,
     },
   };
-  const onCardClick = (state, city, zip, id, market) => {
-   
-  };
- 
+  // for getting blogs
+
+  useEffect(() => {
+    let localBlogs = [];
+    Object.size = function (obj) {
+      var size = 0,
+        key;
+      for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+      }
+      return size;
+    };
+    if (blogsData) {
+      var size = Object.size(blogsData);
+      if (size) {
+        for (const [key, value] of Object.entries(blogsData)) {
+          localBlogs.push(value);
+        }
+      }
+      localBlogs = localBlogs.reverse();
+      setblogs(localBlogs);
+    }
+  }, [blogsData]);
+
+  // for getting data for provider
+  useEffect(() => {
+    let config = {
+      headers: {
+        Authorization: 'Bearer ' + publicToken,
+      },
+    }
+    axios.get("https://slipstream.homejunction.com/ws/markets/get?id=gsmls&details=true",config).then(res=>{
+   console.log(res,"check response")
+    })
+  }, []);
+
+  const onCardClick = (state, city, zip, id, market) => {};
+
   return (
     <div className='property-details-content'>
       <section className='photos-container'>
@@ -212,7 +261,7 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
               <div className='sc-pJurq cTjcEC'>
                 <span className='sc-oTmZL kfNTWi'>Est. payment :&nbsp;</span>
                 <span>$/mo</span>
-                <a href='#' className='cDOGeN CWQMf'>
+                <Link to={`/wizard/${myProperty.id}`} className='cDOGeN CWQMf'>
                   <span className='hRBsWH'>
                     <svg viewBox='0 0 50 50' height='20px' width='20px'>
                       <g fill-rule='nonzero' fill='none'>
@@ -224,8 +273,9 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
                       </g>
                     </svg>
                   </span>
+
                   <span className='cNBYuL'>Get pre-qualified</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -299,6 +349,11 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
                     Similar homes
                   </a>
                 </li>
+                <li className='eVYrJu' onClick={() => setActiveMenu('blogs')}>
+                  <a href='#blogs' className={`bhJxVt ${activeMenuhandler('blogs')}`}>
+                    Blogs
+                  </a>
+                </li>
               </ul>
             </nav>
           </div>
@@ -315,19 +370,7 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
               <button className='kPatDd csGbhU'>Read more</button>
             </div>
           </div>
-          <div className='jOzrMc'>
-            <h4 className='dTAnOx dZuCmF kcnmOS'>Our eHome advisers</h4>
-            <p className='foiYRz'>We'll connect you with a local agent who can give you a personalized tour of the home in-person or via video chat.</p>
-            <AdviserCards history={history} />
-            <h6 className='cFKaVN einFCw'>Select an appointment type</h6>
-            <div className='ehFvlJ'>
-              <button type='button' className='iLBhcz active'>
-                In-person
-              </button>
-            </div>
-            <h6 className='cFKaVN einFCw gKaOfx'>Select a date</h6>
-            <input type='date' />
-          </div>
+
           <div className='kkFAbf' id='facts'>
             <h4 className='dTAnOx'>Facts and features</h4>
             <div className='facts-card'>
@@ -673,6 +716,7 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
               </button>
             </div>
           </div>
+
           {/* <div className='dHtGQa'>
             <h5 className='dTAnOx dZuCmF'>Estimated market value</h5>
             <div className='ehezvG'>
@@ -687,6 +731,20 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
             <LineChart />
           </div>
          */}
+          {agentData && (
+            <div className='jOzrMc'>
+              <AdviserCards agentData={agentData} />
+              <h6 className='cFKaVN einFCw'>Select an appointment type</h6>
+              <div className='ehFvlJ'>
+                <button type='button' className='iLBhcz active'>
+                  In-person
+                </button>
+              </div>
+              <h6 className='cFKaVN einFCw gKaOfx'>Select a date</h6>
+              <input type='date' />
+            </div>
+          )}
+
           <div className='dHtGQa' id='cost'>
             <h5 className='dTAnOx dZuCmF'>Monthly cost</h5>
             <div className='ePSpFA'>
@@ -840,81 +898,6 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
               </span>
             </div>
           </div>
-          <div className='dHtGQa'>
-            <h5 className='dTAnOx dZuCmF'>Your personal guides</h5>
-            <div className='laffBw'>
-              <div className='kJnVWG'>
-                <div className='eIreRr gXViao zypNy'>
-                  <div className='bzWXMa'>
-                    <div className='fqPhqe'>
-                      <img alt='agent image' src='https://photos.zillowstatic.com/h_n/IS2bp1n487yo490000000000.jpg' className='hcsVLO' />
-                    </div>
-                  </div>
-                </div>
-                <div className='eIreRr gXViao zypNy'>
-                  <div className='bzWXMa'>
-                    <div className='fqPhqe'>
-                      <img alt='agent image' src='https://photos.zillowstatic.com/h_n/ISqxagqayssz621000000000.jpg' className='hcsVLO' />
-                    </div>
-                  </div>
-                </div>
-                <div className='eIreRr gXViao zypNy'>
-                  <div className='bzWXMa'>
-                    <div className='fqPhqe'>
-                      <img alt='agent image' src='https://photos.zillowstatic.com/h_n/ISjn5fvp3aphyp1000000000.jpg' className='hcsVLO' />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <p className='buIPJv'>
-                <strong>Get to know the neighborhood.</strong> Find an amazing local agent to set up tours, give advice and negotiate with sellers.
-              </p>
-              <a href='/' className='kPatDd'>
-                Learn more
-              </a>
-            </div>
-            <div className='vXCIT'>
-              <div className='kreBAK'>
-                <p className='pnHPs'>
-                  <strong>Make sure your offer is ready when you are.</strong>
-                </p>
-                <p className='gEcbXa'>These lenders can help.</p>
-                <div className='kJnVWG'>
-                  <div className='eIreRr gXViao zypNy'>
-                    <div className='bzWXMa'>
-                      <div className='fqPhqe'>
-                        <img
-                          alt='KRISTOFER JONES'
-                          src='https://mortgageapi.zillow.com/getLenderProfileImage?lenderId=ZUzq9betz5h1xl_8clor&amp;imageId=a42aac1f7979ae9122c9f11bc8d9fc69&amp;treatment=36x36'
-                          className='hcsVLO'
-                        />
-                      </div>
-                    </div>
-                    <div className='kIHVGn'>
-                      <p className='exfNKv'>KRISTOFER JONES</p>
-                      <p className='iiEbVA'>NMLS #408620</p>
-                    </div>
-                  </div>
-                  <div className='eIreRr gXViao zypNy'>
-                    <div className='bzWXMa'>
-                      <div className='fqPhqe'>
-                        <img
-                          alt='Ruslan Kushnir'
-                          src='https://mortgageapi.zillow.com/getLenderProfileImage?lenderId=ZUytrm6xcldfk9_56tmi&amp;imageId=1e0c23a30f9672a53e503c700d420a50&amp;treatment=36x36'
-                          className='hcsVLO'
-                        />
-                      </div>
-                    </div>
-                    <div className='kIHVGn'>
-                      <p className='exfNKv'>Ruslan Kushnir</p>
-                      <p className='iiEbVA'>NMLS #71488</p>
-                    </div>
-                  </div>
-                  <div className='eIreRr gXViao zypNy'></div>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div className='dHtGQa' id='similar'>
             <h5 className='dTAnOx dZuCmF'>Similar homes</h5>
@@ -932,6 +915,27 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
             )}
             ;
           </div>
+          <div className='dHtGQa' id='blogs'>
+            <h5 className='dTAnOx dZuCmF'>Blogs</h5>
+            {blogs && (
+              <Carousel responsive={responsive}>
+                {blogs.map((blog, index) => {
+                  return (
+                    <a href={blog.link} target='_blank' key={index}>
+                      <div className='blogCard mx-2'>
+                        <div className='imageArea' style={{ backgroundImage: `url(${blog.image})` }} />
+                        <div className='blogBody'>
+                          <h1>{blog.name}</h1>
+                          <p>{blog.postcontent.length > 150 ? blog.postcontent.substring(0, 150).concat('...') : blog.postcontent.length}</p>
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })}
+              </Carousel>
+            )}
+          </div>
+
           <div className='home-details-listing-provided-by'>
             <div className='bUREIR'>
               <div className='inlRtt'>

@@ -1,64 +1,65 @@
-import React, { useEffect, useState }  from "react";
+import React, { useEffect, useState } from 'react';
 import logo from '../../../assets/images/LogoeHome.png';
+import './index.css';
+import axios from 'axios';
 
-import "./index.css";
-import axios from "axios";
-
-function AdviserCards(){
-
-    const [data, setData] = useState(null);
-    useEffect( () => {
-        let id = localStorage.getItem("uid");
-        if(id){
-            axios.get("https://ehomeoffer.wpengine.com/index.php?rest_route=/advisors/get/agents/uid="+id).then(res => {
-                setData(res.data);
-            });
-        }
-    }, []);
-    return (
-        <div className="d-flex flex-column mt-2">
-            <div className="ecard card p-1 w-50">
-                <div className="d-flex justify-content-center py-2 top ">
-                    <div>
-                        <img src={logo} className="elogo" alt=""/>
-                    </div>
-                    <p>eHomeoffer: Advisor</p>
-                </div>
-                {
-                    data &&
-                    <div className="d-flex align-items-center pl-2">
-                        <img src={data.agentImage} className="customImage" alt=""/>
-                        <div className="info">
-                            <p><b>{data.agentName}</b></p>
-                            {/*<p>Branch Manager</p>*/}
-                            {/*<p><small>Branch Address goes here</small></p>*/}
-                            {/*<a href="">Visit My Site</a>*/}
-
-                        </div>
-                    </div>
-                }
-                <div className="eform">
-                    <input type="text" placeholder="First Name"/>
-                    <input type="text" placeholder="Email"/>
-                    <input type="text" placeholder="Phone"/>
-                    <div className="d-flex checkbox align-items-center">
-                        <input type="checkbox" name="militry"/>
-                        <label htmlFor="militry">I served in U.S. Military</label>
-                    </div>
-                    <div className="d-flex checkbox align-items-center">
-                        <input type="checkbox" name="militry"/>
-                        <label htmlFor="militry">Get pre-approved by a lender</label>
-                    </div>
-                    <div className="pt-2 d-flex w-100 justify-content-center">
-                        <button>Email Realtor</button>
-                    </div>
-                </div>
-            </div>
-            <div>
-
-            </div>
+const AdviserCards = ({ agentData }) => {
+  return (
+    <div className='profile_section_container mt-4 mb-4'>
+      <div className='col-12 px-2 py-2 card'>
+        <div className='d-flex icon_title_container align-items-center px-2'>
+          <div>
+            <img src='https://i.ibb.co/wSm9QHw/e-homeoffer-color-logo-new-copy-3-3x.png' />
+          </div>
+          <div className='px-4'>
+            <h2 className='m-0'>Contact Lender</h2>
+          </div>
         </div>
-    )
-}
+
+        <div className='py-3 px-0 d-flex profile_image_container'>
+          <div>
+            <img className='card-img-top' src={agentData.agentImage && agentData.agentImage} alt='Card' />
+          </div>
+          <div className='pt-3 pl-3'>
+            <h3 className='m-0 py-1'>{agentData.agentName && agentData.agentName}</h3>
+            {/* <h4 className='m-0'>Branch Manager</h4> */}
+            <h5 className='m-0 py-1'>{agentData.agentAddress && agentData.agentAddress}</h5>
+            <a href={agentData.agentTwitter && agentData.agentTwitter}>Visit My Site</a>
+          </div>
+        </div>
+
+        <form className='px-3'>
+          <div className='form-group'>
+            <input className='form-control' placeholder='Full Name' />
+          </div>
+
+          <div className='form-group'>
+            <input className='form-control' placeholder='Email' />
+          </div>
+          <div className='form-group'>
+            <input className='form-control' placeholder='Phone Number' />
+          </div>
+          <div className='form-check py-1'>
+            <input type='checkbox' className='form-check-input' id='exampleCheck1' />
+            <label className='form-check-label' for='exampleCheck1'>
+              I have served in the U.S. Military.
+            </label>
+          </div>
+          <div className='form-check py-1'>
+            <input type='checkbox' className='form-check-input' id='exampleCheck1' />
+            <label className='form-check-label' for='exampleCheck1'>
+              Get pre-approved by a lender.
+            </label>
+          </div>
+          <div className='d-flex justify-content-center py-4'>
+            <button type='submit' className='btn btn-primary px-5'>
+              Email Realtor
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default AdviserCards;
