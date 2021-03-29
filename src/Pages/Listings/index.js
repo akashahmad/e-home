@@ -51,7 +51,11 @@ class Listings extends Component {
      this.setState({ propertyModal: true });
   };
   closePropertyModal=() => {
-   this.setState({propertyModal:false})
+   this.setState({propertyModal:false});
+   setTimeout(()=>{
+     this.setState({modalActive:null})
+   },1000)
+   
   }
   componentDidMount() {
     const path = this.props.history.location.pathname.split('/');
@@ -122,7 +126,6 @@ class Listings extends Component {
   onCardClick = (id) => {
     let allCopy = {...this.state.localData};
     let single = allCopy.listings.find(sin=>sin.id === id);
-  console.log(single,"check single")
     this.setState({modalActive:single});
     this.togglePropertyModal();
   };
@@ -165,7 +168,7 @@ class Listings extends Component {
         Authorization: "Bearer " + publicToken,
       },
     };
-    this.setState({ isLoader: true, localData: null, error: false })
+    this.setState({ isLoader: true,error: false })
     axios.get(apiUrl + "ws/listings/search?market=gsmls&listingtype=" + (activePropertyType === "sale" ? "Residential" : "Rental") + "&beds=" + beds + "&listPrice=" + (minPrice ? `<=${minPrice}` : '') + "&listPrice=" + (maxPrice ? `<=${maxPrice}` : '') + "&baths=" + baths + "&address.city=" + searchText + "&extended=true&detils=true&listingDate=>6/1/2015", config).then(res => {
       if (res.data.result.listings.length) {
         this.setState({ localData: res.data.result })
@@ -206,7 +209,7 @@ class Listings extends Component {
           return item.address.street.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1;
         }
       });
-      console.log(this.state.modalActive,"check modal active")
+
     return (
       <>
         <MyHeader heading='Looking For A New Home' subHeading='Don’t worry eHomeoffer has you covered with many options' />
@@ -345,9 +348,13 @@ class Listings extends Component {
                 </div>
                 <div className='col-lg-6 col-md-12 col-sm-12 map-column'>
                   <div className='map-area'>
-                    <div className='map-box'>
-                      <MapProperty propertiesList={localData && localData.listings ? localData.listings : []} />
+                    {
+                      localData &&
+                      <div className='map-box'>
+                      <MapProperty propertiesList={localData && localData.listings && localData.listings.length ? localData.listings : []} />
                     </div>
+                    }
+                    
                   </div>
                 </div>
               </div>
@@ -404,7 +411,7 @@ class Listings extends Component {
         {
           <Modal modalClassName='property-details' toggle={closePropertyModal} isOpen={propertyModal}>
             <ModalBody>
-              <PropertyDetails blogsData={this.state.blogs} history={history} propertyId={propertyId} propertyMarket={propertyMarket} propertyType={type} myProperty={this.state.modalActive} onCardClick={onCardClick}/>
+              <PropertyDetails blogsData={this.state.blogs} history={history} propertyId={propertyId} propertyMarket={propertyMarket} propertyType={type} myProperty={this.state.modalActive} onCardClick={onCardClick} localData={localData} isSearched={this.state.isSearched}/>
             </ModalBody>
           </Modal>
         }

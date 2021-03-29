@@ -25,7 +25,9 @@ const PropertyDetails = ({
   propertyType,
   history,
   blogsData,
-  onCardClick
+  onCardClick,
+  isSearched,
+  localData
 }) => {
   const [activeMenu, setActiveMenu] = useState("overview");
   const [relatedResult, setRelatedResults] = useState(null);
@@ -34,40 +36,45 @@ const PropertyDetails = ({
   const [provider, setProvider] = useState(null);
   const [jhootLoader,setJhootaLoder] = useState(true)
 
-  // Calling api for single record
-  useEffect(() => {
-    if (propertyId) {
-      let data = {
-        id: propertyId,
-        market: propertyMarket,
-      };
-      searchProperty({ data });
-    }
-  }, []);
+  // // Calling api for single record
+  // useEffect(() => {
+  //   if (propertyId) {
+  //     let data = {
+  //       id: propertyId,
+  //       market: propertyMarket,
+  //     };
+  //     searchProperty({ data });
+  //   }
+  // }, []);
 
   // useEffect for calling related properties
   useEffect(() => {
-    if (myProperty) {
-      let config = {
-        headers: {
-          Authorization: "Bearer " + publicToken,
-        },
-      };
+     if(isSearched){
+      //  let localCopy = {...localData};
+      //  setRelatedResults(localCopy.listings && localCopy.listings.filter(item=>item.id !== myProperty.id));
+       return;
+     }
+    // if (myProperty) {
+    //   let config = {
+    //     headers: {
+    //       Authorization: "Bearer " + publicToken,
+    //     },
+    //   };
 
-      axios
-        .get(
-          apiUrl +
-            "ws/listings/search?market=gsmls&extended=true&listingtype="+myProperty.listingType+"&details=true&listingDate=>6/1/2010&zip=" +
-            myProperty.xf_postalcode,
-          config
-        )
-        .then((res) => {
-          if(res.data.result.listings && res.data.result.listings.length){
-            setRelatedResults(res.data.result.listings);
-          }
+    //   axios
+    //     .get(
+    //       apiUrl +
+    //         "ws/listings/search?market=gsmls&extended=true&listingtype="+myProperty.listingType+"&details=true&listingDate=>6/1/2010&zip=" +
+    //         myProperty.xf_postalcode,
+    //       config
+    //     )
+    //     .then((res) => {
+    //       if(res.data.result.listings && res.data.result.listings.length){
+    //         setRelatedResults(res.data.result.listings);
+    //       }
          
-        });
-    }
+    //     });
+    // }
   }, [myProperty]);
 
   // useEffect for getting agentData from local storage
@@ -173,16 +180,24 @@ const PropertyDetails = ({
   const cardClick = (id) => {
     console.log(id,"check id")
     onCardClick(id);
-  
-  };
-  useEffect(()=>{
     setJhootaLoder(true)
     setTimeout(()=>{
       setJhootaLoder(false)
     },3000)
    
-  },[myProperty])
-  console.log(jhootLoader,"check jhoota loader")
+  
+  };
+ 
+  useEffect(()=>{
+    setTimeout(()=>{
+      setJhootaLoder(false)
+    },3000)
+  // if (isSearched){
+    let localList = {...localData}.listings;
+    localList = localList.reverse();
+    setRelatedResults(localList)
+  // }
+  },[])
   return (
     <div className="property-details-content">
       <section className="photos-container">
