@@ -12,7 +12,7 @@ const AdviserCards = ({ agentData }) => {
             <img src='https://i.ibb.co/wSm9QHw/e-homeoffer-color-logo-new-copy-3-3x.png' />
           </div>
           <div className='px-4'>
-            <h2 className='m-0'>Contact Lender</h2>
+            <h2 className='m-0'>Contact Agent</h2>
           </div>
         </div>
 
