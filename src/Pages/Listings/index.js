@@ -9,7 +9,7 @@ import { Modal, ModalBody } from 'reactstrap';
 import axios from 'axios';
 import { getAllAdverts, searchByMarket, getAllRental } from '../../store/actions/Auth';
 import { connect } from 'react-redux';
-
+import { apiUrl, publicToken } from "../../config";
 class Listings extends Component {
   constructor(props) {
     super(props);
@@ -27,20 +27,32 @@ class Listings extends Component {
       myProperties: [],
       isLoader: false,
       beds: '',
-      price: '',
+      maxPrice: '',
+      minPrice: '',
       baths: '',
       blogs: null,
+      localData: null,
+      error: false,
+      isSearched: false,
+      modalActive:null
     };
     window.scrollTo(0, 0);
   }
 
-  togglePropertyModal = () => {
-    if (this.state.propertyModal) {
-      this.props.history.replace(`/listings`);
+  componentWillReceiveProps(nextProps) {
+    let { myProperties } = nextProps;
+    if (myProperties) {
+      this.setState({ localData: myProperties })
     }
-    this.setState({ propertyModal: !this.state.propertyModal });
-  };
 
+  }
+  togglePropertyModal = () => {
+    
+     this.setState({ propertyModal: true });
+  };
+  closePropertyModal=() => {
+   this.setState({propertyModal:false})
+  }
   componentDidMount() {
     const path = this.props.history.location.pathname.split('/');
     if (this.props.history.location.state && this.props.history.location.state.market != '' && this.props.history.location.state.market != undefined) {
@@ -68,10 +80,10 @@ class Listings extends Component {
     // call for blogs
     axios.get('https://ehomeoffer.wpengine.com/index.php?rest_route=/ehomesearch/get/posts').then((res) => {
       this.setState({ blogs: res.data });
-     
+
     });
-    
-    
+
+
     // this.props.getAllAdverts()
   }
   onSaleProperties = () => {
@@ -84,16 +96,11 @@ class Listings extends Component {
 
   onRentProperties = () => {
     this.setState({ type: 'Rent' });
-    // if(this.props.history.location.state && this.props.history.location.state.market != "" && this.props.history.location.state.market != undefined){
-    //   this.props.searchByMarket(this.props.history.location.state.market)
-    //   this.setState({market:this.props.history.location.state.market})
-    // } else
     this.props.getAllRental();
   };
 
   handelPropertyType = (type) => {
- 
-    if (type == 'sale') {
+    if (type === 'sale') {
       this.props.getAllAdverts();
       this.setState({ activePropertyType: 'sale', isLoader: true });
       setTimeout(() => {
@@ -112,9 +119,11 @@ class Listings extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  onCardClick = (state, city, zip, id, market) => {
-    let url = (state ? state.split(' ').join('_') : '') + '-' + (city ? city.split(' ').join('_') : '') + '-' + zip.split(' ').join('_') + `/${id}`;
-    this.props.history.replace(`/listings/${url}`, { propertyId: id, market });
+  onCardClick = (id) => {
+    let allCopy = {...this.state.localData};
+    let single = allCopy.listings.find(sin=>sin.id === id);
+  console.log(single,"check single")
+    this.setState({modalActive:single});
     this.togglePropertyModal();
   };
 
@@ -139,24 +148,65 @@ class Listings extends Component {
 
   onMapPress = () => {
     this.setState({ mapView: true, listView: false });
-  }; 
+  };
+  serchSubmitHandler = (e) => {
+    e.preventDefault()
+    let { beds, minPrice, maxPrice, searchText, baths, activePropertyType } = this.state;
+    if(searchText || minPrice || maxPrice || beds || baths){
+    if (minPrice && maxPrice) {
+      if (minPrice >= maxPrice) {
+        window.confirm("Please add valid Max Price");
+        return;
+      }
+    }
+    this.setState({isSearched:true})
+    let config = {
+      headers: {
+        Authorization: "Bearer " + publicToken,
+      },
+    };
+    this.setState({ isLoader: true, localData: null, error: false })
+    axios.get(apiUrl + "ws/listings/search?market=gsmls&listingtype=" + (activePropertyType === "sale" ? "Residential" : "Rental") + "&beds=" + beds + "&listPrice=" + (minPrice ? `<=${minPrice}` : '') + "&listPrice=" + (maxPrice ? `<=${maxPrice}` : '') + "&baths=" + baths + "&address.city=" + searchText + "&extended=true&detils=true&listingDate=>6/1/2015", config).then(res => {
+      if (res.data.result.listings.length) {
+        this.setState({ localData: res.data.result })
+        this.setState({ isLoader: false })
+        return;
+      }
 
+      this.setState({ error: true, isLoader: false })
+
+    }).catch(err => {
+      this.setState({ isLoader: false, error: true })
+    })
+  }
+  }
+  resetSearchFilters= ()=>{
+    this.setState({searchText:"",minPrice:"",maxPrice:"",beds:"",baths:"",error:false,isSearched:false})
+    document.getElementById("searchText").value="";
+    document.getElementById("minPrice").value="";
+    document.getElementById("maxPrice").value="";
+    document.getElementById("beds").value="";
+    document.getElementById("baths").value="";
+    this.handelPropertyType(this.state.activePropertyType);
+  }
+  singleFilterHandler = () => {
+
+  }
   render() {
-    const { onCardClick, togglePropertyModal, handelPropertyType, handleFormChange } = this;
-    
+    const { onCardClick, togglePropertyModal, handelPropertyType, handleFormChange,closePropertyModal} = this;
     const { history } = this.props;
-    let { activeProperty, mapView, propertyModal, activePropertyType, searchText, beds, baths, price, type, isLoader } = this.state;
+    let { activeProperty, mapView, propertyModal, activePropertyType, searchText, beds, baths, minPrice, maxPrice, type, isLoader, localData } = this.state;
     const propertyId = this.props.location.state ? this.props.location.state.propertyId : '';
     const propertyMarket = this.props.location.state ? this.props.location.state.market : '';
-    let myProperties = this.props.myProperties.listings && this.props.myProperties.listings;
+    let myProperties = localData && localData;
     myProperties =
       myProperties &&
-      myProperties.filter((item) => {
+      myProperties.listings.filter((item) => {
         if (item.address.street) {
           return item.address.street.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1;
         }
       });
-
+      console.log(this.state.modalActive,"check modal active")
     return (
       <>
         <MyHeader heading='Looking For A New Home' subHeading='Don’t worry eHomeoffer has you covered with many options' />
@@ -185,50 +235,51 @@ class Listings extends Component {
               </a>
             </div>
             <div className='form-search'>
-              <div className='group-form search-form'>
-                <input type='text' value={searchText} onChange={handleFormChange} name='searchText' placeholder='Search property, Adress, city, MLS#' />
-                <button>Search</button>
-              </div>
-              <form>
+
+              <form onSubmit={(e) => this.serchSubmitHandler(e)}>
+                <div className='group-form search-form'>
+                  <input type='text' defaultValue={searchText} onChange={handleFormChange} name='searchText' placeholder='City' id="searchText"/>
+                </div>
                 <div className='group-form price-form'>
-                  <select value={price} onChange={handleFormChange} name='price'>
-                    <option value=''>Price</option>
-                    <option value='55000'>$5,5000</option>
-                    <option value='65000'>$6,5000</option>
-                    <option value='75000'>$7,5000</option>
-                  </select>
+                  <input type='number' defaultValue={minPrice ?minPrice: null } onChange={handleFormChange} name='minPrice' placeholder='Min Price in $' min="100" id="minPrice"/>
+                </div>
+                <div className='group-form price-form'>
+
+                  <input type='number' defaultValue={maxPrice ? maxPrice : null} onChange={handleFormChange} name='maxPrice' placeholder='Max Price in $' min="100" id="maxPrice"/>
                 </div>
                 <div className='group-form beds-form'>
-                  <select value={beds} onChange={handleFormChange} name='beds'>
+                  <select defaultValue={beds} onChange={handleFormChange} name='beds' id="beds">
                     <option value=''>Beds</option>
+                    <option value='1'>1</option>
                     <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
                     <option value='5'>5</option>
-                    <option value='7'>7</option>
+                    <option value='6'>6</option>
                   </select>
                 </div>
 
                 <div className='group-form baths-form'>
-                  <select value={baths} onChange={handleFormChange} name='baths'>
+                  <select defaultValue={baths} onChange={handleFormChange} name='baths' id="baths">
                     <option value=''>Baths</option>
+                    <option value='1'>1</option>
                     <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
                     <option value='5'>5</option>
-                    <option value='7'>7</option>
-                  </select>
-                </div>
-
-                <div className='group-form listing-status-form'>
-                  <select>
-                    <option>Listing Status</option>
-                    <option>Pending</option>
-                    <option>5</option>
-                    <option>7</option>
+                    <option value='6'>6</option>
                   </select>
                 </div>
                 <div className='group-form submit-button'>
-                  <button>Save Search</button>
-                </div>
+                  <button type="submit">Search</button>
+                  
+             </div>
               </form>
-            </div>
+              {
+                    this.state.isSearched &&
+                    <button  onClick={()=>this.resetSearchFilters()} className="ml-2 resetButton">Reset</button>
+              }
+            </div> 
           </div>
         </section>
 
@@ -255,6 +306,11 @@ class Listings extends Component {
                     </div>
 
                     <div className='listing-box'>
+                      {
+                         this.state.error &&
+                        <p className="searchError">Unable to find results! Please modify your search.</p>
+                      }
+
                       <div className='row clearfix m-0'>
                         {activeProperty ? (
                           <div className='col-lg-6 col-md-6 col-sm-12 col-xs-12 px-2'>
@@ -262,7 +318,7 @@ class Listings extends Component {
                           </div>
                         ) : (
                           <>
-                            {myProperties && !isLoader ? (
+                            {!isLoader ? (
                               myProperties &&
                               myProperties.map((item, x, idx) => {
                                 if (x < 100) {
@@ -290,7 +346,7 @@ class Listings extends Component {
                 <div className='col-lg-6 col-md-12 col-sm-12 map-column'>
                   <div className='map-area'>
                     <div className='map-box'>
-                      <MapProperty propertiesList={this.props.myProperties.listings ? this.props.myProperties.listings : []} />
+                      <MapProperty propertiesList={localData && localData.listings ? localData.listings : []} />
                     </div>
                   </div>
                 </div>
@@ -346,9 +402,9 @@ class Listings extends Component {
           </section>
         )}
         {
-          <Modal modalClassName='property-details' toggle={togglePropertyModal} isOpen={propertyModal}>
+          <Modal modalClassName='property-details' toggle={closePropertyModal} isOpen={propertyModal}>
             <ModalBody>
-              <PropertyDetails blogsData={this.state.blogs} history={history} propertyId={propertyId} propertyMarket={propertyMarket} propertyType={type} />
+              <PropertyDetails blogsData={this.state.blogs} history={history} propertyId={propertyId} propertyMarket={propertyMarket} propertyType={type} myProperty={this.state.modalActive} onCardClick={onCardClick}/>
             </ModalBody>
           </Modal>
         }

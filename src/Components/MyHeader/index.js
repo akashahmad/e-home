@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Modal, ModalBody } from "reactstrap"
 import logSignImg from "./../../assets/images/logSign-img.png";
 import image14 from '../../assets/images/14.png';
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/eHomeoffer.png';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import {
     toggleLoginModal
@@ -26,7 +26,7 @@ class MyHeader extends Component {
                       <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                           <i className=""><img src={image14} alt="" /></i>
                       </button>
-                      <Link className="navbar-brand" to="/"><img src={logo} alt="logo" /></Link>
+                      <Link className="navbar-brand" to="/"><img src={logo} alt="logo" style={{width:'200px'}}/></Link>
                       <div className="collapse navbar-collapse" id="navbarSupportedContent">
                           <ul className="navbar-nav align-items-end">
                                 <li className="nav-item">

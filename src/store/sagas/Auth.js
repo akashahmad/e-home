@@ -1,7 +1,7 @@
 import axios from "axios";
 import EventBus from "eventing-bus";
 import { put, all, takeLeading, call } from "redux-saga/effects";
-
+import { apiUrl, publicToken } from "../../config";
 if (localStorage.getItem('jwt')) axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwt')}`;
 
 function* loginUser({ payload, history }) {
@@ -83,7 +83,7 @@ function* fetchByMap({ payload }) {
 }
 
 function* getAllAdverts() {
-  const { error, response } = yield call( getCall, `/getAllAdverts` );
+  const { error, response } = yield call( getCall, `ws/listings/search?market=gsmls&listingType=Residential&details=true&extended=true&images=true&listingDate=>6/1/2015&pageNumber=1&pageSize=1000`,"https://slipstream.homejunction.com/" );
     if (error) {
       console.log('error', error);
     }
@@ -172,7 +172,7 @@ function* searchByMarket({payload}) {
 
 function* getAllRental() {
   
-  const { error, response } = yield call(getCall, "/getAllRentalAdverts");
+  const { error, response } = yield call(getCall, "/ws/listings/search?market=gsmls&listingType=Rental&details=true&extended=true&images=true&listingDate=>6/1/2015&pageNumber=1&pageSize=1000",'https://slipstream.homejunction.com/');
     if (error) {
       console.log('error', error);
     }
@@ -219,11 +219,19 @@ function postCall({ body, path }) {
     });
 }
 
-function getCall(path) {
+function getCall(path,baseURL) {
+
   // axios.defaults.baseURL = 'http://localhost::1338';
 
   axios.defaults.baseURL = 'https://cell-point.herokuapp.com';
-  if (localStorage.getItem('jwt')) axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwt')}`;
+  if (baseURL){
+    axios.defaults.baseURL = baseURL;
+    axios.defaults.headers.common['Authorization'] = `${"Bearer " + publicToken}`;
+  }
+  else{
+    if (localStorage.getItem('jwt')) axios.defaults.headers.common['Authorization'] = `${localStorage.getItem('jwt')}`;
+
+  }
  
 
   return axios

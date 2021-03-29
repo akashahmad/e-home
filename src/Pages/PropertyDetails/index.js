@@ -25,12 +25,14 @@ const PropertyDetails = ({
   propertyType,
   history,
   blogsData,
+  onCardClick
 }) => {
   const [activeMenu, setActiveMenu] = useState("overview");
   const [relatedResult, setRelatedResults] = useState(null);
   const [agentData, setAgnetData] = useState(null);
   const [blogs, setblogs] = useState(null);
   const [provider, setProvider] = useState(null);
+  const [jhootLoader,setJhootaLoder] = useState(true)
 
   // Calling api for single record
   useEffect(() => {
@@ -55,12 +57,15 @@ const PropertyDetails = ({
       axios
         .get(
           apiUrl +
-            "ws/listings/search?market=gsmls&extended=true&details=true&zip=" +
+            "ws/listings/search?market=gsmls&extended=true&listingtype="+myProperty.listingType+"&details=true&listingDate=>6/1/2010&zip=" +
             myProperty.xf_postalcode,
           config
         )
         .then((res) => {
-          setRelatedResults(res.data.result.listings);
+          if(res.data.result.listings && res.data.result.listings.length){
+            setRelatedResults(res.data.result.listings);
+          }
+         
         });
     }
   }, [myProperty]);
@@ -165,12 +170,23 @@ const PropertyDetails = ({
       });
   }, []);
 
-  const onCardClick = (state, city, zip, id, market) => {};
-  console.log(provider, "check provider");
+  const cardClick = (id) => {
+    console.log(id,"check id")
+    onCardClick(id);
+  
+  };
+  useEffect(()=>{
+    setJhootaLoder(true)
+    setTimeout(()=>{
+      setJhootaLoder(false)
+    },3000)
+   
+  },[myProperty])
+  console.log(jhootLoader,"check jhoota loader")
   return (
     <div className="property-details-content">
       <section className="photos-container">
-        {myProperty && myProperty.images ? (
+        {!jhootLoader && myProperty && myProperty.images ? (
           myProperty.images.map((item) => {
             return (
               <img className="photo-tile-image" src={item} alt="tile-image" />
@@ -432,6 +448,9 @@ const PropertyDetails = ({
                     Nearby schools
                   </a>
                 </li>
+                {
+                  relatedResult &&
+                
                 <li className="eVYrJu" onClick={() => setActiveMenu("similar")}>
                   <a
                     href="#similar"
@@ -440,6 +459,7 @@ const PropertyDetails = ({
                     Similar homes
                   </a>
                 </li>
+}
                 <li className="eVYrJu" onClick={() => setActiveMenu("blogs")}>
                   <a
                     href="#blogs"
@@ -1103,10 +1123,12 @@ const PropertyDetails = ({
               </span>
             </div>
           </div>
+{
+  relatedResult &&
 
           <div className="dHtGQa" id="similar">
             <h5 className="dTAnOx dZuCmF">Similar homes</h5>
-            {relatedResult && (
+            {relatedResult  && (
               <Carousel responsive={responsive}>
                 {relatedResult &&
                   relatedResult.map((singleRelated, index) => {
@@ -1115,15 +1137,16 @@ const PropertyDetails = ({
                         <PropertyCard
                           propertyValues={singleRelated}
                           history={history}
-                          onCardClick={onCardClick}
+                          onCardClick={cardClick}
                         />
                       </div>
                     );
                   })}
               </Carousel>
             )}
-            ;
+            
           </div>
+}
           <div className="dHtGQa" id="blogs">
             <h5 className="dTAnOx dZuCmF">Blogs</h5>
             {blogs && (
@@ -1200,7 +1223,7 @@ const PropertyDetails = ({
 const mapStateToProps = (state) => {
   return {
     myProperties: state.myProperties,
-    myProperty: state.myProperty.listings ? state.myProperty.listings[0] : "",
+    // myProperty: state.myProperty.listings ? state.myProperty.listings[0] : "",
     myPropertyInfo: state.myPropertyInfo,
     loginModal: state.loginModal,
   };

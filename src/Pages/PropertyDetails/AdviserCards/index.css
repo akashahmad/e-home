@@ -19,8 +19,8 @@
     font-size: 20px;
   }
   .profile_section_container .profile_image_container img {
-    height: 130px;
-    width: 130px;
+    height: 80px!important;
+    width: 80px!important;
     border-radius: 50%;
   }
   .profile_section_container .profile_image_container h3 {
