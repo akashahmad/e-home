@@ -9,7 +9,7 @@ import { Modal, ModalBody } from 'reactstrap';
 import axios from 'axios';
 import { getAllAdverts, searchByMarket, getAllRental } from '../../store/actions/Auth';
 import { connect } from 'react-redux';
-import { apiUrl, publicToken } from "../../config";
+import { apiUrl, publicToken } from '../../config';
 class Listings extends Component {
   constructor(props) {
     super(props);
@@ -34,29 +34,27 @@ class Listings extends Component {
       localData: null,
       error: false,
       isSearched: false,
-      modalActive:null
+      modalActive: null,
     };
     window.scrollTo(0, 0);
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('m call hua dubara');
     let { myProperties } = nextProps;
     if (myProperties) {
-      this.setState({ localData: myProperties })
+      this.setState({ localData: myProperties });
     }
-
   }
   togglePropertyModal = () => {
-    
-     this.setState({ propertyModal: true });
+    this.setState({ propertyModal: true });
   };
-  closePropertyModal=() => {
-   this.setState({propertyModal:false});
-   setTimeout(()=>{
-     this.setState({modalActive:null})
-   },1000)
-   
-  }
+  closePropertyModal = () => {
+    this.setState({ propertyModal: false });
+    setTimeout(() => {
+      this.setState({ modalActive: null });
+    }, 1000);
+  };
   componentDidMount() {
     const path = this.props.history.location.pathname.split('/');
     if (this.props.history.location.state && this.props.history.location.state.market != '' && this.props.history.location.state.market != undefined) {
@@ -68,11 +66,22 @@ class Listings extends Component {
     }
     let search = this.props.history.location.search;
     if (search) {
-      let agentId = search.split('=')[1];
-      if (agentId) {
-        axios.get('https://ehomeoffer.wpengine.com/index.php?rest_route=/advisors/get/agents/uid=' + agentId).then((res) => {
-          localStorage.setItem('agentData', JSON.stringify(res.data));
-        });
+      if (search.indexOf('agendId') !== -1) {
+        let agentId = search.split('=')[1];
+        if (agentId) {
+          axios.get('https://ehomeoffer.wpengine.com/index.php?rest_route=/advisors/get/agents/uid=' + agentId).then((res) => {
+            localStorage.setItem('agentData', JSON.stringify(res.data));
+          });
+        }
+      }
+      else if(search.indexOf('lenderId') !== -1){
+        let lenderId = search.split('=')[1];
+        if (lenderId) {
+          axios.get('http://ehomefunding.wpengine.com/index.php?rest_route=/advisors/get/lenders/uid=' + lenderId).then((res) => {
+            localStorage.setItem('lenderData', JSON.stringify(res.data));
+          });
+        }
+
       }
     }
     if (typeof window !== 'undefined') {
@@ -84,9 +93,7 @@ class Listings extends Component {
     // call for blogs
     axios.get('https://ehomeoffer.wpengine.com/index.php?rest_route=/ehomesearch/get/posts').then((res) => {
       this.setState({ blogs: res.data });
-
     });
-
 
     // this.props.getAllAdverts()
   }
@@ -124,9 +131,9 @@ class Listings extends Component {
   };
 
   onCardClick = (id) => {
-    let allCopy = {...this.state.localData};
-    let single = allCopy.listings.find(sin=>sin.id === id);
-    this.setState({modalActive:single});
+    let allCopy = { ...this.state.localData };
+    let single = allCopy.listings.find((sin) => sin.id === id);
+    this.setState({ modalActive: single });
     this.togglePropertyModal();
   };
 
@@ -153,50 +160,66 @@ class Listings extends Component {
     this.setState({ mapView: true, listView: false });
   };
   serchSubmitHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     let { beds, minPrice, maxPrice, searchText, baths, activePropertyType } = this.state;
-    if(searchText || minPrice || maxPrice || beds || baths){
-    if (minPrice && maxPrice) {
-      if (minPrice >= maxPrice) {
-        window.confirm("Please add valid Max Price");
-        return;
+    if (searchText || minPrice || maxPrice || beds || baths) {
+      if (minPrice && maxPrice) {
+        if (minPrice >= maxPrice) {
+          window.confirm('Please add valid Max Price');
+          return;
+        }
       }
+      this.setState({ isSearched: true });
+      let config = {
+        headers: {
+          Authorization: 'Bearer ' + publicToken,
+        },
+      };
+      this.setState({ isLoader: true, error: false });
+      axios
+        .get(
+          apiUrl +
+            'ws/listings/search?market=gsmls&listingtype=' +
+            (activePropertyType === 'sale' ? 'Residential' : 'Rental') +
+            '&beds=' +
+            beds +
+            '&listPrice=' +
+            (minPrice ? `<=${minPrice}` : '') +
+            '&listPrice=' +
+            (maxPrice ? `<=${maxPrice}` : '') +
+            '&baths=' +
+            baths +
+            '&address.city=' +
+            searchText +
+            '&extended=true&detils=true&listingDate=>6/1/2015',
+          config,
+        )
+        .then((res) => {
+          if (res.data.result.listings.length) {
+            this.setState({ localData: res.data.result });
+            this.setState({ isLoader: false });
+            return;
+          }
+
+          this.setState({ error: true, isLoader: false });
+        })
+        .catch((err) => {
+          this.setState({ isLoader: false, error: true });
+        });
     }
-    this.setState({isSearched:true})
-    let config = {
-      headers: {
-        Authorization: "Bearer " + publicToken,
-      },
-    };
-    this.setState({ isLoader: true,error: false })
-    axios.get(apiUrl + "ws/listings/search?market=gsmls&listingtype=" + (activePropertyType === "sale" ? "Residential" : "Rental") + "&beds=" + beds + "&listPrice=" + (minPrice ? `<=${minPrice}` : '') + "&listPrice=" + (maxPrice ? `<=${maxPrice}` : '') + "&baths=" + baths + "&address.city=" + searchText + "&extended=true&detils=true&listingDate=>6/1/2015", config).then(res => {
-      if (res.data.result.listings.length) {
-        this.setState({ localData: res.data.result })
-        this.setState({ isLoader: false })
-        return;
-      }
-
-      this.setState({ error: true, isLoader: false })
-
-    }).catch(err => {
-      this.setState({ isLoader: false, error: true })
-    })
-  }
-  }
-  resetSearchFilters= ()=>{
-    this.setState({searchText:"",minPrice:"",maxPrice:"",beds:"",baths:"",error:false,isSearched:false})
-    document.getElementById("searchText").value="";
-    document.getElementById("minPrice").value="";
-    document.getElementById("maxPrice").value="";
-    document.getElementById("beds").value="";
-    document.getElementById("baths").value="";
+  };
+  resetSearchFilters = () => {
+    this.setState({ searchText: '', minPrice: '', maxPrice: '', beds: '', baths: '', error: false, isSearched: false });
+    document.getElementById('searchText').value = '';
+    document.getElementById('minPrice').value = '';
+    document.getElementById('maxPrice').value = '';
+    document.getElementById('beds').value = '';
+    document.getElementById('baths').value = '';
     this.handelPropertyType(this.state.activePropertyType);
-  }
-  singleFilterHandler = () => {
-
-  }
+  };
+  singleFilterHandler = () => {};
   render() {
-    const { onCardClick, togglePropertyModal, handelPropertyType, handleFormChange,closePropertyModal} = this;
+    const { onCardClick, togglePropertyModal, handelPropertyType, handleFormChange, closePropertyModal } = this;
     const { history } = this.props;
     let { activeProperty, mapView, propertyModal, activePropertyType, searchText, beds, baths, minPrice, maxPrice, type, isLoader, localData } = this.state;
     const propertyId = this.props.location.state ? this.props.location.state.propertyId : '';
@@ -238,20 +261,18 @@ class Listings extends Component {
               </a>
             </div>
             <div className='form-search'>
-
               <form onSubmit={(e) => this.serchSubmitHandler(e)}>
                 <div className='group-form search-form'>
-                  <input type='text' defaultValue={searchText} onChange={handleFormChange} name='searchText' placeholder='City' id="searchText"/>
+                  <input type='text' defaultValue={searchText} onChange={handleFormChange} name='searchText' placeholder='City' id='searchText' />
                 </div>
                 <div className='group-form price-form'>
-                  <input type='number' defaultValue={minPrice ?minPrice: null } onChange={handleFormChange} name='minPrice' placeholder='Min Price in $' min="100" id="minPrice"/>
+                  <input type='number' defaultValue={minPrice ? minPrice : null} onChange={handleFormChange} name='minPrice' placeholder='Min Price in $' min='100' id='minPrice' />
                 </div>
                 <div className='group-form price-form'>
-
-                  <input type='number' defaultValue={maxPrice ? maxPrice : null} onChange={handleFormChange} name='maxPrice' placeholder='Max Price in $' min="100" id="maxPrice"/>
+                  <input type='number' defaultValue={maxPrice ? maxPrice : null} onChange={handleFormChange} name='maxPrice' placeholder='Max Price in $' min='100' id='maxPrice' />
                 </div>
                 <div className='group-form beds-form'>
-                  <select defaultValue={beds} onChange={handleFormChange} name='beds' id="beds">
+                  <select defaultValue={beds} onChange={handleFormChange} name='beds' id='beds'>
                     <option value=''>Beds</option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>
@@ -263,7 +284,7 @@ class Listings extends Component {
                 </div>
 
                 <div className='group-form baths-form'>
-                  <select defaultValue={baths} onChange={handleFormChange} name='baths' id="baths">
+                  <select defaultValue={baths} onChange={handleFormChange} name='baths' id='baths'>
                     <option value=''>Baths</option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>
@@ -274,15 +295,15 @@ class Listings extends Component {
                   </select>
                 </div>
                 <div className='group-form submit-button'>
-                  <button type="submit">Search</button>
-                  
-             </div>
+                  <button type='submit'>Search</button>
+                </div>
               </form>
-              {
-                    this.state.isSearched &&
-                    <button  onClick={()=>this.resetSearchFilters()} className="ml-2 resetButton">Reset</button>
-              }
-            </div> 
+              {this.state.isSearched && (
+                <button onClick={() => this.resetSearchFilters()} className='ml-2 resetButton'>
+                  Reset
+                </button>
+              )}
+            </div>
           </div>
         </section>
 
@@ -309,10 +330,7 @@ class Listings extends Component {
                     </div>
 
                     <div className='listing-box'>
-                      {
-                         this.state.error &&
-                        <p className="searchError">Unable to find results! Please modify your search.</p>
-                      }
+                      {this.state.error && <p className='searchError'>Unable to find results! Please modify your search.</p>}
 
                       <div className='row clearfix m-0'>
                         {activeProperty ? (
@@ -348,13 +366,11 @@ class Listings extends Component {
                 </div>
                 <div className='col-lg-6 col-md-12 col-sm-12 map-column'>
                   <div className='map-area'>
-                    {
-                      localData &&
+                    {localData && (
                       <div className='map-box'>
-                      <MapProperty propertiesList={localData && localData.listings && localData.listings.length ? localData.listings : []} />
-                    </div>
-                    }
-                    
+                        <MapProperty propertiesList={localData && localData.listings && localData.listings.length ? localData.listings : []} />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -411,7 +427,17 @@ class Listings extends Component {
         {
           <Modal modalClassName='property-details' toggle={closePropertyModal} isOpen={propertyModal}>
             <ModalBody>
-              <PropertyDetails blogsData={this.state.blogs} history={history} propertyId={propertyId} propertyMarket={propertyMarket} propertyType={type} myProperty={this.state.modalActive} onCardClick={onCardClick} localData={localData} isSearched={this.state.isSearched}/>
+              <PropertyDetails
+                blogsData={this.state.blogs}
+                history={history}
+                propertyId={propertyId}
+                propertyMarket={propertyMarket}
+                propertyType={type}
+                myProperty={this.state.modalActive}
+                onCardClick={onCardClick}
+                localData={localData}
+                isSearched={this.state.isSearched}
+              />
             </ModalBody>
           </Modal>
         }

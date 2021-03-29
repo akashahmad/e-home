@@ -16,11 +16,11 @@
   }
   .profile_section_container .icon_title_container h2 {
     color: #333333;
-    font-size: 20px;
+    font-size: 12px!important;
   }
   .profile_section_container .profile_image_container img {
-    height: 80px!important;
-    width: 80px!important;
+    height: 50px!important;
+    width: 50px!important;
     border-radius: 50%;
   }
   .profile_section_container .profile_image_container h3 {
@@ -46,4 +46,7 @@
     color: #336699 !important;
     border-bottom: 1px solid #336699 !important;
     cursor: pointer;
+  }
+  .profile_section_container form label{
+    font-size: 12px;
   }
