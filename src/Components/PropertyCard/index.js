@@ -16,15 +16,15 @@ export const PropertyCard = (props) => {
       className='listing-block'
       onClick={() =>
         props.onCardClick(
-          // props.propertyValues.address.state ? props.propertyValues.address.state : null,
-          // props.propertyValues.address.city ? props.propertyValues.address.city : null,
-          // props.propertyValues.address.zip,
+          props.propertyValues.address.state ? props.propertyValues.address.state : null,
+          props.propertyValues.address.city ? props.propertyValues.address.city : null,
+          props.propertyValues.address.zip,
           props.propertyValues.id,
-          // props.propertyValues.market,
+          props.propertyValues.market,
         )
       }
     >
-      <div className='property-card'>
+      <div className='property-card' style={{cursor:"pointer"}}>
         <div className='image-box'>
           <figure>
             <img

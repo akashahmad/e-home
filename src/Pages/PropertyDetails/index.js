@@ -13,60 +13,51 @@ import { apiUrl, publicToken } from '../../config';
 import axios from 'axios';
 import Carousel from 'react-multi-carousel';
 
-const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myProperty, propertyType, history, blogsData, onCardClick, isSearched, localData }) => {
+const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myProperty, propertyType, history, blogsData, onCardClick, isSearched, localData,modalLoader}) => {
   const [activeMenu, setActiveMenu] = useState('overview');
   const [relatedResult, setRelatedResults] = useState(null);
   const [agentData, setAgnetData] = useState(null);
+  const [lenderData, setLenderData] = useState(null);
   const [blogs, setblogs] = useState(null);
   const [provider, setProvider] = useState(null);
   const [jhootLoader, setJhootaLoder] = useState(true);
 
-  // // Calling api for single record
-  // useEffect(() => {
-  //   if (propertyId) {
-  //     let data = {
-  //       id: propertyId,
-  //       market: propertyMarket,
-  //     };
-  //     searchProperty({ data });
-  //   }
-  // }, []);
+
 
   // useEffect for calling related properties
   useEffect(() => {
-    if (isSearched) {
-      //  let localCopy = {...localData};
-      //  setRelatedResults(localCopy.listings && localCopy.listings.filter(item=>item.id !== myProperty.id));
-      return;
+    if (myProperty) {
+      let config = {
+        headers: {
+          Authorization: "Bearer " + publicToken,
+        },
+      };
+
+      axios
+        .get(
+          apiUrl +
+            "ws/listings/search?market=gsmls&extended=true&listingtype="+myProperty.listingType+"&details=true&listingDate=>6/1/2015&zip=" +
+            myProperty.xf_postalcode,
+          config
+        )
+        .then((res) => {
+          if(res.data.result.listings && res.data.result.listings.length){
+            setRelatedResults(res.data.result.listings);
+          }
+
+        });
     }
-    // if (myProperty) {
-    //   let config = {
-    //     headers: {
-    //       Authorization: "Bearer " + publicToken,
-    //     },
-    //   };
-
-    //   axios
-    //     .get(
-    //       apiUrl +
-    //         "ws/listings/search?market=gsmls&extended=true&listingtype="+myProperty.listingType+"&details=true&listingDate=>6/1/2010&zip=" +
-    //         myProperty.xf_postalcode,
-    //       config
-    //     )
-    //     .then((res) => {
-    //       if(res.data.result.listings && res.data.result.listings.length){
-    //         setRelatedResults(res.data.result.listings);
-    //       }
-
-    //     });
-    // }
   }, [myProperty]);
 
   // useEffect for getting agentData from local storage
   useEffect(() => {
     let agentDataLocal = localStorage.getItem('agentData');
+    let lenderDataLocal = localStorage.getItem('lenderData');
     if (agentDataLocal) {
       setAgnetData(JSON.parse(agentDataLocal));
+    }
+    if (lenderDataLocal) {
+      setLenderData(JSON.parse(lenderDataLocal));
     }
   }, []);
 
@@ -157,29 +148,16 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
     });
   }, []);
 
-  const cardClick = (id) => {
-    console.log(id, 'check id');
-    onCardClick(id);
-    setJhootaLoder(true);
-    setTimeout(() => {
-      setJhootaLoder(false);
-    }, 3000);
+  const cardClick = (state, city, zip, id, market) => {
+    setActiveMenu("overview")
+    onCardClick(state, city, zip, id, market);
+  
+   
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setJhootaLoder(false);
-    }, 3000);
-    // if (isSearched){
-    let localList = { ...localData }.listings;
-    localList = localList.reverse();
-    setRelatedResults(localList);
-    // }
-  }, []);
   return (
-    <div className='property-details-content'>
+    <div className={`property-details-content ${modalLoader ? "d-flex justify-content-center align-items-center" : ''}`}>
       <section className='photos-container'>
-        {!jhootLoader && myProperty && myProperty.images ? (
+        {!modalLoader && myProperty && myProperty.images ? (
           myProperty.images.map((item) => {
             return <img className='photo-tile-image' src={item} alt='tile-image' />;
           })
@@ -192,6 +170,9 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
           </div>
         )}
       </section>
+      {!modalLoader && myProperty  &&
+
+      
       <section className='detail-content'>
         <div className='detail-header'>
           <Link to='/' className='logo'>
@@ -229,7 +210,7 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
             </li>
           </ul>
         </div>
-        {myProperty ? (
+        {!modalLoader && myProperty ? (
           <div className='detail-intro'>
             <div className='ds-summary-row-container'>
               <div className='ds-summary-row-content'>
@@ -362,17 +343,17 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
                     Facts and features
                   </a>
                 </li>
-
+                <li className='eVYrJu' onClick={() => setActiveMenu('advisors')}>
+                  <a href='#advisors' className={`bhJxVt ${activeMenuhandler('advisors')}`}>
+                   Advisors
+                  </a>
+                </li>
                 <li className='eVYrJu' onClick={() => setActiveMenu('cost')}>
                   <a href='#cost' className={`bhJxVt ${activeMenuhandler('cost')}`}>
                     Monthly cost
                   </a>
                 </li>
-                <li className='eVYrJu' onClick={() => setActiveMenu('rent')}>
-                  <a href='#rental' className={`bhJxVt ${activeMenuhandler('rent')}`}>
-                    Rental value
-                  </a>
-                </li>
+                
                 <li className='eVYrJu' onClick={() => setActiveMenu('schools')}>
                   <a href='#schools' className={`bhJxVt ${activeMenuhandler('schools')}`}>
                     Nearby schools
@@ -743,33 +724,14 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
               </ul>
               <div className='fQkkzS'></div>
             </div>
-            <div className='ivyodi'>
-              <p className='bpPStC'>
-                <strong>Have a question about this home?</strong>
+            <div className='ivyodi' id="advisors">
+              <p className='bpPStC' style={{fontSize:"18px"}}>
+                <strong>Our eHomeoffer Advisors</strong>
               </p>
-              <button className='gEGLRI'>
-                <b>Get a call</b>
-              </button>
             </div>
           </div>
-
-          {/* <div className='dHtGQa'>
-            <h5 className='dTAnOx dZuCmF'>Estimated market value</h5>
-            <div className='ehezvG'>
-              <button id='tooltip' className='gPeOdD'>
-                <h5 className='dAaMYy'>Zestimate®</h5>
-              </button>
-              <span className='dTAnOx'>$617,926</span>
-            </div>
-            <span className='LvHE'>
-              Estimated sales range: <span className='bNBUiH'>$587,000 - $649,000</span>
-            </span>
-            <LineChart />
-          </div>
-         */}
-          {agentData && (
-              <div className='jOzrMc'>
-                <AdviserCards agentData={agentData} />
+          <div className='jOzrMc'>
+                <AdviserCards agentData={agentData} lenderData={lenderData}/>
                 <h6 className='cFKaVN einFCw'>Select an appointment type</h6>
                 <div className='ehFvlJ'>
                   <button type='button' className='iLBhcz active'>
@@ -777,9 +739,10 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
                   </button>
                 </div>
                 <h6 className='cFKaVN einFCw gKaOfx'>Select a date</h6>
-                <input type='date' />
+                <input type='date' className="w-100 p-2"/>
+                <button type="button" className="iLBhcz active mt-2">Select</button>
               </div>
-          )}
+          
 
           <div className='dHtGQa' id='cost'>
             <h5 className='dTAnOx dZuCmF'>Monthly cost</h5>
@@ -908,17 +871,7 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
               </div>
             </div>
           </div>
-          <div className='kkFAbf' id='rental'>
-            <h4 className='dTAnOx dZuCmF'>Rental value</h4>
-            <div className='ehezvG'>
-              <button id='tooltip' className='gPeOdD'>
-                <h5 className='dAaMYy'>
-                  Rent Zestimate<sup>®</sup>
-                </h5>
-              </button>
-              <span className='dTAnOx'>$3,200/mo</span>
-            </div>
-          </div>
+         
           <div className='dHtGQa' id='schools'>
             <h4 className='dTAnOx dZuCmF'>Nearby schools in Marlboro</h4>
             <div className='eUOzkf'>
@@ -1006,6 +959,8 @@ const PropertyDetails = ({ propertyId, propertyMarket, searchProperty, myPropert
           </div>
         </div>
       </section>
+      
+}
     </div>
   );
 };

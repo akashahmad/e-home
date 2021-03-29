@@ -23,7 +23,6 @@ class Listings extends Component {
       selectedPlace: {},
       propertyModal: false,
       type: 'Sale',
-      searchText: '',
       myProperties: [],
       isLoader: false,
       beds: '',
@@ -35,26 +34,26 @@ class Listings extends Component {
       error: false,
       isSearched: false,
       modalActive: null,
+      modalLoader:false,
     };
     window.scrollTo(0, 0);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('m call hua dubara');
+    
     let { myProperties } = nextProps;
     if (myProperties) {
       this.setState({ localData: myProperties });
     }
   }
-  togglePropertyModal = () => {
-    this.setState({ propertyModal: true });
-  };
-  closePropertyModal = () => {
-    this.setState({ propertyModal: false });
-    setTimeout(() => {
-      this.setState({ modalActive: null });
-    }, 1000);
-  };
+  togglePropertyModal = ( ) => {
+    if(this.state.propertyModal) {
+      this.props.history.replace(`/`);
+      this.setState({propertyModal:false,modalActive:null})
+    }
+}
+
+ 
   componentDidMount() {
     const path = this.props.history.location.pathname.split('/');
     if (this.props.history.location.state && this.props.history.location.state.market != '' && this.props.history.location.state.market != undefined) {
@@ -62,11 +61,11 @@ class Listings extends Component {
       this.setState({ market: this.props.history.location.state.market });
     } else this.handelPropertyType(this.state.activePropertyType);
     if (path[3]) {
-      this.togglePropertyModal();
+      this.onCardClick('','','',path[3],'','external'); 
     }
     let search = this.props.history.location.search;
     if (search) {
-      if (search.indexOf('agendId') !== -1) {
+      if (search.indexOf('agentId') !== -1) {
         let agentId = search.split('=')[1];
         if (agentId) {
           axios.get('https://ehomeoffer.wpengine.com/index.php?rest_route=/advisors/get/agents/uid=' + agentId).then((res) => {
@@ -88,6 +87,7 @@ class Listings extends Component {
       window.addEventListener('beforeunload', (ev) => {
         ev.preventDefault();
         localStorage.removeItem('agentData');
+        localStorage.removeItem('lenderData');
       });
     }
     // call for blogs
@@ -130,12 +130,28 @@ class Listings extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  onCardClick = (id) => {
-    let allCopy = { ...this.state.localData };
-    let single = allCopy.listings.find((sin) => sin.id === id);
-    this.setState({ modalActive: single });
-    this.togglePropertyModal();
+  onCardClick = (state, city, zip, id, market,type) => {
+    if(!type){
+    let url = (state ? state.split(' ').join('_') : "") + "-" + (city ? city.split(' ').join('_') : "") + "-" + zip.split(' ').join('_') + `/${id}`
+    this.props.history.replace(`/homedetails/${url}`,{propertyId:id, market});
+    }
+    let config = {
+      headers: {
+        Authorization: 'Bearer ' + publicToken,
+      },
+    };
+    this.setState({modalLoader:true})
+    axios.get(apiUrl+'ws/listings/get?id='+id+'&market=gsmls&details=true&extended=true&images=true',config).then(res=>{
+      this.setState({modalActive:res.data.result.listings[0]});
+      setTimeout(()=>{
+       this.setState({modalLoader:false}) 
+      },2500)
+    })
+    this.setState({propertyModal:true})
+
+  
   };
+
 
   onMarkerClick = (props, marker, e) => {
     let activeProperty = '';
@@ -221,7 +237,7 @@ class Listings extends Component {
   render() {
     const { onCardClick, togglePropertyModal, handelPropertyType, handleFormChange, closePropertyModal } = this;
     const { history } = this.props;
-    let { activeProperty, mapView, propertyModal, activePropertyType, searchText, beds, baths, minPrice, maxPrice, type, isLoader, localData } = this.state;
+    let { activeProperty, mapView, propertyModal, activePropertyType, searchText, beds, baths, minPrice, maxPrice, type, isLoader, localData,modalLoader} = this.state;
     const propertyId = this.props.location.state ? this.props.location.state.propertyId : '';
     const propertyMarket = this.props.location.state ? this.props.location.state.market : '';
     let myProperties = localData && localData;
@@ -232,7 +248,6 @@ class Listings extends Component {
           return item.address.street.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1;
         }
       });
-
     return (
       <>
         <MyHeader heading='Looking For A New Home' subHeading='Don’t worry eHomeoffer has you covered with many options' />
@@ -425,7 +440,8 @@ class Listings extends Component {
           </section>
         )}
         {
-          <Modal modalClassName='property-details' toggle={closePropertyModal} isOpen={propertyModal}>
+          <Modal modalClassName='property-details' toggle={togglePropertyModal}
+          isOpen={propertyModal}>
             <ModalBody>
               <PropertyDetails
                 blogsData={this.state.blogs}
@@ -437,6 +453,7 @@ class Listings extends Component {
                 onCardClick={onCardClick}
                 localData={localData}
                 isSearched={this.state.isSearched}
+                modalLoader={modalLoader}
               />
             </ModalBody>
           </Modal>

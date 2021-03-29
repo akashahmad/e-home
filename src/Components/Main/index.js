@@ -71,11 +71,11 @@ class Main extends Component {
             <Route path='/property-view/:title' component={PropertyView} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/rent-listing' component={RentListing} />
-            <Route exact path='/listings' component={Listings} />
-            <Route exact path='/listings/:key/:id' component={Listings} />
-            <Route exact path='/listings/:key/:id/:uid' component={Listings} />
+            <Route exact path='/homedetails' component={Listings} />
+            <Route exact path='/homedetails/:key/:id' component={Listings} />
+            <Route exact path='/homedetails/:key/:id/:uid' component={Listings} />
             <Route exact path='/redirecturi' component={RedirectUri} />
-            <Route exact path='/listings/:key' component={Listings} />
+            <Route exact path='/homedetails/:key' component={Listings} />
             <Route exact path='/wizard/:id' component={WizardComponent} />
           </Switch>
         </Router>
