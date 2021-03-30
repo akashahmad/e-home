@@ -117,7 +117,7 @@ class Listings extends Component {
         if (lenderId) {
           axios
             .get(
-              "http://ehomefunding.wpengine.com/index.php?rest_route=/advisors/get/lenders/uid=" +
+              "https://ehomefunding.wpengine.com/index.php?rest_route=/advisors/get/lenders/uid=" +
                 lenderId
             )
             .then((res) => {
