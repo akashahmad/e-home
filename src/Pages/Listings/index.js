@@ -43,7 +43,11 @@ class Listings extends Component {
       showBedModal: false,
       homeFilterValues: null,
       showHomeFilter: false,
-      selectedHomeTypes:[]
+      selectedHomeTypes:[],
+      minSqft:'',
+      maxSqft:'',
+      showSqftModal:false,
+      
     };
     window.scrollTo(0, 0);
   }
@@ -335,7 +339,12 @@ class Listings extends Component {
       showBedModal,
       homeFilterValues,
       showHomeFilter,
-      selectedHomeTypes
+      selectedHomeTypes,
+      minSqft,
+      maxSqft,
+      showMinSqft,
+      showMaxSqft,
+      showSqftModal
     } = this.state;
     const propertyId = this.props.location.state
       ? this.props.location.state.propertyId
@@ -440,7 +449,8 @@ class Listings extends Component {
                       this.setState({
                         showPriceModal: !showPriceModal,
                         showBedModal: false,
-                        showHomeFilter:false
+                        showHomeFilter:false,
+                        showSqftModal:false
                       })
                     }
                     className="zillowButton"
@@ -472,6 +482,7 @@ class Listings extends Component {
                               this.setState({
                                 showMinPrice: true,
                                 showMaxPrice: false,
+                                
                               })
                             }
                           />
@@ -614,7 +625,8 @@ class Listings extends Component {
                       this.setState({
                         showBedModal: !showBedModal,
                         showPriceModal: false,
-                        showHomeFilter:false
+                        showHomeFilter:false,
+                        showSqftModal:false
                       })
                     }
                   >
@@ -687,7 +699,7 @@ class Listings extends Component {
                   )}
                 </div>
                 <div className="group-form zillow-button-div position-relative">
-                  <div className="zillowButton" onClick={()=>this.setState({showHomeFilter:!showHomeFilter,showPriceModal:false,showBedModal:false})}>Home Type</div>
+                  <div className="zillowButton" onClick={()=>this.setState({showHomeFilter:!showHomeFilter,showPriceModal:false,showBedModal:false,showSqftModal:false})}>Home Type</div>
                 {showHomeFilter &&
                   <div className="priceModal">
                     <p className="title">Home Type</p>
@@ -718,7 +730,136 @@ class Listings extends Component {
                         </div>
                   </div>
                 }
+                
                 </div>
+                <div className="group-form zillow-button-div position-relative">
+                <div className="zillowButton" onClick={()=>this.setState({showSqftModal:!showSqftModal,showPriceModal:false,showBedModal:false,showHomeFilter:false})}>{minSqft || maxSqft
+                      ? (minSqft
+                          ? `${minSqft}sq.ft`
+                          : "Upto") +
+                        "-" +
+                        (maxSqft
+                          ? `${maxSqft}sq.ft`
+                          : " Any")
+                      : "sq.ft"}</div>
+                {showSqftModal && (
+                    <div className="priceModal">
+                      <p className="title">SQFT</p>
+                      <div className="d-flex col-12 px-0">
+                        <div className="col-6 pl-0">
+                          <input
+                            type="number"
+                            defaultValue={minSqft ? minSqft : null}
+                            onChange={handleFormChange}
+                            name="minSqft"
+                            placeholder="Min"
+                            min="100"
+                            id="minSqft"
+                            onFocus={() =>
+                              this.setState({
+                                showMinSqft: true,
+                                showMaxSqft: false,
+                              })
+                            }
+                          />
+                          {showMinSqft && (
+                            <ul className="priceFilterList">
+                              <li
+                                onClick={() => this.setState({ minSqft: "" })}
+                              >
+                                Any
+                              </li>
+                              <li
+                                onClick={() =>
+                                  this.setState({ minSqft: 320 })
+                                }
+                              >
+                              320 sq.ft
+                              </li>
+                              <li
+                                onClick={() =>
+                                  this.setState({ minSqft: 500 })
+                                }
+                              >
+                                500 sq.ft
+                              </li>
+                            </ul>
+                          )}
+                        </div>
+
+                        <div className="col-6 pr-0">
+                          <input
+                            type="number"
+                            defaultValue={maxSqft ? maxSqft : null}
+                            onChange={handleFormChange}
+                            name="maxSqft"
+                            placeholder="Max"
+                            min="100"
+                            id="maxSqft"
+                            onFocus={() =>
+                              this.setState({
+                                showMinSqft: false,
+                                showMaxSqft: true,
+                              })
+                            }
+                          />
+                          {showMaxSqft && (
+                            <ul className="priceFilterList">
+                              <li
+                                onClick={() =>
+                                  this.setState({ maxSqft: 1200 })
+                                }
+                              >
+                                1200 sq.ft
+                              </li>
+                              <li
+                                onClick={() =>
+                                  this.setState({ maxSqft: 1500 })
+                                }
+                              >
+                                1500 sq.ft
+                              </li>
+                              <li
+                                onClick={() =>
+                                  this.setState({ maxSqft:2000 })
+                                }
+                              >
+                                2000 sq.ft
+                              </li>
+                              <li
+                                onClick={() =>
+                                  this.setState({ maxSqft:2500 })
+                                }
+                              >
+                                2500 sq.ft
+                              </li>
+                              <li
+                                onClick={() => this.setState({ maxSqft: "" })}
+                              >
+                                Any 
+                              </li>
+                            </ul>
+                          )}
+                        </div>
+                      </div>
+                      <div className="filterBottomStrip d-flex justify-content-end">
+                        <div
+                          className="doneButton"
+                          onClick={() =>
+                            this.setState({
+                              showSqftModal: !showSqftModal,
+                              showMinSqft: false,
+                              showMaxSqft: false,
+                            })
+                          }
+                        >
+                          Done
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  </div>
+              
                 <div className="group-form submit-button">
                   <button type="submit">Search</button>
                 </div>
