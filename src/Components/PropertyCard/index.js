@@ -26,27 +26,26 @@ export const PropertyCard = (props) => {
     >
       <div className='property-card' style={{cursor:"pointer"}}>
         <div className='image-box'>
+        <div class='label-both'>
+            <span class='left'>{props.propertyValues.listingType == 'Rental' ? 'For Rent' : 'For Sale'}</span>
+           
+              <span class='right'>10 Days</span>
+           
+           
+          </div>
           <figure>
             <img
               style={{ resize: 'contain', width: '100%', height: '290px' }}
               src={props.propertyValues.images && props.propertyValues.images && props.propertyValues.images ? props.propertyValues.images[0] : listing}
             />
           </figure>
-          <div class='label-both'>
-            <span class='left'>{props.propertyValues.listingType == 'Rental' ? 'For Rent' : 'For Sale'}</span>
-           
-              <span class='right'>10 days ago</span>
-           
-           
-          </div>
+        
           <div className='bottom'>
             <div className='left-area'>
               <h5>
-                {props.propertyValues.address.city},{props.propertyValues.address.state}
-              </h5>
-              <h5>
                 <NumberFormat prefix={'$'} value={props.propertyValues.listPrice} displayType={'text'} thousandSeparator={true} />
               </h5>
+              <p className="mt-0">EST.payment: $/mo</p>
             </div>
             <p>
               <img src={LocationIcon} alt='Location Icon' />
