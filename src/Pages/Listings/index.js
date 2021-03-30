@@ -440,6 +440,7 @@ class Listings extends Component {
                       this.setState({
                         showPriceModal: !showPriceModal,
                         showBedModal: false,
+                        showHomeFilter:false
                       })
                     }
                     className="zillowButton"
@@ -613,6 +614,7 @@ class Listings extends Component {
                       this.setState({
                         showBedModal: !showBedModal,
                         showPriceModal: false,
+                        showHomeFilter:false
                       })
                     }
                   >
