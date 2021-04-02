@@ -83,13 +83,16 @@ function* fetchByMap({ payload }) {
 }
 
 function* getAllAdverts() {
+  yield put({ type: "MAIN_LOADER", payload:true});
   const { error, response } = yield call( getCall, `ws/listings/search?market=gsmls&listingType=Residential&details=true&extended=true&images=true&listingDate=>6/1/2015&pageNumber=1&pageSize=1000`,"https://slipstream.homejunction.com/" );
     if (error) {
       console.log('error', error);
+      yield put({ type: "MAIN_LOADER", payload:false});
     }
     if (response) {
       console.log('response', response);
       yield put({ type: "MY_PROPERTIES", payload: response["data"]["result"] });
+      yield put({ type: "MAIN_LOADER", payload:false});
       // EventBus.publish("success", response["data"]["message"]);
     }
 }
@@ -171,14 +174,15 @@ function* searchByMarket({payload}) {
 }
 
 function* getAllRental() {
-  
+  yield put({ type: "MAIN_LOADER", payload:true});
   const { error, response } = yield call(getCall, "/ws/listings/search?market=gsmls&listingType=Rental&details=true&extended=true&images=true&listingDate=>6/1/2015&pageNumber=1&pageSize=1000",'https://slipstream.homejunction.com/');
     if (error) {
       console.log('error', error);
+      yield put({ type: "MAIN_LOADER", payload:false});
     }
     if (response) {
-      
       yield put({ type: "MY_PROPERTIES", payload: response["data"]["result"] });
+      yield put({ type: "MAIN_LOADER", payload:false});
     }
 }
 

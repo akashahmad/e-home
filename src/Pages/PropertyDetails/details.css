@@ -1135,10 +1135,11 @@ a.bhJxVt:focus {
 .jLwdhz {
   display: flex;
   width: 100%;
-  margin-right: 32px;
+  margin-right: 15px;
   -webkit-box-pack: justify;
   justify-content: space-between;
 }
+
 
 .kUILak {
   display: inline-block;
@@ -1927,21 +1928,21 @@ input[type='radio'] + label {
 .blogCard .blogBody p {
   font-size: 12px;
   line-height: 1.5;
-  color: #666!important;
-  margin-bottom: 0!important;
+  color: #666 !important;
+  margin-bottom: 0 !important;
 }
-.offerMakeButton{
+.offerMakeButton {
   width: 100%;
   text-align: center;
   background-color: #5fc3ac;
   color: white;
   border: none;
-border-radius: 4px;
-cursor: pointer;
-padding-top: 10px;
-padding-bottom: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
-.scheduleButton{
+.scheduleButton {
   background-color: #e74c3c;
   width: 100%;
   color: white;
@@ -1950,4 +1951,71 @@ padding-bottom: 10px;
   cursor: pointer;
   font-size: 8px;
   margin-top: 10px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+/* ---- */
+.calculatorDetailDiv {
+  padding: 10px;
+  display: block;
+}
+.calculatorDetailDiv input[type=number],.calculatorDetailDiv input[type=text], .calculatorDetailDiv select{
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  height: auto;
+  caret-color: rgb(0, 106, 255);
+  cursor: text;
+  outline: none;
+  box-shadow: none;
+  color: rgb(42, 42, 51);
+  appearance: none;
+  width: 100%;
+  margin: 0px;
+  padding: 9px 16px;
+  background-color: rgb(246, 246, 250);
+  border: 1px solid rgb(209, 209, 213);
+  border-radius: 4px;
+}
+.calculatorDetailDiv label {
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+.leftInput input{
+  padding-left: 45px!important;
+}
+.leftInput span {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+.rightInput span{
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+.rightInput input{
+  padding-right: 45px;
+}
+.opac-0{
+  opacity: 0;
+}
+.dropdownIcon{
+  display: flex;
+  align-items: c;
+}
+.dropdownIcon i{
+  font-size: 20px;
+  color: rgb(0, 106, 255);
+}
+.minorDetail{
+  font-size: 12px;
 }

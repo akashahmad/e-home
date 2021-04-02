@@ -9,7 +9,8 @@ var initialState = {
   myProperty:{},
   loginModal: false,
   myCount:{},
-  myPropertyInfo:{}
+  myPropertyInfo:{},
+  loader:false
 }
 
 const Auth = (state = initialState, { type, payload }) => {
@@ -41,7 +42,12 @@ const Auth = (state = initialState, { type, payload }) => {
       ...state,
       myProperties: payload
     };
-
+    case 'MAIN_LOADER':
+      console.log('payload', payload);
+      return {
+        ...state,
+        loader: payload
+      };
     case 'MY_COUNT':
     console.log('payload', payload);
     return {
