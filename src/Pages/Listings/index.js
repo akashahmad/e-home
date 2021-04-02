@@ -850,7 +850,7 @@ class Listings extends Component {
                 </div>
                 <div className='col-lg-6 col-md-12 col-sm-12 map-column'>
                   <div className='map-area'>
-                    {myProperties && (
+                    {myProperties && !this.state.modalActive && (
                       <div className='map-box'>
                         <MapProperty propertiesList={myProperties && myProperties.length ? myProperties : []} />
                       </div>
