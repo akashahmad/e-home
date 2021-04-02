@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 
 export const PropertyCard = (props) => {
   const classes = useStyles();
+  console.log(props.propertyValues,"check values")
   return (
     <div
       className='listing-block'
@@ -29,7 +30,7 @@ export const PropertyCard = (props) => {
         <div class='label-both'>
             <span class='left'>{props.propertyValues.listingType == 'Rental' ? 'For Rent' : 'For Sale'}</span>
            
-              <span class='right'>10 Days</span>
+              <span class='right'>{props?.propertyValues?.daysOnHJI} Days</span>
            
            
           </div>
