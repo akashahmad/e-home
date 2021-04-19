@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 
 export const PropertyCard = (props) => {
   const classes = useStyles();
-  console.log(props.propertyValues,"check values")
   return (
     <div
       className='listing-block'

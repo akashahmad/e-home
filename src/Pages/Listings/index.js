@@ -936,7 +936,6 @@ class Listings extends Component {
 // })(Listings);
 
 const mapStateToProps = (state) => {
-  console.log(state,"check stateeee")
   return {
     myProperties: state.myProperties,
     mainLoader:state.loader

@@ -16,6 +16,7 @@
   min-width: 400px;
   max-width: 40%;
   width: 100%;
+  overflow: hidden;
 }
 
 .photos-container {
@@ -150,7 +151,7 @@
 .zsg-icon-recently-sold:before {
   background: #ff5a50;
   border-radius: 50%;
-  content: '';
+  content: "";
   height: 1em;
   width: 1em;
 }
@@ -167,7 +168,7 @@
   -webkit-box-align: center;
   align-items: center;
   flex-wrap: wrap;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .kfNTWi {
@@ -220,7 +221,11 @@
 .dqAA-dY.left span {
   left: 12px;
   right: 0px;
-  background-image: linear-gradient(to right, rgb(255, 255, 255), rgba(255, 255, 255, 0));
+  background-image: linear-gradient(
+    to right,
+    rgb(255, 255, 255),
+    rgba(255, 255, 255, 0)
+  );
 }
 
 .dqAA-dY span {
@@ -264,7 +269,7 @@ a.bhJxVt {
   display: block;
   padding: 16px 8px;
   color: rgb(42, 42, 51);
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   letter-spacing: 0px;
   font-size: 12.5px;
 }
@@ -353,7 +358,7 @@ a.bhJxVt:focus {
   line-height: 24px;
   margin: 0px 8px 0px 0px;
   color: rgb(167, 166, 171);
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   letter-spacing: 0px;
 }
 
@@ -393,7 +398,7 @@ a.bhJxVt:focus {
 }
 
 .bjqDEF::before {
-  content: '';
+  content: "";
   border: none;
   background-color: rgb(209, 209, 213);
   transition: all 0.4s ease 0s;
@@ -401,14 +406,14 @@ a.bhJxVt:focus {
   position: absolute;
   border-radius: 50%;
   background-color: rgb(209, 209, 213);
-  background-image: url('data:image/svg+xml,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M10.8%2010l3-3c.2-.2.2-.6%200-.8-.3-.3-.7-.3-.9%200l-3%203-2.8-3c-.3-.3-.7-.3-1%200-.1.2-.2.6%200%20.9l3%202.9-3%203c-.2.2-.2.6%200%20.8l.5.2c.2%200%20.3%200%20.5-.2l2.9-3%203%203%20.4.2c.1%200%20.3%200%20.4-.2.3-.2.3-.6%200-.9l-3-2.9z%22%20fill%3D%22%23FFF%22%2F%3E%3C%2Fsvg%3E');
+  background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M10.8%2010l3-3c.2-.2.2-.6%200-.8-.3-.3-.7-.3-.9%200l-3%203-2.8-3c-.3-.3-.7-.3-1%200-.1.2-.2.6%200%20.9l3%202.9-3%203c-.2.2-.2.6%200%20.8l.5.2c.2%200%20.3%200%20.5-.2l2.9-3%203%203%20.4.2c.1%200%20.3%200%20.4-.2.3-.2.3-.6%200-.9l-3-2.9z%22%20fill%3D%22%23FFF%22%2F%3E%3C%2Fsvg%3E");
 }
 
 .bloUvX {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
@@ -434,7 +439,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -446,7 +451,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 13px;
   line-height: 24px;
@@ -469,7 +474,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -483,7 +488,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 14px;
   line-height: 24px;
@@ -529,7 +534,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 14px;
   line-height: 24px;
@@ -541,7 +546,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -566,7 +571,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 14px;
   line-height: 24px;
@@ -595,7 +600,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 18px;
   line-height: 32px;
@@ -634,7 +639,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 13px;
   line-height: 24px;
@@ -677,7 +682,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 13px;
   line-height: 24px;
@@ -742,7 +747,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: capitalize;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 12px;
   line-height: 24px;
@@ -767,7 +772,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -830,7 +835,7 @@ a.bhJxVt:focus {
 .iawHYS {
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 14px;
   line-height: 24px;
@@ -868,7 +873,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 14px;
   line-height: 24px;
@@ -880,7 +885,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 13px;
   line-height: 24px;
@@ -891,7 +896,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 13px;
   line-height: 24px;
@@ -910,7 +915,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 13px;
   line-height: 24px;
@@ -920,7 +925,7 @@ a.bhJxVt:focus {
 
 .kASBto {
   margin: 16px 0;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
 }
 
 .dxQtFA {
@@ -989,7 +994,7 @@ a.bhJxVt:focus {
 .lQzdX {
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -1001,7 +1006,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -1037,7 +1042,7 @@ a.bhJxVt:focus {
 .dDKiVX {
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 13px;
   line-height: 24px;
@@ -1089,7 +1094,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -1140,7 +1145,6 @@ a.bhJxVt:focus {
   justify-content: space-between;
 }
 
-
 .kUILak {
   display: inline-block;
   vertical-align: top;
@@ -1158,7 +1162,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -1169,7 +1173,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 14px;
   line-height: 24px;
@@ -1181,7 +1185,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;
@@ -1215,7 +1219,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -1255,7 +1259,7 @@ a.bhJxVt:focus {
   color: rgb(0, 106, 255);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 14px;
   line-height: 24px;
@@ -1273,7 +1277,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -1292,7 +1296,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   margin: 0px 0px 16px;
   letter-spacing: 0px;
 }
@@ -1315,7 +1319,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -1327,7 +1331,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -1346,7 +1350,7 @@ a.bhJxVt:focus {
   -webkit-box-align: center;
   align-items: center;
   padding: 16px 0px 0px;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
 }
 
 .dbhMVG {
@@ -1376,7 +1380,7 @@ a.bhJxVt:focus {
 .LvHE {
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -1420,7 +1424,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -1442,7 +1446,7 @@ a.bhJxVt:focus {
   border: none;
   background: none;
   appearance: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   color: #006aff;
   letter-spacing: 0px;
@@ -1484,7 +1488,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 700;
   font-size: 20px;
   line-height: 24px;
@@ -1501,7 +1505,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -1517,7 +1521,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -1529,7 +1533,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -1541,7 +1545,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;
@@ -1578,7 +1582,7 @@ a.bhJxVt:focus {
   color: rgb(89, 107, 130);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -1611,7 +1615,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -1650,7 +1654,7 @@ a.bhJxVt:focus {
   box-shadow: none;
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -1686,7 +1690,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -1706,7 +1710,7 @@ a.bhJxVt:focus {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -1716,10 +1720,10 @@ a.bhJxVt:focus {
   cursor: pointer;
 }
 
-input[type='checkbox'] + .zsg-form-label > label,
-input[type='checkbox'] + label,
-input[type='radio'] + .zsg-form-label > label,
-input[type='radio'] + label {
+input[type="checkbox"] + .zsg-form-label > label,
+input[type="checkbox"] + label,
+input[type="radio"] + .zsg-form-label > label,
+input[type="radio"] + label {
   /* padding-left: 20px; */
   position: relative;
   -webkit-user-select: none;
@@ -1734,7 +1738,7 @@ input[type='radio'] + label {
 .glDcld {
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 10px;
   line-height: 16px;
@@ -1751,7 +1755,7 @@ input[type='radio'] + label {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: none;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -1782,13 +1786,16 @@ input[type='radio'] + label {
 
 .ds-breadcrumb-container .ds-breadcrumbs > li > a {
   color: #444;
-  font-family: 'Open Sans', Tahoma, Geneva, sans-serif;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
   letter-spacing: 0px;
 }
 
-.ds-breadcrumb-container .ds-breadcrumbs li:not(:first-child) > span:first-child::before {
+.ds-breadcrumb-container
+  .ds-breadcrumbs
+  li:not(:first-child)
+  > span:first-child::before {
   font-size: 15px;
-  content: '\b7';
+  content: "\b7";
   display: inline-block;
   margin: 0 4px;
 }
@@ -1888,10 +1895,22 @@ input[type='radio'] + label {
   display: flex;
   align-items: baseline;
 }
-.scroll-contant .listing-block .property-card .bottom .property-utils figure img {
+.scroll-contant
+  .listing-block
+  .property-card
+  .bottom
+  .property-utils
+  figure
+  img {
   width: 18px;
 }
-.scroll-contant .listing-block .property-card .bottom .property-utils figure span {
+.scroll-contant
+  .listing-block
+  .property-card
+  .bottom
+  .property-utils
+  figure
+  span {
   font-size: 8px;
   line-height: 32px;
   color: #171717;
@@ -1937,10 +1956,11 @@ input[type='radio'] + label {
   background-color: #5fc3ac;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 0;
   cursor: pointer;
   padding-top: 10px;
   padding-bottom: 10px;
+  font-size: 12px;
 }
 .scheduleButton {
   background-color: #e74c3c;
@@ -1959,7 +1979,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 /* Firefox */
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 /* ---- */
@@ -1967,7 +1987,9 @@ input[type='number'] {
   padding: 10px;
   display: block;
 }
-.calculatorDetailDiv input[type=number],.calculatorDetailDiv input[type=text], .calculatorDetailDiv select{
+.calculatorDetailDiv input[type="number"],
+.calculatorDetailDiv input[type="text"],
+.calculatorDetailDiv select {
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -1989,33 +2011,109 @@ input[type='number'] {
   font-weight: bold;
   letter-spacing: 2px;
 }
-.leftInput input{
-  padding-left: 45px!important;
+.leftInput input {
+  padding-left: 45px !important;
 }
 .leftInput span {
   position: absolute;
   top: 10px;
   left: 20px;
 }
-.rightInput span{
+.rightInput span {
   position: absolute;
   top: 10px;
   right: 20px;
 }
-.rightInput input{
+.rightInput input {
   padding-right: 45px;
 }
-.opac-0{
+.opac-0 {
   opacity: 0;
 }
-.dropdownIcon{
+.dropdownIcon {
   display: flex;
   align-items: c;
 }
-.dropdownIcon i{
+.dropdownIcon i {
   font-size: 20px;
   color: rgb(0, 106, 255);
 }
-.minorDetail{
+.minorDetail {
   font-size: 12px;
+}
+.scheduleCardHeading {
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(209, 209, 213);
+}
+.dateCardInActive {
+  border: 2px solid rgb(209, 209, 213);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 4px;
+}
+.dateCardActive {
+  border: 2px solid #336699;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: rgb(242, 250, 255);
+  border-radius: 4px;
+}
+.dateCardInActive p {
+  font-size: 12px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.dateCardActive p {
+  font-size: 12px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+#schedule .react-multiple-carousel__arrow--left,.date-details .react-multiple-carousel__arrow--left{
+  left: calc(-12% + 1px) !important;
+}
+#schedule .react-multiple-carousel__arrow--left:focus,
+#schedule .react-multiple-carousel__arrow--right:focus,.date-details  .react-multiple-carousel__arrow--left:focus,
+.date-details .react-multiple-carousel__arrow--right:focus{
+  outline: none;
+}
+#schedule .react-multiple-carousel__arrow--right,.date-details .react-multiple-carousel__arrow--right{
+  right: calc(-12% + 1px) !important;
+}
+#schedule .react-multi-carousel-list, .date-details .react-multi-carousel-list {
+  position: unset;
+}
+#schedule select ,.date-details select{
+  width: 90%;
+  margin: 10px auto;
+  padding: 9px 48px 9px 16px;
+  background-color: rgb(246, 246, 250);
+  border: 1px solid rgb(209, 209, 213);
+  border-radius: 4px;
+  box-sizing: border-box;
+  caret-color: rgb(0, 106, 255);
+  cursor: text;
+  outline: none;
+  box-shadow: none;
+  color: rgb(42, 42, 51);
+  -webkit-font-smoothing: antialiased;
+  text-transform: none;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  height: auto;
+  background-image: url(data:image/svg+xml,%0A%3Csvg%20width%3D%2240px%22%20height%3D%2228px%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpath%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke%3D%22%2354545A%22%20stroke-width%3D%222%22%20d%3D%22M28.657%2012L23%2017.657%2017.343%2012%22%20transform%3D%22translate%28-7%2C%200%29%22%20%2F%3E%0A%3C%2Fsvg%3E);
+  background-repeat: no-repeat;
+  appearance: none;
+  background-position: right;
+}
+#schedule #selectDatebutton ,.date-details .offerMakeButton{
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px !important;
 }

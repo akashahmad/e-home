@@ -5,9 +5,9 @@ import axios from "axios";
 
 const AdviserCards = ({ agentData, lenderData }) => {
   return (
-    <div className="col-12 d-flex px-0">
+    <div className="col-12  px-0">
       {/* Card for agent */}
-      <div className="profile_section_container mt-4 mb-4 col-6 pl-0 align-items-center">
+      <div className="profile_section_container mt-4 mb-4 col-10 mx-auto pl-0 align-items-center">
         <div className="col-12 px-2 py-2 card">
           <div className={`d-flex icon_title_container align-items-center px-2 ${agentData ? " " :"pb-4"}`}>
             <div>
@@ -88,7 +88,7 @@ const AdviserCards = ({ agentData, lenderData }) => {
         </div>
       </div>
       {/* card for lender */}
-      <div className="profile_section_container mt-4 mb-4 col-6 pr-0 align-items-center">
+      <div className="profile_section_container mt-4 mb-4 col-10 mx-auto  align-items-center pl-0 ">
         <div className="col-12 px-2 py-2 card">
         <div className={`d-flex icon_title_container align-items-center px-2 ${lenderData ? " " :"pb-4"}`}>
             <div>
