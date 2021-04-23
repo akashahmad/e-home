@@ -50,3 +50,11 @@
   .profile_section_container form label{
     font-size: 10px;
   }
+  .tabsList li{
+    font-size: 10px;
+    cursor: pointer;
+  }
+  .tabsList li:first-child{
+    border-bottom: 1px solid #336699 !important;
+    color: #336699 !important;
+  }

@@ -1868,6 +1868,7 @@ input[type="radio"] + label {
 }
 .scroll-contant .listing-block .property-card .bottom {
   padding: 12px;
+  min-height: 200px;
 }
 .scroll-contant .listing-block .property-card .bottom .left-area {
   position: relative;

@@ -309,16 +309,6 @@ const PropertyDetails = ({
                 </svg>
                 <span className="label"> Share </span>
               </li>
-              <li className="action">
-                <svg viewBox="0 0 32 32" focusable="false" role="img">
-                  <g stroke="none">
-                    <path d="M16,14a2,2,0,1,1-2,2,2,2,0,0,1,2-2m0-2a4,4,0,1,0,4,4,4,4,0,0,0-4-4Z"></path>
-                    <path d="M6,14a2,2,0,1,1-2,2,2,2,0,0,1,2-2m0-2a4,4,0,1,0,4,4,4,4,0,0,0-4-4Z"></path>
-                    <path d="M26,14a2,2,0,1,1-2,2,2,2,0,0,1,2-2m0-2a4,4,0,1,0,4,4,4,4,0,0,0-4-4Z"></path>
-                  </g>
-                </svg>
-                <span className="label"> More </span>
-              </li>
             </ul>
           </div>
           {!modalLoader && myProperty ? (
@@ -361,7 +351,11 @@ const PropertyDetails = ({
                         <span className="ds-bed-bath-living-area">
                           {myProperty.size ? (
                             <span>
-                              {myProperty.size && myProperty.size + " sqft"}
+                              {myProperty.size &&
+                                myProperty.size
+                                  .toString()
+                                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+                                  " sqft"}
                             </span>
                           ) : (
                             <>
@@ -383,20 +377,31 @@ const PropertyDetails = ({
                 <div className="col-6">
                   <div className="hweBDL ds-price-change-address-row">
                     <div>
-                      <h1 className="efSAZl">
-                        {
+                      <h1 className="efSAZl" style={{ fontSize: "10px" }}>
+                        {/* {
                           <span>
                             {myProperty.address.street &&
                               myProperty.address.street}
-                            ,{" "}
+                            ,
                           </span>
                         }
                         <span>
-                          &nbsp;{" "}
-                          {myProperty.address.city && myProperty.address.city},{" "}
+                          &nbsp;
+                          {myProperty.address.city &&
+                          myProperty.address.city.indexOf("Twp") !== -1
+                            ? myProperty.address.city.split("Twp.").join("")
+                            : myProperty.address.city}
+                          ,{" "}
                           {myProperty.address.state && myProperty.address.state}{" "}
                           {myProperty.address.zip && myProperty.address.zip}
-                        </span>
+                        </span> */}
+                        {myProperty.address.street}
+                        {myProperty.address.street && <br />}
+                        {myProperty.address.city &&
+                          myProperty.address.city.indexOf("Twp") !== -1
+                            ? myProperty.address.city.split("Twp.").join("")
+                            : myProperty.address.city} , {myProperty.address.state}
+                        &nbsp;{myProperty.address.zip}
                       </h1>
                     </div>
                   </div>
@@ -429,16 +434,67 @@ const PropertyDetails = ({
 
                   <div className="ds-mortgage-row">
                     <div className="sc-pJurq cTjcEC">
+                      <div
+                        style={{
+                          minWidth: "20px",
+                          minHeight: "20px",
+                          borderRadius: "20px",
+                          backgroundColor: "#336699",
+                        }}
+                        className="d-flex justify-content-center align-items-center mr-1"
+                      >
+                        <i
+                          class="fa fa-info"
+                          style={{
+                            color: "white",
+                            fontSize: "10px",
+                          }}
+                        ></i>
+                      </div>
                       <span className="sc-oTmZL kfNTWi">Status :&nbsp;</span>
                       <span>For {propertyType}</span>
                     </div>
                     <div className="sc-pJurq cTjcEC">
+                      <div
+                        style={{
+                          minWidth: "20px",
+                          minHeight: "20px",
+                          borderRadius: "20px",
+                          backgroundColor: "#336699",
+                        }}
+                        className="d-flex justify-content-center align-items-center mr-1"
+                      >
+                        <i
+                          class="fa fa-chart-area"
+                          style={{
+                            color: "white",
+                            fontSize: "10px",
+                          }}
+                        ></i>
+                      </div>
                       <span className="sc-oTmZL kfNTWi">MLS# &nbsp;</span>
                       <span>12354556</span>
                     </div>
                     <div className="sc-pJurq cTjcEC">
+                      <div
+                        style={{
+                          minWidth: "20px",
+                          minHeight: "20px",
+                          borderRadius: "20px",
+                          backgroundColor: "#336699",
+                        }}
+                        className="d-flex justify-content-center align-items-center mr-1"
+                      >
+                        <i
+                          class="fa fa-money-bill-wave"
+                          style={{
+                            color: "white",
+                            fontSize: "10px",
+                          }}
+                        ></i>
+                      </div>
                       <span className="sc-oTmZL kfNTWi">
-                        Estimated Payment :&nbsp;
+                        Est Payment :&nbsp;
                       </span>
                       <span>$ per/mo</span>
                     </div>
@@ -628,7 +684,7 @@ const PropertyDetails = ({
                       Schdule a Showing
                     </a>
                   </li>
-                  <li
+                  {/* <li
                     className="eVYrJu"
                     onClick={() => setActiveMenu("makeOffer")}
                   >
@@ -638,7 +694,7 @@ const PropertyDetails = ({
                     >
                       Make an Offer
                     </a>
-                  </li>
+                  </li> */}
                   <li className="eVYrJu" onClick={() => setActiveMenu("cost")}>
                     <a
                       href="#cost"
@@ -1603,7 +1659,11 @@ const PropertyDetails = ({
               </ul>
             </div>
           </div>
-          <Modal modalClassName='date-details' toggle={() => setShowDateModal(false)} isOpen={showDateModal }>
+          <Modal
+            modalClassName="date-details"
+            toggle={() => setShowDateModal(false)}
+            isOpen={showDateModal}
+          >
             <ModalBody>
               <div className="mx-auto  p-2 card">
                 <p
@@ -1665,7 +1725,7 @@ const PropertyDetails = ({
                   <option>7:00 pm</option>
                 </select>
                 <button
-                 onClick={()=>setShowDateModal(false)}
+                  onClick={() => setShowDateModal(false)}
                   className="offerMakeButton my-4"
                   style={{ backgroundColor: "#336699" }}
                 >

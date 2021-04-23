@@ -439,6 +439,7 @@ select {
 }
 .listing-sec-area .listing-column .listing-inner .listing-block .bottom {
   padding: 20px;
+  min-height: 200px;
 }
 
 .listing-sec-area
