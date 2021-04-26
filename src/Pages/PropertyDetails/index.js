@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./details.css";
 import logo from "../../assets/images/eHomeoffer.png";
 import { LineChart } from "./../../Components/LineChart";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import AdviserCards from "./AdviserCards";
 import {
@@ -17,6 +17,17 @@ import { apiUrl, publicToken } from "../../config";
 import axios from "axios";
 import Carousel from "react-multi-carousel";
 import { Modal, ModalBody } from "reactstrap";
+import OutsideClick from "@alphasquad/outside-click";
+import OutsideClickHandler from 'react-outside-click-handler';
+
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  LinkedinIcon,
+} from "react-share";
 const PropertyDetails = ({
   propertyId,
   propertyMarket,
@@ -36,6 +47,7 @@ const PropertyDetails = ({
   const [lenderData, setLenderData] = useState(null);
   const [blogs, setblogs] = useState(null);
   const [provider, setProvider] = useState(null);
+  const [showSocial, setShowSocial] = useState(false);
 
   // for tabs
   const [showPrincipal, setShowPrincipal] = useState(false);
@@ -52,7 +64,7 @@ const PropertyDetails = ({
   const [modalDates, setModalDates] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDateModal, setShowDateModal] = useState(false);
-
+  console.log(myProperty, "check my property");
   // for getting data for provider
   useEffect(() => {
     let config = {
@@ -252,6 +264,7 @@ const PropertyDetails = ({
     setActiveMenu("overview");
     onCardClick(state, city, zip, id, market);
   };
+  let location = typeof window !== "undefined" && window.location;
   return (
     <div
       className={`property-details-content ${
@@ -290,7 +303,10 @@ const PropertyDetails = ({
                 </svg>
                 <span className="label"> Save </span>
               </li>
-              <li className="action">
+              <li
+                className="action shareList"
+                onClick={() => setShowSocial(!showSocial)}
+              >
                 <svg
                   version="1.1"
                   viewBox="0 0 23 18"
@@ -308,6 +324,28 @@ const PropertyDetails = ({
                   </g>
                 </svg>
                 <span className="label"> Share </span>
+                {showSocial && (
+                  <OutsideClickHandler onOutsideClick={() => setShowSocial(false)}>
+                    <div className="socialSharingDiv">
+                      <FacebookShareButton url={location && location}>
+                        <div onClick={() => setShowSocial(false)}>
+                          <FacebookIcon round={true} />
+                        </div>
+                      </FacebookShareButton>
+                      <LinkedinShareButton url={location && location}>
+                        <div onClick={() => setShowSocial(false)}>
+                          <LinkedinIcon round={true} />
+                        </div>
+                      </LinkedinShareButton>
+
+                      <TwitterShareButton url={location && location}>
+                        <div onClick={() => setShowSocial(false)}>
+                          <TwitterIcon round={true} />
+                        </div>
+                      </TwitterShareButton>
+                    </div>
+                  </OutsideClickHandler>
+                )}
               </li>
             </ul>
           </div>
@@ -398,9 +436,10 @@ const PropertyDetails = ({
                         {myProperty.address.street}
                         {myProperty.address.street && <br />}
                         {myProperty.address.city &&
-                          myProperty.address.city.indexOf("Twp") !== -1
-                            ? myProperty.address.city.split("Twp.").join("")
-                            : myProperty.address.city} , {myProperty.address.state}
+                        myProperty.address.city.indexOf("Twp") !== -1
+                          ? myProperty.address.city.split("Twp.").join("")
+                          : myProperty.address.city}{" "}
+                        , {myProperty.address.state}
                         &nbsp;{myProperty.address.zip}
                       </h1>
                     </div>
@@ -662,7 +701,7 @@ const PropertyDetails = ({
                       Contact Advisors
                     </a>
                   </li>
-                  <li
+                  {/* <li
                     className="eVYrJu"
                     onClick={() => setActiveMenu("financing")}
                   >
@@ -672,7 +711,7 @@ const PropertyDetails = ({
                     >
                       Get Financing
                     </a>
-                  </li>
+                  </li> */}
                   <li
                     className="eVYrJu"
                     onClick={() => setActiveMenu("showing")}

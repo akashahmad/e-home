@@ -34,3 +34,49 @@
     transform: rotate(360deg);
   }
 }
+.listingPlaceHolder {
+  background-color: white;
+  box-shadow: 0.835px 5.942px 8px rgb(0 0 0 / 13%);
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+.listingPlaceHolder .imgArea {
+  border-radius: 15px;
+  width: 100%;
+  height: 290px;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+}
+.listingPlaceHolder .bottom {
+  padding: 20px;
+  min-height: 205px;
+}
+.listingPlaceHolder .bottom .loadingBars {
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  min-height: 20px;
+  margin-bottom: 15px;
+}
+.listingPlaceHolder .bottom .loadingBars:first-child {
+  margin-bottom: 40px;
+}
+.shareList {
+  position: relative;
+  cursor: pointer;
+}
+.socialSharingDiv {
+  position: absolute;
+  display: flex;
+  top: 52px;
+  background-color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-shadow: 0.835px 5.942px 8px rgb(0 0 0 / 13%);
+  border-radius: 15px;
+  right: 0;
+}
+.socialSharingDiv svg {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.socialSharingDiv button:focus {
+  outline: none;
+}
