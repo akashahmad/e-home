@@ -18,7 +18,7 @@ import axios from "axios";
 import Carousel from "react-multi-carousel";
 import { Modal, ModalBody } from "reactstrap";
 import OutsideClick from "@alphasquad/outside-click";
-import OutsideClickHandler from 'react-outside-click-handler';
+import OutsideClickHandler from "react-outside-click-handler";
 
 import {
   FacebookShareButton,
@@ -265,6 +265,7 @@ const PropertyDetails = ({
     onCardClick(state, city, zip, id, market);
   };
   let location = typeof window !== "undefined" && window.location;
+  console.log(myProperty, "check my property");
   return (
     <div
       className={`property-details-content ${
@@ -325,7 +326,9 @@ const PropertyDetails = ({
                 </svg>
                 <span className="label"> Share </span>
                 {showSocial && (
-                  <OutsideClickHandler onOutsideClick={() => setShowSocial(false)}>
+                  <OutsideClickHandler
+                    onOutsideClick={() => setShowSocial(false)}
+                  >
                     <div className="socialSharingDiv">
                       <FacebookShareButton url={location && location}>
                         <div onClick={() => setShowSocial(false)}>
@@ -569,7 +572,7 @@ const PropertyDetails = ({
                   <div className="sc-pJurq cTjcEC">
                     <span className="sc-oTmZL kfNTWi">
                       <Link
-                        to={`/wizard/${myProperty.id}`}
+                        to={`/wizard/${myProperty.id}?market=${myProperty.market}`}
                         className="w-100 d-flex align-items-center"
                       >
                         <div
@@ -626,7 +629,10 @@ const PropertyDetails = ({
               </button>
             </div>
             <div className="col-6">
-              <Link to={`/wizard/${myProperty.id}`} className="w-100">
+              <Link
+                to={`/wizard/${myProperty.id}?market=${myProperty.market}`}
+                className="w-100"
+              >
                 <button className="offerMakeButton">
                   Make Your Instant Offer
                 </button>

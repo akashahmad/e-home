@@ -224,6 +224,7 @@ class Listings extends Component {
           this.setState({ modalLoader: false });
         }, 1000);
       });
+      
     this.setState({ propertyModal: true });
   };
 

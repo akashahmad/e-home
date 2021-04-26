@@ -98,7 +98,10 @@ function MapProperty(props) {
   };
   useEffect(() => {
     if (props.myProperties.listings) {
-      props.setDataFromMap(props.myProperties.listings);
+      if(props.setDataFromMap){
+        props.setDataFromMap(props.myProperties.listings);
+      }
+     
     }
   }, [props.myProperties]);
 
