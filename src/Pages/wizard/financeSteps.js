@@ -6,6 +6,10 @@ import YesImage from "../../assets/wizardImages/yes@3x.png";
 import NoImage from "../../assets/wizardImages/no-stopping@3x.png";
 // step 3 images
 import TimeImage from "../../assets/wizardImages/fast@3x.png";
+import PoorImage from "../../assets/wizardImages/bankruptcy@3x.png";
+import YellowLike from "../../assets/wizardImages/like@3x.png";
+import BlueLike from "../../assets/wizardImages/like-copy@3x.png";
+import GreenLike from "../../assets/wizardImages/like-copy-2@3x.png";
 // step 4 images
 import SaverImage from "../../assets/wizardImages/bankruptcy@3x.png";
 import LoanImage from "../../assets/wizardImages/loan@3x.png";
@@ -21,7 +25,7 @@ const Index = ({ step, setStep }) => {
   let history = useHistory();
 
   const nextStepHandler = () => {
-    if (step === 6) {
+    if (step === 8) {
       history.push("/");
       return;
     }
@@ -98,7 +102,6 @@ const Index = ({ step, setStep }) => {
       {/* step two ends */}
       {/* step 3 starts */}
       {step === 3 && (
-
         <div class="container steps_container px-0 py-5">
           <div class="col-12 px-0 d-flex justify-content-between">
             <div class="col-12 col-lg-6 col-xl-6 px-0">
@@ -110,7 +113,169 @@ const Index = ({ step, setStep }) => {
               </div>
               <div class="title_container py-3">
                 <p class="text-secondary font-weight-bold">
-                  How quickly are you wanting to close?
+                  Estimate your FICO credit score?
+                </p>
+              </div>
+              <div class="d-flex justify-content-around py-3">
+                <div class="w_22p">
+                  <div
+                    onClick={() => setDays("none")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      days === "none" ? "activeDiv" : ""
+                    }`}
+                  >
+                    <img src={PoorImage} />
+                  </div>
+                  <p class="text-center m-0 py-2 text-secondary">
+                    {"Poor < 580 "}
+                  </p>
+                </div>
+                <div class="w_22p">
+                  <div
+                    onClick={() => setDays("10%")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      days === "10%" ? "activeDiv" : ""
+                    }`}
+                  >
+                    <img src={YellowLike} />
+                  </div>
+                  <p class="text-center m-0 py-2 text-secondary">
+                    Fair 580-620
+                  </p>
+                </div>
+                <div class="w_22p">
+                  <div
+                    onClick={() => setDays("60days")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      days === "60days" ? "activeDiv" : ""
+                    }`}
+                  >
+                    <img src={BlueLike} />
+                  </div>
+                  <p class="text-center m-0 py-2 text-secondary">
+                    Good 620-700
+                  </p>
+                </div>
+                <div class="w_22p">
+                  <div
+                    onClick={() => setDays("80days")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      days === "80days" ? "activeDiv" : ""
+                    }`}
+                  >
+                    <img src={GreenLike} />
+                  </div>
+                  <p class="text-center m-0 py-2 text-secondary">
+                    Excellent 700 +
+                  </p>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end py-5">
+                <button
+                  type="submit"
+                  class="btn btn-primary px-4 mx-3"
+                  onClick={() => setStep(2)}
+                >
+                  Back
+                </button>
+                <button
+                  //   disabled={!days}
+                  class="btn btn-primary px-4"
+                  onClick={() => nextStepHandler()}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+            <div class="col-12 right_side col-lg-4 col-xl-4 px-0">
+              <WizardCard />
+            </div>
+          </div>
+        </div>
+      )}
+      {/* step 3 ends */}
+      {/* step 4 starts */}
+      {step === 4 && (
+        <div className="container steps_container px-0 py-5">
+          <div className="col-12 px-0 d-flex justify-content-between">
+            <div className="col-12 col-lg-6 col-xl-6 px-0">
+              <div className="col-12 px-0 progress_container">
+                <div className="progress px-0 col-7"></div>
+              </div>
+              <div className="title_container pt-5">
+                <h1>Make An Offer</h1>
+              </div>
+              <div className="title_container py-3">
+                <p className="text-secondary font-weight-bold">
+                  Do you already secured financing to make an offer on this
+                  house?
+                </p>
+              </div>
+              <div className="d-flex justify-content-around py-3">
+                <div className="w_22p">
+                  <div
+                    onClick={() => setIsVisited("yes")}
+                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      isVisited === "yes" ? "activeDiv" : ""
+                    }`}
+                  >
+                    <img src={YesImage} />
+                  </div>
+                  <p className="text-center m-0 py-2 text-secondary">Yes</p>
+                </div>
+                <div className="w_22p">
+                  <div
+                    onClick={() => setIsVisited("no")}
+                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      isVisited === "no" ? "activeDiv" : ""
+                    }`}
+                  >
+                    <img src={NoImage} />
+                  </div>
+                  <p className="text-center m-0 py-2 text-secondary">No</p>
+                </div>
+              </div>
+              <div className="d-flex justify-content-end py-5">
+                <button
+                  type="submit"
+                  className="btn btn-primary px-4 mx-3"
+                  onClick={() => setStep(3)}
+                >
+                  Back
+                </button>
+                <button
+                  //   disabled={!isVisited}
+                  type="submit"
+                  className="btn btn-primary px-4"
+                  onClick={() => nextStepHandler()}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+
+            <div className="col-12 right_side col-lg-4 col-xl-5 px-0">
+              <WizardCard />
+            </div>
+          </div>
+        </div>
+      )}
+      {/* step 4 ends */}
+      {/* step 5 stars */}
+      {step === 5 && (
+        <div className="container steps_container px-0 py-5">
+          <div className="col-12 px-0 d-flex justify-content-between">
+            <div className="col-12 col-lg-6 col-xl-6 px-0">
+              <div className="col-12 px-0 progress_container">
+                <div className="progress px-0 col-10"></div>
+              </div>
+              <div className="title_container pt-5">
+                <h1>Make An Offer</h1>
+              </div>
+              <div className="title_container py-3">
+                <p className="text-secondary font-weight-bold">
+                  What is the amount of down payment you will apply towards your
+                  financing?
                 </p>
               </div>
 
@@ -164,49 +329,44 @@ const Index = ({ step, setStep }) => {
                   </p>
                 </div>
               </div>
-              
 
-
-              <div class="d-flex justify-content-end py-5">
+              <div className="d-flex justify-content-end py-5">
                 <button
                   type="submit"
-                  class="btn btn-primary px-4 mx-3"
-                  onClick={() => setStep(2)}
+                  className="btn btn-primary px-4 mx-3"
+                  onClick={() => setStep(4)}
                 >
                   Back
                 </button>
                 <button
-                  disabled={!days}
-                  class="btn btn-primary px-4"
+                  //   disabled={!inspect}
+                  type="submit"
+                  className="btn btn-primary px-4"
                   onClick={() => nextStepHandler()}
                 >
                   Next
                 </button>
               </div>
             </div>
-            <div class="col-12 right_side col-lg-4 col-xl-4 px-0">
+
+            <div className="col-12 right_side col-lg-4 col-xl-5 px-0">
               <WizardCard />
             </div>
           </div>
         </div>
-      
-      
       )}
-      {/* step 3 ends */}
-      {/* step 4 starts */}
-      {step === 4 && (
-        <div class="container steps_container px-0 py-5">
-          <div class="col-12 px-0 d-flex justify-content-between">
-            <div class="col-12 col-lg-6 col-xl-6 px-0">
-              <div class="col-12 px-0 progress_container">
-                <div class="progress px-0 col-8"></div>
+      {/* step 5 ends */}
+      {/* step 6 starts */}
+      {step === 6 && (
+        <div className="container steps_container px-0 py-5">
+          <div className="col-12 px-0 d-flex justify-content-between">
+            <div className="col-12 col-lg-6 col-xl-6 px-0">
+              <div className="col-12 px-0 progress_container">
+                <div className="progress px-0 col-9"></div>
               </div>
-              <div class="title_container pt-5">
-                <h1>It’s Easy To Make An Offer</h1>
+              <div className="title_container pt-5">
+                <h1>Make An Offer</h1>
               </div>
-
-
-              
               <div class="title_container py-3 d-flex justify-content-between">
                 <div class="col-5 px-0">
                   <p class="text-secondary font-weight-bold">
@@ -240,7 +400,7 @@ const Index = ({ step, setStep }) => {
                   >
                     <img src={SaverImage} />
                   </div>
-                  <p class="text-center m-0 py-2 text-secondary">none</p>
+                  <p class="text-center m-0 py-2 text-secondary">$1.000</p>
                 </div>
                 <div class="w_22p">
                   <div
@@ -251,7 +411,7 @@ const Index = ({ step, setStep }) => {
                   >
                     <img src={LoanImage} />
                   </div>
-                  <p class="text-center m-0 py-2 text-secondary">5%</p>
+                  <p class="text-center m-0 py-2 text-secondary">$5,000</p>
                 </div>
                 <div class="w_22p">
                   <div
@@ -262,9 +422,7 @@ const Index = ({ step, setStep }) => {
                   >
                     <img src={LoanImage} />
                   </div>
-                  <p class="text-center m-0 py-2 text-secondary">
-                    10% Recomended
-                  </p>
+                  <p class="text-center m-0 py-2 text-secondary">1% of offer</p>
                 </div>
                 <div class="w_22p">
                   <div
@@ -275,145 +433,12 @@ const Index = ({ step, setStep }) => {
                   >
                     <img src={LoanImage} />
                   </div>
-                  <p class="text-center m-0 py-2 text-secondary">15% or More</p>
+                  <p class="text-center m-0 py-2 text-secondary">
+                    5% of offer +
+                  </p>
                 </div>
               </div>
-             
-             
-             
-             
-             
-              <div class="d-flex justify-content-end py-5">
-                <button
-                  type="submit"
-                  class="btn btn-primary px-4 mx-3"
-                  onClick={() => setStep(3)}
-                >
-                  Back
-                </button>
-                <button
-                  type="submit"
-                  class="btn btn-primary px-4"
-                  disabled={!cashOffer || !provide}
-                  onClick={() => nextStepHandler()}
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-            <div class="col-12 right_side col-lg-4 col-xl-5 px-0">
-              <WizardCard />
-            </div>
-          </div>
-        </div>
-      )}
-      {/* step 4 ends */}
-      {/* step 5 stars */}
-      {step === 5 && (
-        <div className="container steps_container px-0 py-5">
-          <div className="col-12 px-0 d-flex justify-content-between">
-            <div className="col-12 col-lg-6 col-xl-6 px-0">
-              <div className="col-12 px-0 progress_container">
-                <div className="progress px-0 col-10"></div>
-              </div>
-              <div className="title_container pt-5">
-                <h1>Make An Offer</h1>
-              </div>
-              <div className="title_container py-3">
-                <p className="text-secondary font-weight-bold">
-                  Will you require an inspection on the property?
-                </p>
-              </div>
-              <div className="d-flex justify-content-around py-3">
-                <div className="w_22p">
-                  <div
-                    onClick={() => setInspect("yes")}
-                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      inspect === "yes" ? "activeDiv" : ""
-                    }`}
-                  >
-                    <img src={YesImage} />
-                  </div>
-                  <p className="text-center m-0 py-2 text-secondary">Yes</p>
-                </div>
-                <div className="w_22p">
-                  <div
-                    onClick={() => setInspect("no")}
-                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      inspect === "no" ? "activeDiv" : ""
-                    }`}
-                  >
-                    <img src={NoImage} />
-                  </div>
-                  <p className="text-center m-0 py-2 text-secondary">No</p>
-                </div>
-              </div>
-              <div className="d-flex justify-content-end py-5">
-                <button
-                  type="submit"
-                  className="btn btn-primary px-4 mx-3"
-                  onClick={() => setStep(4)}
-                >
-                  Back
-                </button>
-                <button
-                  disabled={!inspect}
-                  type="submit"
-                  className="btn btn-primary px-4"
-                  onClick={() => nextStepHandler()}
-                >
-                  Next
-                </button>
-              </div>
-            </div>
 
-            <div className="col-12 right_side col-lg-4 col-xl-5 px-0">
-              <WizardCard />
-            </div>
-          </div>
-        </div>
-      )}
-      {/* step 5 ends */}
-      {/* step 6 starts */}
-      {step === 6 && (
-        <div className="container steps_container px-0 py-5">
-          <div className="col-12 px-0 d-flex justify-content-between">
-            <div className="col-12 col-lg-6 col-xl-6 px-0">
-              <div className="col-12 px-0 progress_container">
-                <div className="progress px-0 col-10"></div>
-              </div>
-              <div className="title_container pt-5">
-                <h1>Make An Offer</h1>
-              </div>
-              <div className="title_container py-3">
-                <p className="text-secondary font-weight-bold">
-                  Will you require an appraisal on the property?
-                </p>
-              </div>
-              <div className="d-flex justify-content-around py-3">
-                <div className="w_22p">
-                  <div
-                    onClick={() => setAppraisal("yes")}
-                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      appraisal === "yes" ? "activeDiv" : ""
-                    }`}
-                  >
-                    <img src={YesImage} />
-                  </div>
-                  <p className="text-center m-0 py-2 text-secondary">Yes</p>
-                </div>
-                <div className="w_22p">
-                  <div
-                    onClick={() => setAppraisal("no")}
-                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      appraisal === "no" ? "activeDiv" : ""
-                    }`}
-                  >
-                    <img src={NoImage} />
-                  </div>
-                  <p className="text-center m-0 py-2 text-secondary">No</p>
-                </div>
-              </div>
               <div className="d-flex justify-content-end py-5">
                 <button
                   type="submit"
@@ -423,7 +448,7 @@ const Index = ({ step, setStep }) => {
                   Back
                 </button>
                 <button
-                  disabled={!appraisal}
+                  //   disabled={!appraisal}
                   type="submit"
                   className="btn btn-primary px-4"
                   onClick={() => nextStepHandler()}
@@ -439,7 +464,133 @@ const Index = ({ step, setStep }) => {
           </div>
         </div>
       )}
-      {/* step 6 ends */}
+      {step === 7 && (
+        <div className="container steps_container px-0 py-5">
+          <div className="col-12 px-0 d-flex justify-content-between">
+            <div className="col-12 col-lg-6 col-xl-6 px-0">
+              <div className="col-12 px-0 progress_container">
+                <div className="progress px-0 col-10"></div>
+              </div>
+              <div className="title_container pt-5">
+                <h1>Make An Offer</h1>
+              </div>
+              <div className="form-check py-2">
+                <input type="checkbox" class="form-check-input" />
+                <label
+                  className="form-check-label font-weight-bold text-muted"
+                  for="Check1"
+                >
+                  By checking this box you agree to have our ehomefunding
+                  mortgage advisors review your offer and reach out to you
+                  directly. eHomefunding has very competitive financing
+                  programs.
+                  <span className="text_blue">
+                    Agree to terms & conditions.
+                  </span>
+                </label>
+              </div>
+              <div class="form-check py-2">
+                <input type="checkbox" className="form-check-input" />
+                <label
+                  className="form-check-label font-weight-bold text-muted"
+                  for="Check1"
+                >
+                  By checking this box you understand that a lender may require
+                  a home inspection and appraisal as part of your purchasing
+                  this property.
+                  <span className="text_blue">
+                    Agree to terms & conditions.
+                  </span>
+                </label>
+              </div>
+
+              <div className="d-flex justify-content-end py-5">
+                <button
+                  type="submit"
+                  className="btn btn-primary px-4 mx-3"
+                  onClick={() => setStep(6)}
+                >
+                  Back
+                </button>
+                <button
+                  //   disabled={!appraisal}
+                  type="submit"
+                  className="btn btn-primary px-4"
+                  onClick={() => nextStepHandler()}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+
+            <div className="col-12 right_side col-lg-4 col-xl-5 px-0">
+              <WizardCard />
+            </div>
+          </div>
+        </div>
+      )}
+      {/* step 7 ends */}
+      {step === 8 && (
+        <div className="container steps_container px-0 py-5">
+          <div className="col-12 px-0 d-flex justify-content-between">
+            <div className="col-12 col-lg-6 col-xl-6 px-0">
+              <div className="col-12 px-0 progress_container">
+                <div className="progress px-0 col-12"></div>
+              </div>
+              <div className="title_container pt-5">
+                <h1>Make An Offer</h1>
+              </div>
+              <div className="form-check py-2">
+                <input type="checkbox" className="form-check-input" />
+                <label
+                  className="form-check-label font-weight-bold text-muted"
+                  for="Check1"
+                >
+                  By checking this box you agree to utilize our eHomeoffer
+                  advisor as your buyer real estate agent to represent you in
+                  this offer.
+                  <span className="text_blue">
+                    Agree to terms & conditions.
+                  </span>
+                </label>
+              </div>
+              <div className="form-check py-2">
+                <input type="checkbox" className="form-check-input" />
+                <label
+                  className="form-check-label font-weight-bold text-muted"
+                  for="Check1"
+                >
+                  By checking this box you agree that your offer is a legally
+                  binding agreement, and it is your unequivocal intent to
+                  acquire the property based on the terms you presented.
+                </label>
+              </div>
+
+              <div className="d-flex justify-content-end py-5">
+                <button
+                  type="submit"
+                  className="btn btn-primary px-4 mx-3"
+                  onClick={() => setStep(6)}
+                >
+                  Back
+                </button>
+                <button
+                  //   disabled={!appraisal}
+                  type="submit"
+                  className="btn btn-primary px-4"
+                  onClick={() => nextStepHandler()}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+
+            <div className="col-12 right_side col-lg-4 col-xl-5 px-0">
+              <WizardCard />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

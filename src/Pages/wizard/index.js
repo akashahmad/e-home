@@ -5,6 +5,7 @@ import WizardCard from "./wizardCard";
 import cashImage from "../../assets/wizardImages/cash@3x.png";
 import handImage from "../../assets/wizardImages/hand@3x.png";
 import CashSteps from "./cashSteps";
+import FinanceSteps from "./financeSteps"
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { bePath } from "../../apiPaths";
@@ -216,6 +217,9 @@ const Index = () => {
       )}
       {type === "cash" && step > 1 && (
         <CashSteps step={step} setStep={setStep} />
+      )}
+      {type === "finance" && step > 1 && (
+        <FinanceSteps step={step} setStep={setStep} />
       )}
     </div>
   );
