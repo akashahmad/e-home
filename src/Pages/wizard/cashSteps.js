@@ -1,66 +1,95 @@
-import './index.css';
-import WizardCard from './wizardCard';
-import { useState } from 'react';
+import "./index.css";
+import WizardCard from "./wizardCard";
+import { useState } from "react";
 // step 2 images
-import YesImage from '../../assets/wizardImages/yes@3x.png';
-import NoImage from '../../assets/wizardImages/no-stopping@3x.png';
+import YesImage from "../../assets/wizardImages/yes@3x.png";
+import NoImage from "../../assets/wizardImages/no-stopping@3x.png";
 // step 3 images
-import TimeImage from '../../assets/wizardImages/fast@3x.png';
+import TimeImage from "../../assets/wizardImages/fast@3x.png";
 // step 4 images
-import SaverImage from '../../assets/wizardImages/bankruptcy@3x.png';
-import LoanImage from '../../assets/wizardImages/loan@3x.png';
+import SaverImage from "../../assets/wizardImages/bankruptcy@3x.png";
+import LoanImage from "../../assets/wizardImages/loan@3x.png";
+import { useHistory } from "react-router-dom";
 const Index = ({ step, setStep }) => {
-  const [isVisited, setIsVisited] = useState('');
-  const [days, setDays] = useState('');
+  const [isVisited, setIsVisited] = useState("");
+  const [days, setDays] = useState("");
   const [cashOffer, setCashOffer] = useState(null);
-  const [provide, setProvide] = useState('');
-  const [inspect, setInspect] = useState('');
-  const [appraisal, setAppraisal] = useState('');
+  const [provide, setProvide] = useState("");
+  const [inspect, setInspect] = useState("");
+  const [appraisal, setAppraisal] = useState("");
+
+  let history = useHistory();
+
   const nextStepHandler = () => {
+    if (step === 6) {
+      history.push("/");
+      return;
+    }
     setStep(step + 1);
   };
-  console.log(step, 'check is visiteddd');
+  console.log(step, "check step");
   return (
     <div>
       {/* step 2 starts */}
       {step === 2 && (
-        <div className='container steps_container px-0 py-5'>
-          <div className='col-12 px-0 d-flex justify-content-between'>
-            <div className='col-12 col-lg-6 col-xl-6 px-0'>
-              <div className='col-12 px-0 progress_container'>
-                <div className='progress px-0 col-5'></div>
+        <div className="container steps_container px-0 py-5">
+          <div className="col-12 px-0 d-flex justify-content-between">
+            <div className="col-12 col-lg-6 col-xl-6 px-0">
+              <div className="col-12 px-0 progress_container">
+                <div className="progress px-0 col-5"></div>
               </div>
-              <div className='title_container pt-5'>
+              <div className="title_container pt-5">
                 <h1>Make An Offer</h1>
               </div>
-              <div className='title_container py-3'>
-                <p className='text-secondary font-weight-bold'>Have you toured the property?</p>
+              <div className="title_container py-3">
+                <p className="text-secondary font-weight-bold">
+                  Have you toured the property?
+                </p>
               </div>
-              <div className='d-flex justify-content-around py-3'>
-                <div className='w_22p'>
-                  <div onClick={() => setIsVisited('yes')} className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${isVisited === 'yes' ? 'activeDiv' : ''}`}>
+              <div className="d-flex justify-content-around py-3">
+                <div className="w_22p">
+                  <div
+                    onClick={() => setIsVisited("yes")}
+                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      isVisited === "yes" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={YesImage} />
                   </div>
-                  <p className='text-center m-0 py-2 text-secondary'>Yes</p>
+                  <p className="text-center m-0 py-2 text-secondary">Yes</p>
                 </div>
-                <div className='w_22p'>
-                  <div onClick={() => setIsVisited('no')} className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${isVisited === 'no' ? 'activeDiv' : ''}`}>
+                <div className="w_22p">
+                  <div
+                    onClick={() => setIsVisited("no")}
+                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      isVisited === "no" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={NoImage} />
                   </div>
-                  <p className='text-center m-0 py-2 text-secondary'>No</p>
+                  <p className="text-center m-0 py-2 text-secondary">No</p>
                 </div>
               </div>
-              <div className='d-flex justify-content-end py-5'>
-                <button type='submit' className='btn btn-primary px-4 mx-3' onClick={() => setStep(1)}>
+              <div className="d-flex justify-content-end py-5">
+                <button
+                  type="submit"
+                  className="btn btn-primary px-4 mx-3"
+                  onClick={() => setStep(1)}
+                >
                   Back
                 </button>
-                <button disabled={!isVisited} type='submit' className='btn btn-primary px-4' onClick={() => nextStepHandler()}>
+                <button
+                  disabled={!isVisited}
+                  type="submit"
+                  className="btn btn-primary px-4"
+                  onClick={() => nextStepHandler()}
+                >
                   Next
                 </button>
               </div>
             </div>
 
-            <div className='col-12 right_side col-lg-4 col-xl-5 px-0'>
+            <div className="col-12 right_side col-lg-4 col-xl-5 px-0">
               <WizardCard />
             </div>
           </div>
@@ -69,54 +98,88 @@ const Index = ({ step, setStep }) => {
       {/* step two ends */}
       {/* step 3 starts */}
       {step === 3 && (
-        <div class='container steps_container px-0 py-5'>
-          <div class='col-12 px-0 d-flex justify-content-between'>
-            <div class='col-12 col-lg-6 col-xl-6 px-0'>
-              <div class='col-12 px-0 progress_container'>
-                <div class='progress px-0 col-6'></div>
+        <div class="container steps_container px-0 py-5">
+          <div class="col-12 px-0 d-flex justify-content-between">
+            <div class="col-12 col-lg-6 col-xl-6 px-0">
+              <div class="col-12 px-0 progress_container">
+                <div class="progress px-0 col-6"></div>
               </div>
-              <div class='title_container pt-5'>
+              <div class="title_container pt-5">
                 <h1>Make An Offer</h1>
               </div>
-              <div class='title_container py-3'>
-                <p class='text-secondary font-weight-bold'>How quickly are you wanting to close?</p>
+              <div class="title_container py-3">
+                <p class="text-secondary font-weight-bold">
+                  How quickly are you wanting to close?
+                </p>
               </div>
-              <div class='d-flex justify-content-around py-3'>
-                <div class='w_22p'>
-                  <div onClick={() => setDays('none')} class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${days === 'none' ? 'activeDiv' : ''}`}>
+              <div class="d-flex justify-content-around py-3">
+                <div class="w_22p">
+                  <div
+                    onClick={() => setDays("none")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      days === "none" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={TimeImage} />
                   </div>
-                  <p class='text-center m-0 py-2 text-secondary'>none%</p>
+                  <p class="text-center m-0 py-2 text-secondary">none%</p>
                 </div>
-                <div class='w_22p'>
-                  <div onClick={() => setDays('10%')} class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${days === '10%' ? 'activeDiv' : ''}`}>
+                <div class="w_22p">
+                  <div
+                    onClick={() => setDays("10%")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      days === "10%" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={TimeImage} />
                   </div>
-                  <p class='text-center m-0 py-2 text-secondary'>10%</p>
+                  <p class="text-center m-0 py-2 text-secondary">10%</p>
                 </div>
-                <div class='w_22p'>
-                  <div onClick={() => setDays('60days')} class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${days === '60days' ? 'activeDiv' : ''}`}>
+                <div class="w_22p">
+                  <div
+                    onClick={() => setDays("60days")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      days === "60days" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={TimeImage} />
                   </div>
-                  <p class='text-center m-0 py-2 text-secondary'>Within 60 Days</p>
+                  <p class="text-center m-0 py-2 text-secondary">
+                    Within 60 Days
+                  </p>
                 </div>
-                <div class='w_22p'>
-                  <div onClick={() => setDays('80days')} class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${days === '80days' ? 'activeDiv' : ''}`}>
+                <div class="w_22p">
+                  <div
+                    onClick={() => setDays("80days")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      days === "80days" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={TimeImage} />
                   </div>
-                  <p class='text-center m-0 py-2 text-secondary'>Within 80 Days</p>
+                  <p class="text-center m-0 py-2 text-secondary">
+                    Within 80 Days
+                  </p>
                 </div>
               </div>
-              <div class='d-flex justify-content-end py-5'>
-                <button type='submit' class='btn btn-primary px-4 mx-3' onClick={() => setStep(2)}>
+              <div class="d-flex justify-content-end py-5">
+                <button
+                  type="submit"
+                  class="btn btn-primary px-4 mx-3"
+                  onClick={() => setStep(2)}
+                >
                   Back
                 </button>
-                <button disabled={!days} class='btn btn-primary px-4' onClick={() => nextStepHandler()}>
+                <button
+                  disabled={!days}
+                  class="btn btn-primary px-4"
+                  onClick={() => nextStepHandler()}
+                >
                   Next
                 </button>
               </div>
             </div>
-            <div class='col-12 right_side col-lg-4 col-xl-4 px-0'>
+            <div class="col-12 right_side col-lg-4 col-xl-4 px-0">
               <WizardCard />
             </div>
           </div>
@@ -125,64 +188,105 @@ const Index = ({ step, setStep }) => {
       {/* step 3 ends */}
       {/* step 4 starts */}
       {step === 4 && (
-        <div class='container steps_container px-0 py-5'>
-          <div class='col-12 px-0 d-flex justify-content-between'>
-            <div class='col-12 col-lg-6 col-xl-6 px-0'>
-              <div class='col-12 px-0 progress_container'>
-                <div class='progress px-0 col-8'></div>
+        <div class="container steps_container px-0 py-5">
+          <div class="col-12 px-0 d-flex justify-content-between">
+            <div class="col-12 col-lg-6 col-xl-6 px-0">
+              <div class="col-12 px-0 progress_container">
+                <div class="progress px-0 col-8"></div>
               </div>
-              <div class='title_container pt-5'>
+              <div class="title_container pt-5">
                 <h1>It’s Easy To Make An Offer</h1>
               </div>
-              <div class='title_container py-3 d-flex justify-content-between'>
-                <div class='col-5 px-0'>
-                  <p class='text-secondary font-weight-bold'>What is your all cash offer?</p>
+              <div class="title_container py-3 d-flex justify-content-between">
+                <div class="col-5 px-0">
+                  <p class="text-secondary font-weight-bold">
+                    What is your all cash offer?
+                  </p>
                 </div>
-                <div class='col-7 px-0'>
-                  <input class='w-100 px-3' placeholder='$' defaultValue={cashOffer} onChange={(e) => setCashOffer(e.target.value)} />
+                <div class="col-7 px-0">
+                  <input
+                    class="w-100 px-3"
+                    placeholder="$"
+                    defaultValue={cashOffer}
+                    onChange={(e) => setCashOffer(e.target.value)}
+                  />
                 </div>
               </div>
-              <div class='title_container'>
-                <div class='px-0'>
-                  <p class='text-secondary font-weight-bold'>How much earnest money will you provide as part of this offer?</p>
+              <div class="title_container">
+                <div class="px-0">
+                  <p class="text-secondary font-weight-bold">
+                    How much earnest money will you provide as part of this
+                    offer?
+                  </p>
                 </div>
               </div>
-              <div class='d-flex justify-content-around py-3'>
-                <div class='w_22p'>
-                  <div onClick={() => setProvide('none')} class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${provide === 'none' ? 'activeDiv' : ''}`}>
+              <div class="d-flex justify-content-around py-3">
+                <div class="w_22p">
+                  <div
+                    onClick={() => setProvide("none")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      provide === "none" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={SaverImage} />
                   </div>
-                  <p class='text-center m-0 py-2 text-secondary'>none</p>
+                  <p class="text-center m-0 py-2 text-secondary">none</p>
                 </div>
-                <div class='w_22p'>
-                  <div onClick={() => setProvide('5%')} class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${provide === '5%' ? 'activeDiv' : ''}`}>
+                <div class="w_22p">
+                  <div
+                    onClick={() => setProvide("5%")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      provide === "5%" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={LoanImage} />
                   </div>
-                  <p class='text-center m-0 py-2 text-secondary'>5%</p>
+                  <p class="text-center m-0 py-2 text-secondary">5%</p>
                 </div>
-                <div class='w_22p'>
-                  <div onClick={() => setProvide('10%')} class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${provide === '10%' ? 'activeDiv' : ''}`}>
+                <div class="w_22p">
+                  <div
+                    onClick={() => setProvide("10%")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      provide === "10%" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={LoanImage} />
                   </div>
-                  <p class='text-center m-0 py-2 text-secondary'>10% Recomended</p>
+                  <p class="text-center m-0 py-2 text-secondary">
+                    10% Recomended
+                  </p>
                 </div>
-                <div class='w_22p'>
-                  <div onClick={() => setProvide('15%')} class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${provide === '15%' ? 'activeDiv' : ''}`}>
+                <div class="w_22p">
+                  <div
+                    onClick={() => setProvide("15%")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      provide === "15%" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={LoanImage} />
                   </div>
-                  <p class='text-center m-0 py-2 text-secondary'>15% or More</p>
+                  <p class="text-center m-0 py-2 text-secondary">15% or More</p>
                 </div>
               </div>
-              <div class='d-flex justify-content-end py-5'>
-                <button type='submit' class='btn btn-primary px-4 mx-3' onClick={() => setStep(3)}>
+              <div class="d-flex justify-content-end py-5">
+                <button
+                  type="submit"
+                  class="btn btn-primary px-4 mx-3"
+                  onClick={() => setStep(3)}
+                >
                   Back
                 </button>
-                <button type='submit' class='btn btn-primary px-4' disabled={!cashOffer || !provide} onClick={() => nextStepHandler()}>
+                <button
+                  type="submit"
+                  class="btn btn-primary px-4"
+                  disabled={!cashOffer || !provide}
+                  onClick={() => nextStepHandler()}
+                >
                   Next
                 </button>
               </div>
             </div>
-            <div class='col-12 right_side col-lg-4 col-xl-5 px-0'>
+            <div class="col-12 right_side col-lg-4 col-xl-5 px-0">
               <WizardCard />
             </div>
           </div>
@@ -191,43 +295,64 @@ const Index = ({ step, setStep }) => {
       {/* step 4 ends */}
       {/* step 5 stars */}
       {step === 5 && (
-        <div className='container steps_container px-0 py-5'>
-          <div className='col-12 px-0 d-flex justify-content-between'>
-            <div className='col-12 col-lg-6 col-xl-6 px-0'>
-              <div className='col-12 px-0 progress_container'>
-                <div className='progress px-0 col-10'></div>
+        <div className="container steps_container px-0 py-5">
+          <div className="col-12 px-0 d-flex justify-content-between">
+            <div className="col-12 col-lg-6 col-xl-6 px-0">
+              <div className="col-12 px-0 progress_container">
+                <div className="progress px-0 col-10"></div>
               </div>
-              <div className='title_container pt-5'>
+              <div className="title_container pt-5">
                 <h1>Make An Offer</h1>
               </div>
-              <div className='title_container py-3'>
-                <p className='text-secondary font-weight-bold'>Will you require an inspection on the property?</p>
+              <div className="title_container py-3">
+                <p className="text-secondary font-weight-bold">
+                  Will you require an inspection on the property?
+                </p>
               </div>
-              <div className='d-flex justify-content-around py-3'>
-                <div className='w_22p'>
-                  <div onClick={() => setInspect('yes')} className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${inspect === 'yes' ? 'activeDiv' : ''}`}>
+              <div className="d-flex justify-content-around py-3">
+                <div className="w_22p">
+                  <div
+                    onClick={() => setInspect("yes")}
+                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      inspect === "yes" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={YesImage} />
                   </div>
-                  <p className='text-center m-0 py-2 text-secondary'>Yes</p>
+                  <p className="text-center m-0 py-2 text-secondary">Yes</p>
                 </div>
-                <div className='w_22p'>
-                  <div onClick={() => setInspect('no')} className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${inspect === 'no' ? 'activeDiv' : ''}`}>
+                <div className="w_22p">
+                  <div
+                    onClick={() => setInspect("no")}
+                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      inspect === "no" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={NoImage} />
                   </div>
-                  <p className='text-center m-0 py-2 text-secondary'>No</p>
+                  <p className="text-center m-0 py-2 text-secondary">No</p>
                 </div>
               </div>
-              <div className='d-flex justify-content-end py-5'>
-                <button type='submit' className='btn btn-primary px-4 mx-3' onClick={() => setStep(4)}>
+              <div className="d-flex justify-content-end py-5">
+                <button
+                  type="submit"
+                  className="btn btn-primary px-4 mx-3"
+                  onClick={() => setStep(4)}
+                >
                   Back
                 </button>
-                <button disabled={!inspect} type='submit' className='btn btn-primary px-4' onClick={() => nextStepHandler()}>
+                <button
+                  disabled={!inspect}
+                  type="submit"
+                  className="btn btn-primary px-4"
+                  onClick={() => nextStepHandler()}
+                >
                   Next
                 </button>
               </div>
             </div>
 
-            <div className='col-12 right_side col-lg-4 col-xl-5 px-0'>
+            <div className="col-12 right_side col-lg-4 col-xl-5 px-0">
               <WizardCard />
             </div>
           </div>
@@ -236,43 +361,64 @@ const Index = ({ step, setStep }) => {
       {/* step 5 ends */}
       {/* step 6 starts */}
       {step === 6 && (
-        <div className='container steps_container px-0 py-5'>
-          <div className='col-12 px-0 d-flex justify-content-between'>
-            <div className='col-12 col-lg-6 col-xl-6 px-0'>
-              <div className='col-12 px-0 progress_container'>
-                <div className='progress px-0 col-10'></div>
+        <div className="container steps_container px-0 py-5">
+          <div className="col-12 px-0 d-flex justify-content-between">
+            <div className="col-12 col-lg-6 col-xl-6 px-0">
+              <div className="col-12 px-0 progress_container">
+                <div className="progress px-0 col-10"></div>
               </div>
-              <div className='title_container pt-5'>
+              <div className="title_container pt-5">
                 <h1>Make An Offer</h1>
               </div>
-              <div className='title_container py-3'>
-                <p className='text-secondary font-weight-bold'>Will you require an appraisal on the property?</p>
+              <div className="title_container py-3">
+                <p className="text-secondary font-weight-bold">
+                  Will you require an appraisal on the property?
+                </p>
               </div>
-              <div className='d-flex justify-content-around py-3'>
-                <div className='w_22p'>
-                  <div onClick={() => setAppraisal('yes')} className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${appraisal === 'yes' ? 'activeDiv' : ''}`}>
+              <div className="d-flex justify-content-around py-3">
+                <div className="w_22p">
+                  <div
+                    onClick={() => setAppraisal("yes")}
+                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      appraisal === "yes" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={YesImage} />
                   </div>
-                  <p className='text-center m-0 py-2 text-secondary'>Yes</p>
+                  <p className="text-center m-0 py-2 text-secondary">Yes</p>
                 </div>
-                <div className='w_22p'>
-                  <div onClick={() => setAppraisal('no')} className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${appraisal === 'no' ? 'activeDiv' : ''}`}>
+                <div className="w_22p">
+                  <div
+                    onClick={() => setAppraisal("no")}
+                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      appraisal === "no" ? "activeDiv" : ""
+                    }`}
+                  >
                     <img src={NoImage} />
                   </div>
-                  <p className='text-center m-0 py-2 text-secondary'>No</p>
+                  <p className="text-center m-0 py-2 text-secondary">No</p>
                 </div>
               </div>
-              <div className='d-flex justify-content-end py-5'>
-                <button type='submit' className='btn btn-primary px-4 mx-3' onClick={() => setStep(5)}>
+              <div className="d-flex justify-content-end py-5">
+                <button
+                  type="submit"
+                  className="btn btn-primary px-4 mx-3"
+                  onClick={() => setStep(5)}
+                >
                   Back
                 </button>
-                <button disabled={!appraisal} type='submit' className='btn btn-primary px-4' onClick={() => nextStepHandler()}>
+                <button
+                  disabled={!appraisal}
+                  type="submit"
+                  className="btn btn-primary px-4"
+                  onClick={() => nextStepHandler()}
+                >
                   Next
                 </button>
               </div>
             </div>
 
-            <div className='col-12 right_side col-lg-4 col-xl-5 px-0'>
+            <div className="col-12 right_side col-lg-4 col-xl-5 px-0">
               <WizardCard />
             </div>
           </div>

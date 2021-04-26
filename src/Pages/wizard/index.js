@@ -17,7 +17,7 @@ const Index = () => {
   const [email, setEmail] = useState("");
   const [property, setProperty] = useState(null);
   const location = useLocation();
-  console.log(location, "check location");
+  
   const formSubmitHandler = (e) => {
     e.preventDefault();
     setStep(1);
