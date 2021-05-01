@@ -2118,3 +2118,21 @@ input[type="number"] {
   margin-right: auto;
   border-radius: 4px !important;
 }
+.property-details-content {
+  position: relative;
+}
+.detailTypetTag{
+  position: absolute;
+  background-color: white;
+    margin-top: 20px;
+    margin-left: 20px;
+    padding: 5px 10px;
+}
+.ds-price-change-address-row{
+  display: flex;
+  align-items: flex-start;
+  margin-top: 5px;
+}
+.ds-price-change-address-row h1{
+  margin-left: 10px;
+}

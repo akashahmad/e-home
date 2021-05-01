@@ -19,7 +19,10 @@ import Carousel from "react-multi-carousel";
 import { Modal, ModalBody } from "reactstrap";
 import OutsideClick from "@alphasquad/outside-click";
 import OutsideClickHandler from "react-outside-click-handler";
-
+import LocationIcon from "../../assets/images/location_icon.png";
+import BedIcon from "../../assets/images/bed_icon.png";
+import BathIcon from "../../assets/images/bath_icon.png";
+import FtIcon from "../../assets/images/ft_icon.png";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -265,13 +268,37 @@ const PropertyDetails = ({
     onCardClick(state, city, zip, id, market);
   };
   let location = typeof window !== "undefined" && window.location;
-  console.log(myProperty, "check my property");
   return (
     <div
       className={`property-details-content ${
         modalLoader ? "d-flex justify-content-center align-items-center" : ""
       }`}
     >
+      {/* The absolute div of status */}
+      {!modalLoader && (
+        <div className="sc-pJurq cTjcEC detailTypetTag">
+          <div
+            style={{
+              minWidth: "20px",
+              minHeight: "20px",
+              borderRadius: "20px",
+              backgroundColor: "#336699",
+            }}
+            className="d-flex justify-content-center align-items-center mr-1"
+          >
+            <i
+              class="fa fa-info"
+              style={{
+                color: "white",
+                fontSize: "10px",
+              }}
+            ></i>
+          </div>
+          <span className="sc-oTmZL kfNTWi">Status :&nbsp;</span>
+          <span>For {propertyType}</span>
+        </div>
+      )}
+      {/* The absolute div of status */}
       <section className="photos-container">
         {!modalLoader && myProperty && myProperty.images ? (
           myProperty.images.map((item) => {
@@ -369,27 +396,42 @@ const PropertyDetails = ({
 
                     <div className="ds-bed-bath-living-area-header">
                       <span className="ds-bed-bath-living-area-container">
-                        <span className="ds-bed-bath-living-area">
+                        <span className="ds-bed-bath-living-area mr-3">
+                          <img
+                            src={BedIcon}
+                            alt="Bed Icon"
+                            style={{ width: "20px" }}
+                            className="mr-1"
+                          />
                           <span>{myProperty.beds && myProperty.beds}</span>
                           <span className="ds-summary-row-label-secondary">
                             {" "}
-                            bd
+                            Beds
                           </span>
                         </span>
-                        <span className="ds-vertical-divider"></span>
-                        <button className="gPeOdD iQTawV">
-                          <span className="ds-bed-bath-living-area">
-                            <span>
-                              {myProperty.baths && myProperty.baths.total}
-                            </span>
-                            <span className="ds-summary-row-label-secondary">
-                              {" "}
-                              ba
-                            </span>
+                        <span className="ds-bed-bath-living-area mr-3">
+                          <img
+                            src={BathIcon}
+                            alt="Bed Icon"
+                            style={{ width: "20px" }}
+                            className="mr-1"
+                          />
+                          <span>
+                            {" "}
+                            {myProperty.baths && myProperty.baths.total}
                           </span>
-                        </button>
-                        <span className="ds-vertical-divider"></span>
+                          <span className="ds-summary-row-label-secondary">
+                            {" "}
+                            Baths
+                          </span>
+                        </span>
                         <span className="ds-bed-bath-living-area">
+                          <img
+                            src={FtIcon}
+                            alt="Bed Icon"
+                            style={{ width: "20px" }}
+                            className="mr-1"
+                          />
                           {myProperty.size ? (
                             <span>
                               {myProperty.size &&
@@ -417,6 +459,7 @@ const PropertyDetails = ({
               <div className="d-flex align-items-end">
                 <div className="col-6">
                   <div className="hweBDL ds-price-change-address-row">
+                    <img src={LocationIcon}/>
                     <div>
                       <h1 className="efSAZl" style={{ fontSize: "10px" }}>
                         {/* {
@@ -475,28 +518,7 @@ const PropertyDetails = ({
                   </div> */}
 
                   <div className="ds-mortgage-row">
-                    <div className="sc-pJurq cTjcEC">
-                      <div
-                        style={{
-                          minWidth: "20px",
-                          minHeight: "20px",
-                          borderRadius: "20px",
-                          backgroundColor: "#336699",
-                        }}
-                        className="d-flex justify-content-center align-items-center mr-1"
-                      >
-                        <i
-                          class="fa fa-info"
-                          style={{
-                            color: "white",
-                            fontSize: "10px",
-                          }}
-                        ></i>
-                      </div>
-                      <span className="sc-oTmZL kfNTWi">Status :&nbsp;</span>
-                      <span>For {propertyType}</span>
-                    </div>
-                    <div className="sc-pJurq cTjcEC">
+                    <div className="sc-pJurq cTjcEC mb-2">
                       <div
                         style={{
                           minWidth: "20px",
@@ -536,7 +558,7 @@ const PropertyDetails = ({
                         ></i>
                       </div>
                       <span className="sc-oTmZL kfNTWi">
-                        Est Payment :&nbsp;
+                        Est Paymt :&nbsp;
                       </span>
                       <span>$ per/mo</span>
                     </div>
@@ -634,7 +656,7 @@ const PropertyDetails = ({
                 className="w-100"
               >
                 <button className="offerMakeButton">
-                  Make Your Instant Offer
+                Instant Offer
                 </button>
               </Link>
             </div>

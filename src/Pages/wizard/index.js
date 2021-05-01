@@ -5,7 +5,7 @@ import WizardCard from "./wizardCard";
 import cashImage from "../../assets/wizardImages/cash@3x.png";
 import handImage from "../../assets/wizardImages/hand@3x.png";
 import CashSteps from "./cashSteps";
-import FinanceSteps from "./financeSteps"
+import FinanceSteps from "./financeSteps";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { bePath } from "../../apiPaths";
@@ -18,7 +18,7 @@ const Index = () => {
   const [email, setEmail] = useState("");
   const [property, setProperty] = useState(null);
   const location = useLocation();
-  
+
   const formSubmitHandler = (e) => {
     e.preventDefault();
     setStep(1);
@@ -31,6 +31,7 @@ const Index = () => {
     setStep(2);
   };
   useEffect(() => {
+    localStorage.removeItem("wizardProperty")
     let slug = location.pathname.split("wizard/")[1];
     let market = location.search.split("?market=")[1];
     if (slug && market) {
@@ -44,6 +45,10 @@ const Index = () => {
             "&details=true&extended=true&images=true"
         )
         .then((res) => {
+          localStorage.setItem(
+            "wizardProperty",
+            JSON.stringify(res.data.result.listing[0])
+          );
           setProperty(res.data.result.listing[0]);
           setTimeout(() => {}, 1000);
         });
