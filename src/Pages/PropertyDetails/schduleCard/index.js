@@ -86,7 +86,7 @@ const Index = ({ modalDates, myProperty, setShowDateModal }) => {
     </html>
     `;
     if (!name) {
-      console.log(name, "check name");
+    
       setNameError("Please enter your name");
       return;
     }

@@ -14,7 +14,28 @@ import GreenLike from "../../assets/wizardImages/like-copy-2@3x.png";
 import SaverImage from "../../assets/wizardImages/bankruptcy@3x.png";
 import LoanImage from "../../assets/wizardImages/loan@3x.png";
 import { useHistory } from "react-router-dom";
-const Index = ({ step, setStep }) => {
+import { emailPath, emailFrom, emailTo } from "../../apiPaths";
+import axios from "axios";
+import { urlReturn } from "../../helpers";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
+const Index = ({
+  step,
+  setStep,
+  name,
+  lastName,
+  phone,
+  email,
+  type,
+  property,
+}) => {
+  const replaceValue = (text, name, value) => {
+    const lastName = name;
+    const sol = text.replace(name, value);
+    return sol.indexOf(name) !== -1 ? replaceValue(sol, lastName, value) : sol;
+  };
   const [isVisited, setIsVisited] = useState("Yes");
   const [cashOffer, setCashOffer] = useState(null);
   const [provide, setProvide] = useState("$1.000");
@@ -27,16 +48,85 @@ const Index = ({ step, setStep }) => {
   const [insepection, setInspection] = useState(false);
   const [represent, setRepresent] = useState(false);
   const [agreement, setAgreemnt] = useState(false);
+  const [loading, setLoading] = useState(false);
   let history = useHistory();
 
   const nextStepHandler = () => {
     if (step === 9) {
-      history.push("/");
+      setLoading(true);
+      let message = `
+      <html>
+      <head>
+      <style>
+      #eHomeEmailBody p, #eHomeEmailBody ul li{
+        color:black!important;
+      }
+      </style>
+      </head>
+      <body id="eHomeEmailBody">
+      <p><b>Hi,</b></p>
+      <p> I hope this email finds you in good health.</p>
+      <p>I want to make an instant offer for <a href="[[link]]" target="_blank">this</a> particular property</p>
+      <br/>
+      <p><b>Here are details.</b></p>
+      <ul>
+      <li>My Full-name is: [[name]]</li>
+      <li>My email is: [[email]]</li>
+      <li>Phone: [[phone]]</li>
+      <li>Offer Type:Requiring Financing</li>
+      <li>Have you toured the property:[[isVisited]]</li>
+      <li>Estimate your FICO credit score:[[fico]]</li>
+      <li>Will your offer be contingent upon your current property selling:[[contingent]]</li>
+      <li>Do you already secured financing to make an offer on this house:[[alreadySecured]]</li>
+      <li>What is the amount of down payment you will apply towards your financing:[[downPayment]]</li>
+      <li>What is your all cash offer:[[cashOffer]]</li>
+      <li>How much earnest money will you provide as part of this offer?:[[provide]]</li>
+      </ul>
+      </body>
+      </html>
+      `;
+      message = replaceValue(message, "[[link]]", urlReturn(property));
+      message = replaceValue(message, "[[name]]", name + " " + lastName);
+      message = replaceValue(message, "[[email]]", email);
+      message = replaceValue(message, "[[phone]]", phone);
+      message = replaceValue(message, "[[isVisited]]", isVisited);
+      message = replaceValue(message, "[[fico]]", fico);
+      message = replaceValue(message, "[[contingent]]", contingent);
+      message = replaceValue(message, "[[alreadySecured]]", alreadySecured);
+      message = replaceValue(message, "[[downPayment]]", downPayment);
+      message = replaceValue(message, "[[cashOffer]]", cashOffer);
+      message = replaceValue(message, "[[provide]]", provide);
+
+      let data = {
+        FromAddress: emailFrom,
+        ToAddresses: [emailTo],
+        Subject: "Instant offer for property",
+        Message: message,
+      };
+      axios
+        .post(emailPath, data)
+        .then((res) => {
+          NotificationManager.success(
+            "Email has been processed",
+            "Offer submission"
+          );
+          setLoading(false);
+          history.push("/");
+        })
+        .catch((err) => {
+          NotificationManager.error(
+            "Something went wrong.Please try again",
+            "Offer submission"
+          );
+          setLoading(false);
+        });
+
+      return;
       return;
     }
     setStep(step + 1);
   };
-  
+
   return (
     <div>
       {/* step 2 starts */}
@@ -69,7 +159,7 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div className="w_22p">
                   <div
-                    onClick={() => setIsVisited("Yo")}
+                    onClick={() => setIsVisited("No")}
                     className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
                       isVisited === "No" ? "activeDiv" : ""
                     }`}
@@ -673,7 +763,10 @@ const Index = ({ step, setStep }) => {
                   className="btn btn-primary px-4"
                   onClick={() => nextStepHandler()}
                 >
-                  Submit
+                  {
+                    loading ? "Submitting" : "  Submit"
+                  }
+                
                 </button>
               </div>
             </div>

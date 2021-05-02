@@ -10,24 +10,111 @@ import TimeImage from "../../assets/wizardImages/fast@3x.png";
 import SaverImage from "../../assets/wizardImages/bankruptcy@3x.png";
 import LoanImage from "../../assets/wizardImages/loan@3x.png";
 import { useHistory } from "react-router-dom";
-const Index = ({ step, setStep }) => {
+import { emailPath, emailFrom, emailTo } from "../../apiPaths";
+import axios from "axios";
+import { urlReturn } from "../../helpers";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
+
+const Index = ({
+  step,
+  setStep,
+  name,
+  lastName,
+  phone,
+  email,
+  type,
+  property,
+}) => {
+  const replaceValue = (text, name, value) => {
+    const lastName = name;
+    const sol = text.replace(name, value);
+    return sol.indexOf(name) !== -1 ? replaceValue(sol, lastName, value) : sol;
+  };
   const [isVisited, setIsVisited] = useState("Yes");
   const [days, setDays] = useState("None");
   const [cashOffer, setCashOffer] = useState(null);
   const [provide, setProvide] = useState("None");
   const [inspect, setInspect] = useState("Yes");
   const [appraisal, setAppraisal] = useState("Yes");
-
+  const [loading, setLoading] = useState(false);
   let history = useHistory();
 
   const nextStepHandler = () => {
     if (step === 6) {
-      history.push("/");
+      setLoading(true);
+      let message = `
+      <html>
+      <head>
+      <style>
+      #eHomeEmailBody p, #eHomeEmailBody ul li{
+        color:black!important;
+      }
+      </style>
+      </head>
+      <body id="eHomeEmailBody">
+      <p><b>Hi,</b></p>
+      <p> I hope this email finds you in good health.</p>
+      <p>I want to make an instant offer for <a href="[[link]]" target="_blank">this</a> particular property</p>
+      <br/>
+      <p><b>Here are details.</b></p>
+      <ul>
+      <li>My Full-name is: [[name]]</li>
+      <li>My email is: [[email]]</li>
+      <li>Phone: [[phone]]</li>
+      <li>Offer Type:All cash</li>
+      <li>Have you toured the property:[[isVisited]]</li>
+      <li>How quickly are you wanting to close:[[days]]</li>
+      <li>What is your all cash offer:$[[cashOffer]]</li>
+      <li>How much earnest money will you provide as part of this offer:[[provide]]</li>
+      <li>Will you require an inspection on the property:[[inspect]]</li>
+      <li>Will you require an appraisal on the property :[[appraisal]]</li>
+      </ul>
+      </body>
+      </html>
+      `;
+      message = replaceValue(message, "[[link]]", urlReturn(property));
+      message = replaceValue(message, "[[name]]", name + " " + lastName);
+      message = replaceValue(message, "[[email]]", email);
+      message = replaceValue(message, "[[phone]]", phone);
+      message = replaceValue(message, "[[isVisited]]", isVisited);
+      message = replaceValue(message, "[[days]]", days);
+      message = replaceValue(message, "[[cashOffer]]", cashOffer);
+      message = replaceValue(message, "[[provide]]", provide);
+      message = replaceValue(message, "[[inspect]]", inspect);
+      message = replaceValue(message, "[[appraisal]]", appraisal);
+
+      let data = {
+        FromAddress: emailFrom,
+        ToAddresses: [emailTo],
+        Subject: "Instant offer for property",
+        Message: message,
+      };
+      axios
+        .post(emailPath, data)
+        .then((res) => {
+          NotificationManager.success(
+            "Email has been processed",
+            "Offer submission"
+          );
+          setLoading(false);
+          history.push("/");
+        })
+        .catch((err) => {
+          NotificationManager.error(
+            "Something went wrong.Please try again",
+            "Offer submission"
+          );
+          setLoading(false);
+        });
+
       return;
     }
     setStep(step + 1);
   };
-  console.log(step, "check step");
+
   return (
     <div>
       {/* step 2 starts */}
@@ -98,7 +185,6 @@ const Index = ({ step, setStep }) => {
       {/* step two ends */}
       {/* step 3 starts */}
       {step === 3 && (
-
         <div class="container steps_container px-0 py-5">
           <div class="col-12 px-0 d-flex justify-content-between">
             <div class="col-12 col-lg-6 col-xl-6 px-0">
@@ -164,8 +250,6 @@ const Index = ({ step, setStep }) => {
                   </p>
                 </div>
               </div>
-              
-
 
               <div class="d-flex justify-content-end py-5">
                 <button
@@ -189,8 +273,6 @@ const Index = ({ step, setStep }) => {
             </div>
           </div>
         </div>
-      
-      
       )}
       {/* step 3 ends */}
       {/* step 4 starts */}
@@ -205,8 +287,6 @@ const Index = ({ step, setStep }) => {
                 <h1>It’s Easy To Make An Offer</h1>
               </div>
 
-
-              
               <div class="title_container py-3 d-flex justify-content-between">
                 <div class="col-5 px-0">
                   <p class="text-secondary font-weight-bold">
@@ -278,8 +358,7 @@ const Index = ({ step, setStep }) => {
                   <p class="text-center m-0 py-2 text-secondary">15% or More</p>
                 </div>
               </div>
-             
-             
+
               <div class="d-flex justify-content-end py-5">
                 <button
                   type="submit"
@@ -425,7 +504,7 @@ const Index = ({ step, setStep }) => {
                   className="btn btn-primary px-4"
                   onClick={() => nextStepHandler()}
                 >
-                  Next
+                  {loading ? "Submitting" : "Submit"}
                 </button>
               </div>
             </div>

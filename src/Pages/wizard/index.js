@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { bePath } from "../../apiPaths";
 const Index = () => {
+  
   const [step, setStep] = useState(0);
   const [type, setType] = useState("");
   const [name, setName] = useState("");
@@ -231,14 +232,35 @@ const Index = () => {
             </div>
           )}
           {type === "cash" && step > 1 && (
-            <CashSteps step={step} setStep={setStep} />
+            <CashSteps
+              step={step}
+              setStep={setStep}
+              name={name}
+              lastName={lastName}
+              phone={phone}
+              email={email}
+              type={type}
+              property={property}
+            />
           )}
           {type === "finance" && step > 1 && (
-            <FinanceSteps step={step} setStep={setStep} />
+            <FinanceSteps
+              step={step}
+              setStep={setStep}
+              name={name}
+              lastName={lastName}
+              phone={phone}
+              email={email}
+              type={type}
+              property={property}
+            />
           )}
         </div>
       ) : (
-        <div class="lds-ring d-flex align-items-center justify-content-center" style={{minHeight:"700px"}}>
+        <div
+          class="lds-ring d-flex align-items-center justify-content-center"
+          style={{ minHeight: "700px" }}
+        >
           <div></div>
           <div></div>
           <div></div>
