@@ -6,7 +6,7 @@ import MapProperty from "../../Components/MapProperty";
 import PropertyDetails from "./../PropertyDetails";
 import image16 from "../../assets/images/16.png";
 import { Modal, ModalBody } from "reactstrap";
-import { bePath, wpPath } from "../../apiPaths";
+import { bePath, wpPath,wpPath2} from "../../apiPaths";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 import CardLoader from "../../Components/mapCardPlaceHolder";
@@ -164,7 +164,7 @@ class Listings extends Component {
         let lenderId = search.split("=")[1];
         if (lenderId) {
           axios
-            .get(wpPath + "/advisors/get/lenders/uid=" + lenderId)
+            .get(wpPath2 + "/advisors/get/lenders/uid=" + lenderId)
             .then((res) => {
               localStorage.setItem("lenderData", JSON.stringify(res.data));
             });

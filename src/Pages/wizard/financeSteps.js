@@ -15,23 +15,28 @@ import SaverImage from "../../assets/wizardImages/bankruptcy@3x.png";
 import LoanImage from "../../assets/wizardImages/loan@3x.png";
 import { useHistory } from "react-router-dom";
 const Index = ({ step, setStep }) => {
-  const [isVisited, setIsVisited] = useState("");
-  const [days, setDays] = useState("");
+  const [isVisited, setIsVisited] = useState("Yes");
   const [cashOffer, setCashOffer] = useState(null);
-  const [provide, setProvide] = useState("");
-  const [inspect, setInspect] = useState("");
-  const [appraisal, setAppraisal] = useState("");
-
+  const [provide, setProvide] = useState("$1.000");
+  const [fico, setFico] = useState("580");
+  const [alreadySecured, setAlreadySecrured] = useState("Yes");
+  const [contingent, setContagent] = useState("Yes");
+  const [downPayment, setDownPayment] = useState("None");
+  // --------
+  const [eHomeFunding, setEhomeFunding] = useState(false);
+  const [insepection, setInspection] = useState(false);
+  const [represent, setRepresent] = useState(false);
+  const [agreement, setAgreemnt] = useState(false);
   let history = useHistory();
 
   const nextStepHandler = () => {
-    if (step === 8) {
+    if (step === 9) {
       history.push("/");
       return;
     }
     setStep(step + 1);
   };
-  console.log(step, "check step");
+  
   return (
     <div>
       {/* step 2 starts */}
@@ -53,9 +58,9 @@ const Index = ({ step, setStep }) => {
               <div className="d-flex justify-content-around py-3">
                 <div className="w_22p">
                   <div
-                    onClick={() => setIsVisited("yes")}
+                    onClick={() => setIsVisited("Yes")}
                     className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      isVisited === "yes" ? "activeDiv" : ""
+                      isVisited === "Yes" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={YesImage} />
@@ -64,9 +69,9 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div className="w_22p">
                   <div
-                    onClick={() => setIsVisited("no")}
+                    onClick={() => setIsVisited("Yo")}
                     className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      isVisited === "no" ? "activeDiv" : ""
+                      isVisited === "No" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={NoImage} />
@@ -119,9 +124,9 @@ const Index = ({ step, setStep }) => {
               <div class="d-flex justify-content-around py-3">
                 <div class="w_22p">
                   <div
-                    onClick={() => setDays("none")}
+                    onClick={() => setFico("580")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      days === "none" ? "activeDiv" : ""
+                      fico === "580" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={PoorImage} />
@@ -132,9 +137,9 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div class="w_22p">
                   <div
-                    onClick={() => setDays("10%")}
+                    onClick={() => setFico("580-620")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      days === "10%" ? "activeDiv" : ""
+                      fico === "580-620" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={YellowLike} />
@@ -145,9 +150,9 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div class="w_22p">
                   <div
-                    onClick={() => setDays("60days")}
+                    onClick={() => setFico("620-700")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      days === "60days" ? "activeDiv" : ""
+                      fico === "620-700" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={BlueLike} />
@@ -158,9 +163,9 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div class="w_22p">
                   <div
-                    onClick={() => setDays("80days")}
+                    onClick={() => setFico("700+")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      days === "80days" ? "activeDiv" : ""
+                      fico === "700+" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={GreenLike} />
@@ -207,16 +212,16 @@ const Index = ({ step, setStep }) => {
               </div>
               <div className="title_container py-3">
                 <p className="text-secondary font-weight-bold">
-                  Do you already secured financing to make an offer on this
-                  house?
+                  Will your offer be contingent upon your current property
+                  selling?
                 </p>
               </div>
               <div className="d-flex justify-content-around py-3">
                 <div className="w_22p">
                   <div
-                    onClick={() => setIsVisited("yes")}
+                    onClick={() => setContagent("Yes")}
                     className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      isVisited === "yes" ? "activeDiv" : ""
+                      contingent === "Yes" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={YesImage} />
@@ -225,9 +230,9 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div className="w_22p">
                   <div
-                    onClick={() => setIsVisited("no")}
+                    onClick={() => setContagent("No")}
                     className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      isVisited === "no" ? "activeDiv" : ""
+                      contingent === "No" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={NoImage} />
@@ -261,8 +266,76 @@ const Index = ({ step, setStep }) => {
         </div>
       )}
       {/* step 4 ends */}
-      {/* step 5 stars */}
+
+      {/* Step 5 starts */}
       {step === 5 && (
+        <div className="container steps_container px-0 py-5">
+          <div className="col-12 px-0 d-flex justify-content-between">
+            <div className="col-12 col-lg-6 col-xl-6 px-0">
+              <div className="col-12 px-0 progress_container">
+                <div className="progress px-0 col-7"></div>
+              </div>
+              <div className="title_container pt-5">
+                <h1>Make An Offer</h1>
+              </div>
+              <div className="title_container py-3">
+                <p className="text-secondary font-weight-bold">
+                  Do you already secured financing to make an offer on this
+                  house?
+                </p>
+              </div>
+              <div className="d-flex justify-content-around py-3">
+                <div className="w_22p">
+                  <div
+                    onClick={() => setAlreadySecrured("Yes")}
+                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      alreadySecured === "Yes" ? "activeDiv" : ""
+                    }`}
+                  >
+                    <img src={YesImage} />
+                  </div>
+                  <p className="text-center m-0 py-2 text-secondary">Yes</p>
+                </div>
+                <div className="w_22p">
+                  <div
+                    onClick={() => setAlreadySecrured("No")}
+                    className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      alreadySecured === "No" ? "activeDiv" : ""
+                    }`}
+                  >
+                    <img src={NoImage} />
+                  </div>
+                  <p className="text-center m-0 py-2 text-secondary">No</p>
+                </div>
+              </div>
+              <div className="d-flex justify-content-end py-5">
+                <button
+                  type="submit"
+                  className="btn btn-primary px-4 mx-3"
+                  onClick={() => setStep(4)}
+                >
+                  Back
+                </button>
+                <button
+                  //   disabled={!isVisited}
+                  type="submit"
+                  className="btn btn-primary px-4"
+                  onClick={() => nextStepHandler()}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+
+            <div className="col-12 right_side col-lg-4 col-xl-5 px-0">
+              <WizardCard />
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Step 5 ends */}
+      {/* step 6 stars */}
+      {step === 6 && (
         <div className="container steps_container px-0 py-5">
           <div className="col-12 px-0 d-flex justify-content-between">
             <div className="col-12 col-lg-6 col-xl-6 px-0">
@@ -282,9 +355,9 @@ const Index = ({ step, setStep }) => {
               <div class="d-flex justify-content-around py-3">
                 <div class="w_22p">
                   <div
-                    onClick={() => setDays("none")}
+                    onClick={() => setDownPayment("None")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      days === "none" ? "activeDiv" : ""
+                      downPayment === "None" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={TimeImage} />
@@ -293,9 +366,20 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div class="w_22p">
                   <div
-                    onClick={() => setDays("10%")}
+                    onClick={() => setDownPayment("5%")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      days === "10%" ? "activeDiv" : ""
+                      downPayment === "5%" ? "activeDiv" : ""
+                    }`}
+                  >
+                    <img src={TimeImage} />
+                  </div>
+                  <p class="text-center m-0 py-2 text-secondary">5%</p>
+                </div>
+                <div class="w_22p">
+                  <div
+                    onClick={() => setDownPayment("10%")}
+                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
+                      downPayment === "10%" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={TimeImage} />
@@ -304,29 +388,14 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div class="w_22p">
                   <div
-                    onClick={() => setDays("60days")}
+                    onClick={() => setDownPayment("20% or more")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      days === "60days" ? "activeDiv" : ""
+                      downPayment === "20% or more" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={TimeImage} />
                   </div>
-                  <p class="text-center m-0 py-2 text-secondary">
-                    Within 60 Days
-                  </p>
-                </div>
-                <div class="w_22p">
-                  <div
-                    onClick={() => setDays("80days")}
-                    class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      days === "80days" ? "activeDiv" : ""
-                    }`}
-                  >
-                    <img src={TimeImage} />
-                  </div>
-                  <p class="text-center m-0 py-2 text-secondary">
-                    Within 80 Days
-                  </p>
+                  <p class="text-center m-0 py-2 text-secondary">20% or more</p>
                 </div>
               </div>
 
@@ -334,7 +403,7 @@ const Index = ({ step, setStep }) => {
                 <button
                   type="submit"
                   className="btn btn-primary px-4 mx-3"
-                  onClick={() => setStep(4)}
+                  onClick={() => setStep(5)}
                 >
                   Back
                 </button>
@@ -355,9 +424,9 @@ const Index = ({ step, setStep }) => {
           </div>
         </div>
       )}
-      {/* step 5 ends */}
-      {/* step 6 starts */}
-      {step === 6 && (
+      {/* step 6 ends */}
+      {/* step 7 starts */}
+      {step === 7 && (
         <div className="container steps_container px-0 py-5">
           <div className="col-12 px-0 d-flex justify-content-between">
             <div className="col-12 col-lg-6 col-xl-6 px-0">
@@ -393,9 +462,9 @@ const Index = ({ step, setStep }) => {
               <div class="d-flex justify-content-around py-3">
                 <div class="w_22p">
                   <div
-                    onClick={() => setProvide("none")}
+                    onClick={() => setProvide("$1.000")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      provide === "none" ? "activeDiv" : ""
+                      provide === "$1.000" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={SaverImage} />
@@ -404,9 +473,9 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div class="w_22p">
                   <div
-                    onClick={() => setProvide("5%")}
+                    onClick={() => setProvide("$5,000")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      provide === "5%" ? "activeDiv" : ""
+                      provide === "$5,000" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={LoanImage} />
@@ -415,9 +484,9 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div class="w_22p">
                   <div
-                    onClick={() => setProvide("10%")}
+                    onClick={() => setProvide("1% of offer")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      provide === "10%" ? "activeDiv" : ""
+                      provide === "1% of offer" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={LoanImage} />
@@ -426,9 +495,9 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div class="w_22p">
                   <div
-                    onClick={() => setProvide("15%")}
+                    onClick={() => setProvide("5% of offer +")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      provide === "15%" ? "activeDiv" : ""
+                      provide === "5% of offer +" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={LoanImage} />
@@ -443,12 +512,12 @@ const Index = ({ step, setStep }) => {
                 <button
                   type="submit"
                   className="btn btn-primary px-4 mx-3"
-                  onClick={() => setStep(5)}
+                  onClick={() => setStep(6)}
                 >
                   Back
                 </button>
                 <button
-                  //   disabled={!appraisal}
+                  disabled={!cashOffer}
                   type="submit"
                   className="btn btn-primary px-4"
                   onClick={() => nextStepHandler()}
@@ -464,7 +533,7 @@ const Index = ({ step, setStep }) => {
           </div>
         </div>
       )}
-      {step === 7 && (
+      {step === 8 && (
         <div className="container steps_container px-0 py-5">
           <div className="col-12 px-0 d-flex justify-content-between">
             <div className="col-12 col-lg-6 col-xl-6 px-0">
@@ -475,7 +544,12 @@ const Index = ({ step, setStep }) => {
                 <h1>Make An Offer</h1>
               </div>
               <div className="form-check py-2">
-                <input type="checkbox" class="form-check-input" />
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  defaultValue={eHomeFunding}
+                  onChange={(e) => setEhomeFunding(e.target.checked)}
+                />
                 <label
                   className="form-check-label font-weight-bold text-muted"
                   for="Check1"
@@ -490,7 +564,12 @@ const Index = ({ step, setStep }) => {
                 </label>
               </div>
               <div class="form-check py-2">
-                <input type="checkbox" className="form-check-input" />
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  defaultValue={insepection}
+                  onChange={(e) => setInspection(e.target.checked)}
+                />
                 <label
                   className="form-check-label font-weight-bold text-muted"
                   for="Check1"
@@ -503,17 +582,19 @@ const Index = ({ step, setStep }) => {
                   </span>
                 </label>
               </div>
-
+              <b className="mt-8" style={{ textDecoration: "underline" }}>
+                Please check the required fields
+              </b>
               <div className="d-flex justify-content-end py-5">
                 <button
                   type="submit"
                   className="btn btn-primary px-4 mx-3"
-                  onClick={() => setStep(6)}
+                  onClick={() => setStep(7)}
                 >
                   Back
                 </button>
                 <button
-                  //   disabled={!appraisal}
+                  disabled={!eHomeFunding || !insepection}
                   type="submit"
                   className="btn btn-primary px-4"
                   onClick={() => nextStepHandler()}
@@ -530,7 +611,7 @@ const Index = ({ step, setStep }) => {
         </div>
       )}
       {/* step 7 ends */}
-      {step === 8 && (
+      {step === 9 && (
         <div className="container steps_container px-0 py-5">
           <div className="col-12 px-0 d-flex justify-content-between">
             <div className="col-12 col-lg-6 col-xl-6 px-0">
@@ -541,7 +622,12 @@ const Index = ({ step, setStep }) => {
                 <h1>Make An Offer</h1>
               </div>
               <div className="form-check py-2">
-                <input type="checkbox" className="form-check-input" />
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  defaultValue={represent}
+                  onChange={(e) => setRepresent(e.target.checked)}
+                />
                 <label
                   className="form-check-label font-weight-bold text-muted"
                   for="Check1"
@@ -555,7 +641,12 @@ const Index = ({ step, setStep }) => {
                 </label>
               </div>
               <div className="form-check py-2">
-                <input type="checkbox" className="form-check-input" />
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  defaultValue={agreement}
+                  onChange={(e) => setAgreemnt(e.target.checked)}
+                />
                 <label
                   className="form-check-label font-weight-bold text-muted"
                   for="Check1"
@@ -565,22 +656,24 @@ const Index = ({ step, setStep }) => {
                   acquire the property based on the terms you presented.
                 </label>
               </div>
-
+              <b className="mt-8" style={{ textDecoration: "underline" }}>
+                Please check the required fields
+              </b>
               <div className="d-flex justify-content-end py-5">
                 <button
                   type="submit"
                   className="btn btn-primary px-4 mx-3"
-                  onClick={() => setStep(6)}
+                  onClick={() => setStep(8)}
                 >
                   Back
                 </button>
                 <button
-                  //   disabled={!appraisal}
+                  disabled={!represent || !agreement}
                   type="submit"
                   className="btn btn-primary px-4"
                   onClick={() => nextStepHandler()}
                 >
-                  Next
+                  Submit
                 </button>
               </div>
             </div>

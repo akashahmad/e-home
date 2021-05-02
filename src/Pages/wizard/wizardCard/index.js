@@ -10,13 +10,30 @@ import listing from "../../../assets/images/listing-1.jpg";
 const Index = () => {
   let history = useHistory();
   const [property, setProperty] = useState(null);
-  const detailHandler = (props) => {};
+  const detailHandler = (props) => {
+    let state = property.address.state ? property.address.state : null;
+    let city = property.address.city ? property.address.city : null;
+    let zip = property.address.zip ? property.address.zip : null;
+    let id = property.id;
+    let market = property.market;
+    let url =
+      (state ? state.split(" ").join("_") : "") +
+      "-" +
+      (city ? city.split(" ").join("_") : "") +
+      "-" +
+      zip.split(" ").join("_") +
+      `/${id}`;
+    history.replace(`/homedetails/${url}`, {
+      propertyId: id,
+      market,
+    });
+  };
+  let pro = localStorage.getItem("wizardProperty");
   useEffect(() => {
-    let pro = localStorage.getItem("wizardProperty");
     if (pro) {
       setProperty(JSON.parse(pro));
     }
-  }, []);
+  }, [pro]);
 
   return (
     <div>

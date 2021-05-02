@@ -23,6 +23,7 @@ import LocationIcon from "../../assets/images/location_icon.png";
 import BedIcon from "../../assets/images/bed_icon.png";
 import BathIcon from "../../assets/images/bath_icon.png";
 import FtIcon from "../../assets/images/ft_icon.png";
+import ScheduleCard from "./schduleCard";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -459,7 +460,7 @@ const PropertyDetails = ({
               <div className="d-flex align-items-end">
                 <div className="col-6">
                   <div className="hweBDL ds-price-change-address-row">
-                    <img src={LocationIcon}/>
+                    <img src={LocationIcon} />
                     <div>
                       <h1 className="efSAZl" style={{ fontSize: "10px" }}>
                         {/* {
@@ -557,9 +558,7 @@ const PropertyDetails = ({
                           }}
                         ></i>
                       </div>
-                      <span className="sc-oTmZL kfNTWi">
-                        Est Paymt :&nbsp;
-                      </span>
+                      <span className="sc-oTmZL kfNTWi">Est Paymt :&nbsp;</span>
                       <span>$ per/mo</span>
                     </div>
                   </div>
@@ -655,9 +654,7 @@ const PropertyDetails = ({
                 to={`/wizard/${myProperty.id}?market=${myProperty.market}`}
                 className="w-100"
               >
-                <button className="offerMakeButton">
-                Instant Offer
-                </button>
+                <button className="offerMakeButton">Instant Offer</button>
               </Link>
             </div>
           </div>
@@ -1243,100 +1240,11 @@ const PropertyDetails = ({
               </div>
             </div>
             <div className="jOzrMc">
-              <AdviserCards agentData={agentData} lenderData={lenderData} />
+              <AdviserCards agentData={agentData} lenderData={lenderData} myProperty={myProperty}/>
             </div>
-            <div className="ivyodi" id="schedule">
-              <div className="col-10 mx-auto px-2 py-2 card">
-                <p
-                  className="bpPStC scheduleCardHeading"
-                  style={{ fontSize: "18px", textAlign: "center" }}
-                >
-                  <strong>Tour with a Buyer's Agent</strong>
-                </p>
-                <div className="gwtwTs">
-                  We'll connect you with a local agent who can give you a
-                  personalized tour of the home in-person or via video chat.
-                </div>
-                <h5 className="dTAnOx py-4">Select a date</h5>
-                <div className="col-10 mx-auto position-relative">
-                  {modalDates && (
-                    <Carousel responsive={responsiveDates}>
-                      {modalDates.map((date, index) => {
-                        return (
-                          <div className="mx-1" key={index}>
-                            <div
-                              className={
-                                selectedDate === date
-                                  ? " dateCardActive"
-                                  : "dateCardInActive"
-                              }
-                              onClick={() => setSelectedDate(date)}
-                            >
-                              <p className="day mb-0">
-                                {moment(date).format("ddd")}
-                              </p>
-                              <p className="mb-0">
-                                {moment(date).format("MMM")}&nbsp;
-                                {moment(date).format("D")}
-                              </p>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </Carousel>
-                  )}
-                </div>
-                <select className="mt-4">
-                  <option>11:00 am</option>
-                  <option>11:30 am</option>
-                  <option>12:00 pm</option>
-                  <option>12:30 pm</option>
-                  <option>1:00 pm</option>
-                  <option>1:30 pm</option>
-                  <option>2:00 pm</option>
-                  <option>2:30 pm</option>
-                  <option>3:00 pm</option>
-                  <option>3:30 pm</option>
-                  <option>4:00 pm</option>
-                  <option>4:30 pm</option>
-                  <option>5:00 pm</option>
-                  <option>5:30 pm</option>
-                  <option>6:00 pm</option>
-                  <option>6:30 pm</option>
-                  <option>7:00 pm</option>
-                </select>
-                <button
-                  id="selectDatebutton"
-                  className="offerMakeButton my-4"
-                  style={{ backgroundColor: "#336699" }}
-                >
-                  Request this time
-                </button>
-                <div
-                  className="w-100 d-flex align-items-center mb-4 pl-4"
-                  style={{ color: "#336699" }}
-                >
-                  <div
-                    style={{
-                      minWidth: "20px",
-                      minHeight: "20px",
-                      borderRadius: "20px",
-                      backgroundColor: "#336699",
-                    }}
-                    className="d-flex justify-content-center align-items-center mr-1"
-                  >
-                    <i
-                      class="fa fa-dollar-sign"
-                      style={{
-                        color: "white",
-                        fontSize: "10px",
-                      }}
-                    ></i>
-                  </div>{" "}
-                  Public Health Advisory
-                </div>
-              </div>
-            </div>
+
+            <ScheduleCard modalDates={modalDates} myProperty={myProperty}/>
+
             <div className="dHtGQa" id="cost">
               <h5 className="dTAnOx dZuCmF">Monthly cost</h5>
               <div className="ePSpFA">
@@ -1733,94 +1641,7 @@ const PropertyDetails = ({
           >
             <ModalBody>
               <div className="mx-auto  p-2 card">
-                <p
-                  className="bpPStC scheduleCardHeading"
-                  style={{ fontSize: "18px", textAlign: "center" }}
-                >
-                  <strong>Tour with a Buyer's Agent</strong>
-                </p>
-                <div className="gwtwTs">
-                  We'll connect you with a local agent who can give you a
-                  personalized tour of the home in-person or via video chat.
-                </div>
-                <h5 className="dTAnOx py-4">Select a date</h5>
-                <div className="col-10 mx-auto position-relative">
-                  {modalDates && (
-                    <Carousel responsive={responsiveDates}>
-                      {modalDates.map((date, index) => {
-                        return (
-                          <div className="mx-1" key={index}>
-                            <div
-                              className={
-                                selectedDate === date
-                                  ? " dateCardActive"
-                                  : "dateCardInActive"
-                              }
-                              onClick={() => setSelectedDate(date)}
-                            >
-                              <p className="day mb-0">
-                                {moment(date).format("ddd")}
-                              </p>
-                              <p className="mb-0">
-                                {moment(date).format("MMM")}&nbsp;
-                                {moment(date).format("D")}
-                              </p>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </Carousel>
-                  )}
-                </div>
-                <select className="mt-4">
-                  <option>11:00 am</option>
-                  <option>11:30 am</option>
-                  <option>12:00 pm</option>
-                  <option>12:30 pm</option>
-                  <option>1:00 pm</option>
-                  <option>1:30 pm</option>
-                  <option>2:00 pm</option>
-                  <option>2:30 pm</option>
-                  <option>3:00 pm</option>
-                  <option>3:30 pm</option>
-                  <option>4:00 pm</option>
-                  <option>4:30 pm</option>
-                  <option>5:00 pm</option>
-                  <option>5:30 pm</option>
-                  <option>6:00 pm</option>
-                  <option>6:30 pm</option>
-                  <option>7:00 pm</option>
-                </select>
-                <button
-                  onClick={() => setShowDateModal(false)}
-                  className="offerMakeButton my-4"
-                  style={{ backgroundColor: "#336699" }}
-                >
-                  Request this time
-                </button>
-                <div
-                  className="w-100 d-flex align-items-center mb-4 pl-4"
-                  style={{ color: "#336699" }}
-                >
-                  <div
-                    style={{
-                      minWidth: "20px",
-                      minHeight: "20px",
-                      borderRadius: "20px",
-                      backgroundColor: "#336699",
-                    }}
-                    className="d-flex justify-content-center align-items-center mr-1"
-                  >
-                    <i
-                      class="fa fa-dollar-sign"
-                      style={{
-                        color: "white",
-                        fontSize: "10px",
-                      }}
-                    ></i>
-                  </div>{" "}
-                  Public Health Advisory
-                </div>
+                <ScheduleCard modalDates={modalDates} myProperty={myProperty} setShowDateModal={setShowDateModal}/>
               </div>
             </ModalBody>
           </Modal>

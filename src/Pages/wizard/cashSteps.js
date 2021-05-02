@@ -11,12 +11,12 @@ import SaverImage from "../../assets/wizardImages/bankruptcy@3x.png";
 import LoanImage from "../../assets/wizardImages/loan@3x.png";
 import { useHistory } from "react-router-dom";
 const Index = ({ step, setStep }) => {
-  const [isVisited, setIsVisited] = useState("");
-  const [days, setDays] = useState("");
+  const [isVisited, setIsVisited] = useState("Yes");
+  const [days, setDays] = useState("None");
   const [cashOffer, setCashOffer] = useState(null);
-  const [provide, setProvide] = useState("");
-  const [inspect, setInspect] = useState("");
-  const [appraisal, setAppraisal] = useState("");
+  const [provide, setProvide] = useState("None");
+  const [inspect, setInspect] = useState("Yes");
+  const [appraisal, setAppraisal] = useState("Yes");
 
   let history = useHistory();
 
@@ -49,9 +49,9 @@ const Index = ({ step, setStep }) => {
               <div className="d-flex justify-content-around py-3">
                 <div className="w_22p">
                   <div
-                    onClick={() => setIsVisited("yes")}
+                    onClick={() => setIsVisited("Yes")}
                     className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      isVisited === "yes" ? "activeDiv" : ""
+                      isVisited === "Yes" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={YesImage} />
@@ -60,9 +60,9 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div className="w_22p">
                   <div
-                    onClick={() => setIsVisited("no")}
+                    onClick={() => setIsVisited("No")}
                     className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      isVisited === "no" ? "activeDiv" : ""
+                      isVisited === "No" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={NoImage} />
@@ -119,7 +119,7 @@ const Index = ({ step, setStep }) => {
                   <div
                     onClick={() => setDays("none")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      days === "none" ? "activeDiv" : ""
+                      days === "None" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={TimeImage} />
@@ -235,7 +235,7 @@ const Index = ({ step, setStep }) => {
                   <div
                     onClick={() => setProvide("none")}
                     class={`px-4 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      provide === "none" ? "activeDiv" : ""
+                      provide === "None" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={SaverImage} />
@@ -278,9 +278,6 @@ const Index = ({ step, setStep }) => {
                   <p class="text-center m-0 py-2 text-secondary">15% or More</p>
                 </div>
               </div>
-             
-             
-             
              
              
               <div class="d-flex justify-content-end py-5">
@@ -327,9 +324,9 @@ const Index = ({ step, setStep }) => {
               <div className="d-flex justify-content-around py-3">
                 <div className="w_22p">
                   <div
-                    onClick={() => setInspect("yes")}
+                    onClick={() => setInspect("Yes")}
                     className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      inspect === "yes" ? "activeDiv" : ""
+                      inspect === "Yes" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={YesImage} />
@@ -338,9 +335,9 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div className="w_22p">
                   <div
-                    onClick={() => setInspect("no")}
+                    onClick={() => setInspect("No")}
                     className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      inspect === "no" ? "activeDiv" : ""
+                      inspect === "No" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={NoImage} />
@@ -393,9 +390,9 @@ const Index = ({ step, setStep }) => {
               <div className="d-flex justify-content-around py-3">
                 <div className="w_22p">
                   <div
-                    onClick={() => setAppraisal("yes")}
+                    onClick={() => setAppraisal("Yes")}
                     className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      appraisal === "yes" ? "activeDiv" : ""
+                      appraisal === "Yes" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={YesImage} />
@@ -404,9 +401,9 @@ const Index = ({ step, setStep }) => {
                 </div>
                 <div className="w_22p">
                   <div
-                    onClick={() => setAppraisal("no")}
+                    onClick={() => setAppraisal("No")}
                     className={`px-5 py-3 d-flex justify-content-center left_side_box_contaier ${
-                      appraisal === "no" ? "activeDiv" : ""
+                      appraisal === "No" ? "activeDiv" : ""
                     }`}
                   >
                     <img src={NoImage} />
