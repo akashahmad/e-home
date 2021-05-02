@@ -24,6 +24,7 @@ import BedIcon from "../../assets/images/bed_icon.png";
 import BathIcon from "../../assets/images/bath_icon.png";
 import FtIcon from "../../assets/images/ft_icon.png";
 import ScheduleCard from "./schduleCard";
+import { bePath } from "../../apiPaths";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -68,23 +69,9 @@ const PropertyDetails = ({
   const [modalDates, setModalDates] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDateModal, setShowDateModal] = useState(false);
+  const [similarHomes, setSimilarHomes] = useState(null);
   console.log(myProperty, "check my property");
-  // for getting data for provider
-  useEffect(() => {
-    let config = {
-      headers: {
-        Authorization: "Bearer " + publicToken,
-      },
-    };
-    axios
-      .get(
-        "https://slipstream.homejunction.com/ws/markets/get?id=gsmls&details=true",
-        config
-      )
-      .then((res) => {
-        setProvider(res.data.result.markets[0]);
-      });
-  }, []);
+
   // for getting blogs
 
   useEffect(() => {
@@ -158,25 +145,52 @@ const PropertyDetails = ({
     setInterestValues(_copy);
     // for calling related properties
     if (myProperty) {
+      axios
+        .get(
+          bePath +
+            "/searchProperties?market=" +
+            myProperty.market +
+            "&extended=true&listingtype=" +
+            myProperty.listingType +
+            "&details=true&listingDate=>6/1/2015&zip=" +
+            myProperty.xf_postalcode
+        )
+        .then((res) => {
+          if (res.data.result.listing && res.data.result.listing.length) {
+            setRelatedResults(res.data.result.listing);
+          }
+        });
+      // for getting similar homes
+      axios
+        .get(
+          bePath +
+            "/searchProperties?market=" +
+            myProperty.market +
+            "&extended=true&baths=" +
+            myProperty.baths.total +
+            "&details=true&listingDate=>6/1/2015&beds=" +
+            myProperty.beds
+        )
+        .then((res) => {
+          if (res.data.result.listing && res.data.result.listing.length) {
+            setSimilarHomes(res.data.result.listing);
+          }
+        });
       let config = {
         headers: {
           Authorization: "Bearer " + publicToken,
         },
       };
-
+      // for getting data for provider
       axios
         .get(
-          apiUrl +
-            "ws/listings/search?market=gsmls&extended=true&listingtype=" +
-            myProperty.listingType +
-            "&details=true&listingDate=>6/1/2015&zip=" +
-            myProperty.xf_postalcode,
+          "https://slipstream.homejunction.com/ws/markets/get?id=" +
+            myProperty.market +
+            "&details=true",
           config
         )
         .then((res) => {
-          if (res.data.result.listings && res.data.result.listings.length) {
-            setRelatedResults(res.data.result.listings);
-          }
+          setProvider(res.data.result.markets[0]);
         });
     }
   }, [myProperty]);
@@ -233,7 +247,7 @@ const PropertyDetails = ({
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 2,
+      items: 1,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -433,13 +447,13 @@ const PropertyDetails = ({
                             style={{ width: "20px" }}
                             className="mr-1"
                           />
-                          {myProperty.size ? (
+                          {myProperty.attomData &&
+                          myProperty.attomData.building ? (
                             <span>
-                              {myProperty.size &&
-                                myProperty.size
-                                  .toString()
-                                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
-                                  " sqft"}
+                              {myProperty.attomData &&
+                                myProperty.attomData.building.size.bldgSize +
+                                  " " +
+                                  "sqft"}
                             </span>
                           ) : (
                             <>
@@ -769,11 +783,11 @@ const PropertyDetails = ({
                   </li>
                   <li
                     className="eVYrJu"
-                    onClick={() => setActiveMenu("priceTax")}
+                    onClick={() => setActiveMenu("taxAndPrice")}
                   >
                     <a
-                      href="#overview"
-                      className={`bhJxVt ${activeMenuhandler("priceTax")}`}
+                      href="#taxAndPrice"
+                      className={`bhJxVt ${activeMenuhandler("taxAndPrice")}`}
                     >
                       Price & Tax History
                     </a>
@@ -791,18 +805,22 @@ const PropertyDetails = ({
                       </a>
                     </li>
                   )}
-                  <li
-                    className="eVYrJu"
-                    onClick={() => setActiveMenu("neighboorhood")}
-                  >
-                    <a
-                      href="#overview"
-                      className={`bhJxVt ${activeMenuhandler("neighboorhood")}`}
-                    >
-                      Neighborhood
-                    </a>
-                  </li>
                   {relatedResult && (
+                    <li
+                      className="eVYrJu"
+                      onClick={() => setActiveMenu("neighborhood")}
+                    >
+                      <a
+                        href="#neighborhood"
+                        className={`bhJxVt ${activeMenuhandler(
+                          "neighborhood"
+                        )}`}
+                      >
+                        Neighborhood
+                      </a>
+                    </li>
+                  )}
+                  {similarHomes && (
                     <li
                       className="eVYrJu"
                       onClick={() => setActiveMenu("similar")}
@@ -1239,11 +1257,16 @@ const PropertyDetails = ({
                 </p>
               </div>
             </div>
+
             <div className="jOzrMc">
-              <AdviserCards agentData={agentData} lenderData={lenderData} myProperty={myProperty}/>
+              <AdviserCards
+                agentData={agentData}
+                lenderData={lenderData}
+                myProperty={myProperty}
+              />
             </div>
 
-            <ScheduleCard modalDates={modalDates} myProperty={myProperty}/>
+            <ScheduleCard modalDates={modalDates} myProperty={myProperty} />
 
             <div className="dHtGQa" id="cost">
               <h5 className="dTAnOx dZuCmF">Monthly cost</h5>
@@ -1510,6 +1533,79 @@ const PropertyDetails = ({
                 </span>
               </div>
             </div>
+
+            <div className="kkFAbf" id="taxAndPrice">
+              <h4 className="dTAnOx">Tax history</h4>
+              <div className="facts-card">
+                <ul className="fact-list">
+                  <li className="fact-item d-block">
+                    <i className="sc-pktCe gUXGEs zsg-icon-buildings"></i>
+                    <span className="cDEvWM">Tax amount:</span>
+                    <span className="eBiAkN">
+                      $
+                      {myProperty?.attomData?.assessment?.tax?.taxAmt ||
+                        myProperty?.xf_taxamount}
+                    </span>
+                  </li>
+                  <li className="fact-item d-block">
+                    <i className="sc-pktCe gUXGEs zsg-icon-buildings"></i>
+                    <span className="cDEvWM">Tax per size unit:</span>
+                    <span className="eBiAkN">
+                      $
+                      {myProperty?.attomData?.assessment?.tax?.taxPerSizeUnit ||
+                        myProperty?.xf_taxrate}
+                    </span>
+                  </li>
+                  <li className="fact-item d-block">
+                    <i className="sc-pktCe gUXGEs zsg-icon-buildings"></i>
+                    <span className="cDEvWM">Tax year:</span>
+                    <span className="eBiAkN">
+                      {myProperty?.attomData?.assessment?.tax?.taxYear ||
+                        myProperty?.xf_taxyear}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              {myProperty?.attomData?.saleHistory && (
+                <>
+                  <h4 className="dTAnOx">Price history</h4>
+                  <div className="facts-card">
+                    <table className="w-100">
+                      <thead>
+                        <tr>
+                          <th>
+                            <b>Date</b>
+                          </th>
+                          <th>Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {myProperty?.attomData?.saleHistory?.map(
+                          (item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>{item?.saleTransDate}</td>
+                                <td>
+                                  {(item?.amount?.saleAmt &&
+                                    "$ " + item?.amount?.saleAmt) ||
+                                    "N/A"}
+                                </td>
+                              </tr>
+                            );
+                          }
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              )}
+              <div className="ivyodi" id="advisors">
+                <p className="bpPStC" style={{ fontSize: "18px" }}>
+                  <strong>Our eHomeoffer Advisors</strong>
+                </p>
+              </div>
+            </div>
+
             {myProperty.schools && (
               <div className="dHtGQa" id="schools">
                 <h4 className="dTAnOx dZuCmF">Nearby schools in Marlboro</h4>
@@ -1536,17 +1632,42 @@ const PropertyDetails = ({
                 </div>
               </div>
             )}
-
             {relatedResult && (
-              <div className="dHtGQa" id="similar">
-                <h5 className="dTAnOx dZuCmF">Similar homes</h5>
+              <div className="dHtGQa" id="neighborhood">
+                <h5 className="dTAnOx dZuCmF">Neighborhood</h5>
                 {relatedResult && (
                   <Carousel responsive={responsive}>
                     {relatedResult &&
                       relatedResult.map((singleRelated, index) => {
                         return (
                           <div
-                            className="mx-1"
+                            className="mx-auto col-md-10"
+                            key={index}
+                            style={{ paddingTop: "20px" }}
+                          >
+                            <PropertyCard
+                              propertyValues={singleRelated}
+                              history={history}
+                              onCardClick={cardClick}
+                            />
+                          </div>
+                        );
+                      })}
+                  </Carousel>
+                )}
+              </div>
+            )}
+
+            {similarHomes && (
+              <div className="dHtGQa" id="similar">
+                <h5 className="dTAnOx dZuCmF">Similar homes</h5>
+                {similarHomes && (
+                  <Carousel responsive={responsive}>
+                    {similarHomes &&
+                      similarHomes.map((singleRelated, index) => {
+                        return (
+                          <div
+                            className="mx-auto col-md-10"
                             key={index}
                             style={{ paddingTop: "20px" }}
                           >
@@ -1641,7 +1762,11 @@ const PropertyDetails = ({
           >
             <ModalBody>
               <div className="mx-auto  p-2 card">
-                <ScheduleCard modalDates={modalDates} myProperty={myProperty} setShowDateModal={setShowDateModal}/>
+                <ScheduleCard
+                  modalDates={modalDates}
+                  myProperty={myProperty}
+                  setShowDateModal={setShowDateModal}
+                />
               </div>
             </ModalBody>
           </Modal>

@@ -70,7 +70,7 @@ export const PropertyCard = (props) => {
               <p className="mt-0">EST.payment: $/mo</p>
             </div>
             <p>
-              <img src={LocationIcon} alt="Location Icon" />
+              <img src={LocationIcon} alt="Location Icon" className="locationIcon"/>
               {props.propertyValues.address.street}
               {props.propertyValues.address.street && <br />}
               {cityAddress} , {props.propertyValues.address.state}&nbsp;{props.propertyValues.address.zip}

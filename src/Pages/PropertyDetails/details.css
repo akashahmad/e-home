@@ -2136,3 +2136,6 @@ input[type="number"] {
 .ds-price-change-address-row h1{
   margin-left: 10px;
 }
+#similar .locationIcon,#neighborhood .locationIcon{
+  margin-right: 10px;
+}
