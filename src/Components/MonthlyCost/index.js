@@ -56,8 +56,8 @@ const MonthlyCost = ({ myProperty }) => {
       _copy.downPayment = _homePrice * (downPaymentPercentAge / 100)
     }
     if (_homePrice !== homePrice) {
-      _copy.downPaymentPercentAge = downPaymentPercentAge;
-      _copy.downPayment = _homePrice * (downPaymentPercentAge / 100)
+      _copy.downPaymentPercentAge = 20;
+      _copy.downPayment = _homePrice * (20 / 100)
     }
     if (_copy.downPaymentPercentAge < 20) {
       _copy.mortagePerMonth = parseInt(_homePrice) * ((20 - _copy.downPaymentPercentAge) / 24000)
@@ -83,7 +83,7 @@ const MonthlyCost = ({ myProperty }) => {
         perYearInsurance * parseInt(loanProgram) +
         yearTaxRate * parseInt(loanProgram)) /
       (loanProgram === "15" ? 180 : 360);
-    setEstimatedMonthlyCost(_estimatedMonthlyCost);
+    setEstimatedMonthlyCost(_estimatedMonthlyCost + _copy.mortagePerMonth);
     setHomePrice(_homePrice)
   }
 
