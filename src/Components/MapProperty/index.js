@@ -32,23 +32,23 @@ const divStyle = {
   padding: 15,
 };
 
-const options = {
-  drawingControl: true,
-  drawingControlOptions: {
-    drawingModes: ["polygon"],
-  },
-  polygonOptions: {
-    fillColor: `#2196F3`,
-    strokeColor: `#2196F3`,
-    fillOpacity: 0.5,
-    strokeWeight: 2,
-    clickable: false,
-    editable: false,
-    draggable: false,
-    zIndex: 1,
-    // visible:false
-  },
-};
+// const options = {
+//   drawingControl: true,
+//   drawingControlOptions: {
+//     drawingModes: ["polygon"],
+//   },
+//   polygonOptions: {
+//     fillColor: `#2196F3`,
+//     strokeColor: `#2196F3`,
+//     fillOpacity: 0.5,
+//     strokeWeight: 2,
+//     clickable: false,
+//     editable: false,
+//     draggable: false,
+//     zIndex: 1,
+//     // visible:false
+//   },
+// };
 const libraries = ["drawing"];
 
 const styles = {
@@ -65,6 +65,23 @@ const styles = {
 function MapProperty(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState("");
+  const [options, setOptions] = useState({
+    drawingControl: true,
+    drawingControlOptions: {
+      drawingModes: ["polygon"],
+    },
+    polygonOptions: {
+      fillColor: `#2196F3`,
+      strokeColor: `#2196F3`,
+      fillOpacity: 0.5,
+      strokeWeight: 2,
+      clickable: false,
+      editable: false,
+      draggable: false,
+      zIndex: 1,
+      // visible:false
+    },
+  });
 
   const divStyle = {
     background: `white`,
@@ -74,6 +91,7 @@ function MapProperty(props) {
 
   const onPolygonComplete = (polygon) => {
     const polyArray = polygon.getPath().getArray();
+    const isvisible = polygon.getVisible();
     let paths = [];
     let location = [];
     polyArray.forEach(function (path) {
@@ -83,13 +101,19 @@ function MapProperty(props) {
     // polyArray.forEach(function (path) {
     //     paths.push([path.lat(),path.lng()]);
     // });
+    console.log(paths, "check paths");
     paths.push(paths[0]);
+
     const data = {
       type: "Polygon",
       coordinates: [paths],
     };
 
-    props.fetchByMap({ data });
+    if (props.loadFromMap) {
+      props.loadFromMap(data);
+    }
+    // props.fetchByMap({ data });
+    polygon.setMap(null);
   };
 
   const onMarkerClick = (item, index) => {
@@ -98,10 +122,9 @@ function MapProperty(props) {
   };
   useEffect(() => {
     if (props.myProperties.listings) {
-      if(props.setDataFromMap){
+      if (props.setDataFromMap) {
         props.setDataFromMap(props.myProperties.listings);
       }
-     
     }
   }, [props.myProperties]);
 

@@ -6,7 +6,7 @@ import MapProperty from "../../Components/MapProperty";
 import PropertyDetails from "./../PropertyDetails";
 import image16 from "../../assets/images/16.png";
 import { Modal, ModalBody } from "reactstrap";
-import { bePath, wpPath,wpPath2} from "../../apiPaths";
+import { bePath, wpPath, wpPath2 } from "../../apiPaths";
 import axios from "axios";
 import ReactPaginate from "react-paginate";
 import CardLoader from "../../Components/mapCardPlaceHolder";
@@ -65,6 +65,8 @@ class Listings extends Component {
       listingSidedata: null,
       listingAllPages: 0,
       mapData: null,
+      cardLoader: false,
+      isMapActive: false,
     };
     window.scrollTo(0, 0);
   }
@@ -85,12 +87,16 @@ class Listings extends Component {
 
   // for settingData from map
   setDataFromMap = (data) => {
-    this.setState({ listingSidedata: data });
+    this.setState({ listingSidedata: data, cardLoader: false });
   };
 
   // new function for loading left side listing
   loadListingsCard = (activeMLS, activeType, pageNumber) => {
-    this.setState({ isLoader: true, listingSidedata: null });
+    this.setState({
+      isLoader: true,
+      listingSidedata: null,
+      isMapActive: false,
+    });
     axios
       .get(
         bePath +
@@ -112,7 +118,7 @@ class Listings extends Component {
       });
   };
   loadMapHandler = (activeMLS, activeType) => {
-    this.setState({ mapData: null });
+    this.setState({ mapData: null, isMapActive: false });
     axios
       .get(
         bePath +
@@ -202,6 +208,7 @@ class Listings extends Component {
         market,
       });
     }
+
     let config = {
       headers: {
         Authorization: "Bearer " + publicToken,
@@ -224,7 +231,7 @@ class Listings extends Component {
           this.setState({ modalLoader: false });
         }, 1000);
       });
-      
+
     this.setState({ propertyModal: true });
   };
 
@@ -254,7 +261,12 @@ class Listings extends Component {
           return;
         }
       }
-      this.setState({ isSearched: true, listingSidedata: null, mapData: null });
+      this.setState({
+        isSearched: true,
+        listingSidedata: null,
+        mapData: null,
+        isMapActive: false,
+      });
       let config = {
         headers: {
           Authorization: "Bearer " + privateToken,
@@ -295,6 +307,8 @@ class Listings extends Component {
               isLoader: false,
               mapData: res.data.result.listing,
             });
+          } else {
+            this.setState({ isLoader: false, error: true });
           }
         })
         .catch((err) => {
@@ -321,6 +335,7 @@ class Listings extends Component {
   };
   // on pagination Change
   pageChangeHandler = (value) => {
+    window.scrollTo(0, 500);
     let newPage = value.selected + 1;
     this.setState({ listingPageNumber: newPage });
     if (this.state.isSearched) {
@@ -338,6 +353,7 @@ class Listings extends Component {
     this.setState({ activeMls: value }, function () {
       this.loadListingsCard(value, this.state.newActiveType, 1);
       this.loadMapHandler(value, this.state.newActiveType);
+      this.setState({ isMapActive: false });
     });
   };
   // on change types
@@ -358,6 +374,33 @@ class Listings extends Component {
         this.loadMapHandler(this.state.activeMls, value);
       }
     );
+  };
+  loadFromMap = (mapData) => {
+    let config = {
+      headers: {
+        Authorization: "Bearer " + publicToken,
+      },
+    };
+    this.setState({ cardLoader: true, isMapActive: true,error:false});
+    axios
+      .get(
+        `https://slipstream.homejunction.com/ws/listings/search?details=true&extended=true&images=true&market=${
+          this.state.activeMls
+        }&polygon=${JSON.stringify(mapData)}&listingtype=${
+          this.state.newActiveType
+        }&listingDate=>6/1/2015`,
+        config
+      )
+      .then((res) => {
+        this.setState({
+          listingSidedata: res.data.result.listings,
+          cardLoader: false,
+          isSearched:true
+
+        });
+      }).catch(err=>{
+        this.setState({ cardLoader: false, error: false });
+      })
   };
   render() {
     const {
@@ -397,7 +440,10 @@ class Listings extends Component {
       listingSidedata,
       newActiveType,
       mapData,
+      cardLoader,
+      isMapActive,
     } = this.state;
+
     const propertyId = this.props.location.state
       ? this.props.location.state.propertyId
       : "";
@@ -408,7 +454,6 @@ class Listings extends Component {
 
     //   method for formatiing price in US dollars
     let dollarUSLocale = Intl.NumberFormat("en-US");
-
     return (
       <>
         <MyHeader
@@ -865,7 +910,7 @@ class Listings extends Component {
                     </div>
 
                     <div className="listing-box">
-                      {listingSidedata && (
+                      {!isMapActive && listingSidedata && (
                         <ReactPaginate
                           previousLabel={"Prev"}
                           nextLabel={"Next"}
@@ -887,7 +932,7 @@ class Listings extends Component {
                           Unable to find results! Please modify your search.
                         </p>
                       )}
-                      {isLoader ? (
+                      {isLoader || cardLoader ? (
                         <div className="row clearfix m-0">
                           <CardLoader />
                           <CardLoader />
@@ -943,6 +988,7 @@ class Listings extends Component {
                       {mapData && !this.state.modalActive && (
                         <div className="map-box">
                           <MapProperty
+                            loadFromMap={this.loadFromMap}
                             setDataFromMap={this.setDataFromMap}
                             propertiesList={mapData && mapData ? mapData : []}
                           />

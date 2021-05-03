@@ -120,9 +120,9 @@ const PropertyDetails = ({
           "/searchProperties?market=" +
           myProperty.market +
           "&extended=true&baths=" +
-          myProperty.baths.total +
+          myProperty?.baths?.total +
           "&details=true&listingDate=>6/1/2015&beds=" +
-          myProperty.beds
+          myProperty?.beds
         )
         .then((res) => {
           if (res.data.result.listing && res.data.result.listing.length) {
@@ -385,7 +385,7 @@ const PropertyDetails = ({
                           />
                           <span>
                             {" "}
-                            {myProperty.baths && myProperty.baths.total}
+                            {myProperty?.baths && myProperty?.baths?.total}
                           </span>
                           <span className="ds-summary-row-label-secondary">
                             {" "}
@@ -864,13 +864,13 @@ const PropertyDetails = ({
                         </li>
                         <li>
                           <span className="foiYRz">
-                            Bathrooms: {myProperty && myProperty.baths.total}
+                            Bathrooms: {myProperty && myProperty?.baths?.total}
                           </span>
                         </li>
                         <li>
                           <span className="foiYRz">
                             Full bathrooms:{" "}
-                            {myProperty && myProperty.baths.full}
+                            {myProperty && myProperty?.baths?.full}
                           </span>
                         </li>
                       </ul>
@@ -1285,11 +1285,6 @@ const PropertyDetails = ({
                   </div>
                 </>
               )}
-              <div className="ivyodi" id="advisors">
-                <p className="bpPStC" style={{ fontSize: "18px" }}>
-                  <strong>Our eHomeoffer Advisors</strong>
-                </p>
-              </div>
             </div>
 
             {myProperty.schools && (
