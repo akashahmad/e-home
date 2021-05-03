@@ -801,7 +801,645 @@ const PropertyDetails = ({
             className="scroll-contant position-relative"
             id="modalScrollArea"
           >
+            <div className="px-3">
+              <div className="ibZOdk">
+                {myProperty && (
+                  <MapProperty
+                    propertiesList={[myProperty]}
+                    coordinates={myProperty && myProperty["coordinates"]}
+                  />
+                )}
+              </div>
+              <h5 className="bloUvX" id="overview">
+                Overview
+              </h5>
+
+              <div className="ds-overview-section">
+                <div className="gwtwTs">{myProperty.description}</div>
+                <button className="kPatDd csGbhU">Read more</button>
+              </div>
+            </div>
+
+            <div className="kkFAbf" id="facts">
+              <h4 className="dTAnOx">Facts and features</h4>
+              <div className="facts-card">
+                <ul className="fact-list">
+                  {Object.entries(features).map((item) => {
+                    return (
+                      <li className="fact-item">
+                        <i className="sc-pktCe gUXGEs zsg-icon-buildings"></i>
+                        <span className="cDEvWM">{item[0]}:</span>
+                        <span className="eBiAkN">{item[1]}</span>
+                      </li>
+                    );
+                  })}
+                  <li className="fact-item">
+                    <i className="sc-pktCe gUXGEs zsg-icon-parking"></i>
+                    <span className="cDEvWM">Parking:</span>
+                    <span className="eBiAkN">{myProperty.xf_garagedesc}</span>
+                  </li>
+                  <li className="fact-item">
+                    <i className="sc-pktCe gUXGEs zsg-icon-hoa"></i>
+                    <span className="cDEvWM">HOA:</span>
+                    <span className="eBiAkN">$360 annually</span>
+                  </li>
+                  <li className="fact-item">
+                    <i className="sc-pktCe gUXGEs zsg-icon-price-sqft"></i>
+                    <span className="cDEvWM">Price/sqft:</span>
+                    <span className="eBiAkN">$-</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="ekDNZJ">
+                <div className="kAvzkP">
+                  <h5 className="gHAGDn">Interior details</h5>
+                  <div className="wVdMu">
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Bedrooms and bathrooms</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Bedrooms: {myProperty.beds}
+                          </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">
+                            Bathrooms: {myProperty && myProperty.baths.total}
+                          </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">
+                            Full bathrooms:{" "}
+                            {myProperty && myProperty.baths.full}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Basement</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Basement: {myProperty && myProperty.xf_basement}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Flooring</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz"> </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Heating</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Heating features:
+                            {myProperty.xf_heating &&
+                              myProperty.xf_heating.length > 0 &&
+                              myProperty.xf_heating.map((item) => {
+                                return <span> {item} </span>;
+                              })}
+                            {myProperty.xf_heatsrc &&
+                              myProperty.xf_heatsrc.length > 0 &&
+                              myProperty.xf_heatsrc.map((item) => {
+                                return <span> {item} </span>;
+                              })}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Cooling</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Cooling features:
+                            {myProperty.xf_cooling &&
+                              myProperty.xf_cooling.length > 0 &&
+                              myProperty.xf_cooling.map((item) => {
+                                return <span> {item} </span>;
+                              })}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Appliances</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Appliances included:
+                            {myProperty.xf_appliances &&
+                              myProperty.xf_appliances.length > 0 &&
+                              myProperty.xf_appliances.map((item) => {
+                                return <span> {item} </span>;
+                              })}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Other interior features</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">Total structure area: </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">
+                            Total interior livable area: sqft
+                          </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">
+                            Total number of fireplaces:{" "}
+                            {myProperty.xf_fireplaces}
+                          </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">Fireplace features: </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="kAvzkP">
+                  <h5 className="gHAGDn">Property details</h5>
+                  <div className="wVdMu">
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Parking</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Total spaces: {myProperty.xf_garage}
+                          </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">Parking features: </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">Garage spaces: </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">Covered spaces: </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">Attached garage: </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Accessibility</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Accessibility features:{" "}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Property</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">Levels: </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">Stories: </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">
+                            Exterior features:
+                            {myProperty.xf_exterior &&
+                              myProperty.xf_exterior.length > 0 &&
+                              myProperty.xf_exterior.map((item) => {
+                                return <span> {item} </span>;
+                              })}
+                          </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">
+                            Patio and porch details:{" "}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Lot</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Lot size:{" "}
+                            {myProperty.lotSize && myProperty.lotSize.sqft} sqft
+                          </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">
+                            Lot size dimensions: 100 x 200
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Other property information</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Parcel number: 3000224000000007
+                          </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">
+                            Zoning description: Planned
+                            Residential,Residential,Single Family
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="kAvzkP">
+                  <h5 className="gHAGDn">Construction details</h5>
+                  <div className="wVdMu">
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Type and style</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Home type: {myProperty.xf_subproptype}
+                          </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">
+                            Architectural style:
+                            {myProperty.xf_style &&
+                              myProperty.xf_style.length > 0 &&
+                              myProperty.xf_style.map((item) => {
+                                return <span> {item} </span>;
+                              })}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Material information</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Construction materials:
+                            {myProperty.xf_exterior &&
+                              myProperty.xf_exterior.length > 0 &&
+                              myProperty.xf_exterior.map((item) => {
+                                return <span> {item} </span>;
+                              })}
+                          </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">Foundation: </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">
+                            Roof:
+                            {myProperty.xf_roof &&
+                              myProperty.xf_roof.length > 0 &&
+                              myProperty.xf_roof.map((item) => {
+                                return <span> {item} </span>;
+                              })}
+                          </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">Windows: </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Condition</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            New construction:
+                            {myProperty.newConstruction ? (
+                              <span>Yes</span>
+                            ) : (
+                              <span>No</span>
+                            )}
+                          </span>
+                        </li>
+                        <li>
+                          <span className="foiYRz">
+                            Year built: {myProperty.xf_yearbuilt}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Other construction</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Builder model: Custom Normandy
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="kAvzkP">
+                  <h5 className="gHAGDn">Utilities / Green Energy Details</h5>
+                  <div className="wVdMu">
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Utility</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Sewer information: Public Sewer
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="kAvzkP">
+                  <h5 className="gHAGDn">Community and Neighborhood Details</h5>
+                  <div className="wVdMu">
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Security</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Security features: Security System
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Community</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">
+                            Community features: Association, Playground, Pool,
+                            Swimming, Tennis Court(s)
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="kYVsju">
+                      <h6 className="einFCw">Location</h6>
+                      <ul className="gsEezU">
+                        <li>
+                          <span className="foiYRz">Region: Marlboro</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <ul className="jUMuUb">
+                  <li className="ds-data-link"></li>
+                </ul>
+                <div className="fQkkzS"></div>
+              </div>
+              <div className="ivyodi" id="advisors">
+                <p className="bpPStC" style={{ fontSize: "18px" }}>
+                  <strong>Our eHomeoffer Advisors</strong>
+                </p>
+              </div>
+            </div>
+
+            <div className="jOzrMc">
+              <AdviserCards
+                agentData={agentData}
+                lenderData={lenderData}
+                myProperty={myProperty}
+              />
+            </div>
+
+            <ScheduleCard modalDates={modalDates} myProperty={myProperty} />
             <MonthlyCost myProperty={myProperty} />
+            <div className="kkFAbf" id="taxAndPrice">
+              <h4 className="dTAnOx">Tax history</h4>
+              <div className="facts-card">
+                <ul className="fact-list">
+                  <li className="fact-item d-block">
+                    <i className="sc-pktCe gUXGEs zsg-icon-buildings"></i>
+                    <span className="cDEvWM">Tax amount:</span>
+                    <span className="eBiAkN">
+                      $
+                      {myProperty?.attomData?.assessment?.tax?.taxAmt ||
+                        myProperty?.xf_taxamount}
+                    </span>
+                  </li>
+                  <li className="fact-item d-block">
+                    <i className="sc-pktCe gUXGEs zsg-icon-buildings"></i>
+                    <span className="cDEvWM">Tax per size unit:</span>
+                    <span className="eBiAkN">
+                      $
+                      {myProperty?.attomData?.assessment?.tax?.taxPerSizeUnit ||
+                        myProperty?.xf_taxrate}
+                    </span>
+                  </li>
+                  <li className="fact-item d-block">
+                    <i className="sc-pktCe gUXGEs zsg-icon-buildings"></i>
+                    <span className="cDEvWM">Tax year:</span>
+                    <span className="eBiAkN">
+                      {myProperty?.attomData?.assessment?.tax?.taxYear ||
+                        myProperty?.xf_taxyear}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+              {myProperty?.attomData?.saleHistory && (
+                <>
+                  <h4 className="dTAnOx">Price history</h4>
+                  <div className="facts-card">
+                    <table className="w-100">
+                      <thead>
+                        <tr>
+                          <th>
+                            <b>Date</b>
+                          </th>
+                          <th>Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {myProperty?.attomData?.saleHistory?.map(
+                          (item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>{item?.saleTransDate}</td>
+                                <td>
+                                  {(item?.amount?.saleAmt &&
+                                    "$ " + item?.amount?.saleAmt) ||
+                                    "N/A"}
+                                </td>
+                              </tr>
+                            );
+                          }
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              )}
+              <div className="ivyodi" id="advisors">
+                <p className="bpPStC" style={{ fontSize: "18px" }}>
+                  <strong>Our eHomeoffer Advisors</strong>
+                </p>
+              </div>
+            </div>
+
+            {myProperty.schools && (
+              <div className="dHtGQa" id="schools">
+                <h4 className="dTAnOx dZuCmF">Nearby schools in Marlboro</h4>
+                <div className="eUOzkf">
+                  <h5 className="bSxNCK">
+                    Schools provided by the listing agent
+                  </h5>
+                  <div className="gtLCRl">
+                    {myProperty.schools.elementary && (
+                      <div>Elementary: {myProperty.schools.elementary}</div>
+                    )}
+                    {myProperty.schools.middle && (
+                      <div>Middle: {myProperty.schools.middle}</div>
+                    )}
+                    {myProperty.schools.high && (
+                      <div>High: {myProperty.schools.high}</div>
+                    )}
+                  </div>
+                  <p className="fhpxsu">
+                    This data may not be complete. We recommend contacting the
+                    local school district to confirm school assignments for this
+                    home.
+                  </p>
+                </div>
+              </div>
+            )}
+            {relatedResult && (
+              <div className="dHtGQa" id="neighborhood">
+                <h5 className="dTAnOx dZuCmF">Neighborhood</h5>
+                {relatedResult && (
+                  <Carousel responsive={responsive}>
+                    {relatedResult &&
+                      relatedResult.map((singleRelated, index) => {
+                        return (
+                          <div
+                            className="mx-auto col-md-10"
+                            key={index}
+                            style={{ paddingTop: "20px" }}
+                          >
+                            <PropertyCard
+                              propertyValues={singleRelated}
+                              history={history}
+                              onCardClick={cardClick}
+                            />
+                          </div>
+                        );
+                      })}
+                  </Carousel>
+                )}
+              </div>
+            )}
+
+            {similarHomes && (
+              <div className="dHtGQa" id="similar">
+                <h5 className="dTAnOx dZuCmF">Similar homes</h5>
+                {similarHomes && (
+                  <Carousel responsive={responsive}>
+                    {similarHomes &&
+                      similarHomes.map((singleRelated, index) => {
+                        return (
+                          <div
+                            className="mx-auto col-md-10"
+                            key={index}
+                            style={{ paddingTop: "20px" }}
+                          >
+                            <PropertyCard
+                              propertyValues={singleRelated}
+                              history={history}
+                              onCardClick={cardClick}
+                            />
+                          </div>
+                        );
+                      })}
+                  </Carousel>
+                )}
+              </div>
+            )}
+            <div className="dHtGQa" id="blogs">
+              <h5 className="dTAnOx dZuCmF">Blogs</h5>
+              {blogs && (
+                <Carousel responsive={responsive}>
+                  {blogs.map((blog, index) => {
+                    return (
+                      <a href={blog.link} target="_blank" key={index}>
+                        <div className="blogCard mx-2">
+                          <div
+                            className="imageArea"
+                            style={{ backgroundImage: `url(${blog.image})` }}
+                          />
+                          <div className="blogBody">
+                            <h1>{blog.name}</h1>
+                            {blog.postcontent ? (
+                              <p>
+                                {blog.postcontent.length > 150
+                                  ? blog.postcontent
+                                    .substring(0, 150)
+                                    .concat("...")
+                                  : blog.postcontent.length}
+                              </p>
+                            ) : (
+                              <p></p>
+                            )}
+                          </div>
+                        </div>
+                      </a>
+                    );
+                  })}
+                </Carousel>
+              )}
+            </div>
+            {provider && (
+              <div className="home-details-listing-provided-by">
+                <div className="bUREIR">
+                  <div className="inlRtt">
+                    <img alt="" src={provider.assets.logo.url} />
+                  </div>
+                  <b>Copyrights:</b>
+                  <p className="bDTsLB">
+                    {provider.lexicon.en_US.copyright.replace(
+                      "&copy; {current_date_year}",
+                      "2021"
+                    )}
+                  </p>
+                  <b>Disclaimer:</b>
+                  <p className="bDTsLB">{provider.lexicon.en_US.disclaimer}</p>
+                </div>
+              </div>
+            )}
+
+            <div className="ds-breadcrumb-container">
+              <ul className="ds-breadcrumbs">
+                <li>
+                  <a href="#">New Jersey</a>
+                </li>
+                <li>
+                  <span></span>
+                  <a href="#">Marlboro</a>
+                </li>
+                <li>
+                  <span></span>
+                  <a href="#">07746</a>
+                </li>
+                <li>
+                  <span></span>
+                  <a href="#">40 Girard St</a>
+                </li>
+              </ul>
+            </div>
           </div>
           <Modal
             modalClassName="date-details"
