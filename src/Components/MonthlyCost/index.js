@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 const MonthlyCost = ({ myProperty }) => {
-  const [estimatedMonthlyCost, setEstimatedMonthlyCost] = useState(null);
 
   // for tabs
   const [showPrincipal, setShowPrincipal] = useState(false);
@@ -10,50 +9,84 @@ const MonthlyCost = ({ myProperty }) => {
   const [showInsurance, setShowInsurance] = useState(false);
 
   // for tabs values
-  const [interestvalues, setInterestValues] = useState(null);
+  const [estimatedMonthlyCost, setEstimatedMonthlyCost] = useState(0)
+  const [homePrice, setHomePrice] = useState(myProperty?.listPrice || 0.00)
+  const [interestvalues, setInterestValues] = useState({
+    downPayment: 0,
+    downPaymentPercentAge: 0,
+    interestRate: 2.875,
+    loanProgram: '30',
+    principleInterestPerMonth: 0.00
+  });
   const [homeInsurance, setHomeInsurance] = useState(null);
-  const [taxRate, setTaxRate] = useState(null);
+  const [taxRate, setTaxRate] = useState({
+    percentage: 2.48,
+    yearTaxRate: 0.00,
+    monthTaxRate: 0.00,
+  });
 
   useEffect(() => {
+    setValues(myProperty?.listPrice || 0.00, taxRate.percentage, 0, interestvalues.downPayment, 20, interestvalues.interestRate, interestvalues.loanProgram)
+  }, [myProperty]);
+
+  const setValues = (_homePrice, taxRatePercentage, perYearInsurance, downPayment, downPaymentPercentAge, interestRate, loanProgram) => {
     // Now calculating propertytax
-    let yearTaxRate = parseInt(myProperty?.listPrice) * 0.0248;
+    let yearTaxRate = parseInt(_homePrice) * (taxRatePercentage / 100);
     let monthTaxRate = yearTaxRate / 12;
     setTaxRate({
-      percentage: 2.48,
+      percentage: taxRatePercentage,
       yearTaxRate,
       monthTaxRate,
     });
     // Now calulating home insurance
-    let perYearInsurance = parseInt(myProperty?.listPrice) * 0.0042;
+    perYearInsurance = perYearInsurance ? perYearInsurance : parseInt(_homePrice) * 0.0042;
     let perMonthInsurance = perYearInsurance / 12;
     setHomeInsurance({
       perYearInsurance,
       perMonthInsurance,
     });
 
-    let _copy = {
-      homePrice: myProperty?.listPrice,
-      downPayment: 0,
-      downPaymentPercentAge: 20,
-      loanProgram: 'Fixed30Year',
-      interestRate: 2.875,
-    };
-    _copy.downPayment = parseInt(myProperty?.listPrice) * 0.2;
+    // Now calulating interest values
+    let _copy = { ...interestvalues };
+    if (downPayment !== interestvalues.downPayment) {
+      _copy.downPayment = downPayment;
+      _copy.downPaymentPercentAge = parseFloat((downPayment / _homePrice) * 100).toFixed(2)
+    } else if (downPaymentPercentAge !== interestvalues.downPaymentPercentAge) {
+      _copy.downPaymentPercentAge = downPaymentPercentAge;
+      _copy.downPayment = _homePrice * (downPaymentPercentAge / 100)
+    }
+    if (_homePrice !== homePrice) {
+      _copy.downPaymentPercentAge = downPaymentPercentAge;
+      _copy.downPayment = _homePrice * (downPaymentPercentAge / 100)
+    }
+    if (_copy.downPaymentPercentAge < 20) {
+      _copy.mortagePerMonth = parseInt(_homePrice) * ((20 - _copy.downPaymentPercentAge) / 24000)
+    } else {
+      _copy.mortagePerMonth = 0
+    }
     let remainingCost =
-      parseInt(myProperty?.listPrice) - parseInt(myProperty?.listPrice) * 0.2;
-    let interestPerYear = remainingCost * 0.02875;
-    let principleInterest = interestPerYear * 17.23;
-    let principleInterestPerMonth = (remainingCost + principleInterest) / 360;
+      parseInt(_homePrice) - (parseInt(_homePrice) * (_copy.downPaymentPercentAge / 100));
+
+    _copy.interestRate = interestRate;
+    let interestPerYear = remainingCost * (interestRate / 100);
+
+    _copy.loanProgram = loanProgram
+    let principleInterest = interestPerYear * (loanProgram === "15" ? 8.6 : 17.23);
+    let principleInterestPerMonth = (remainingCost + principleInterest) / (loanProgram === "15" ? 180 : 360);
     _copy.principleInterestPerMonth = principleInterestPerMonth;
-    let estimatedMonthlyCost =
+    setInterestValues(_copy);
+
+    // estimated Monthly Cost
+    let _estimatedMonthlyCost =
       (remainingCost +
         principleInterest +
-        perYearInsurance * 30 +
-        yearTaxRate * 30) /
-      360;
-    _copy.estimatedMonthlyCost = estimatedMonthlyCost;
-    setInterestValues(_copy);
-  }, [myProperty]);
+        perYearInsurance * parseInt(loanProgram) +
+        yearTaxRate * parseInt(loanProgram)) /
+      (loanProgram === "15" ? 180 : 360);
+    setEstimatedMonthlyCost(_estimatedMonthlyCost);
+    setHomePrice(_homePrice)
+  }
+
 
   return (
     <div className="dHtGQa" id="cost">
@@ -61,7 +94,7 @@ const MonthlyCost = ({ myProperty }) => {
       <div className="ePSpFA">
         <span className="foiYRz">Estimated monthly cost</span>
         <h5 className="dTAnOx">
-          ${interestvalues?.estimatedMonthlyCost?.toFixed(2)}
+          ${parseInt(estimatedMonthlyCost)}
         </h5>
       </div>
       <div className="fgVRFP">
@@ -75,7 +108,7 @@ const MonthlyCost = ({ myProperty }) => {
                 <div className="jLwdhz">
                   <span className="iuVuVk">Principal&amp; interest</span>
                   <span className="cNBYuL">
-                    ${interestvalues?.principleInterestPerMonth?.toFixed(2)}
+                    ${parseInt(interestvalues?.principleInterestPerMonth)}
                     /mo
                   </span>
                 </div>
@@ -101,7 +134,9 @@ const MonthlyCost = ({ myProperty }) => {
                     type="number"
                     className="w-100 "
                     min="10000"
-                    defaultValue={interestvalues?.homePrice}
+                    onBlur={(event) => setValues(parseInt(event.target.value || myProperty.listPrice), taxRate.percentage, homeInsurance.perYearInsurance, interestvalues.downPayment, interestvalues.downPaymentPercentAge, interestvalues.interestRate, interestvalues.loanProgram)}
+                    onChange={(event) => setHomePrice(event.target.value)}
+                    value={homePrice || 0}
                   />
                   <span>$</span>
                 </div>
@@ -115,7 +150,13 @@ const MonthlyCost = ({ myProperty }) => {
                     <input
                       type="number"
                       className="w-100 leftInput"
-                      defaultValue={interestvalues?.downPayment}
+                      onBlur={(event) => setValues(homePrice || 0, taxRate.percentage, homeInsurance.perYearInsurance, parseInt(event.target.value), interestvalues.downPaymentPercentAge, interestvalues.interestRate, interestvalues.loanProgram)}
+                      onChange={(event) => {
+                        const _copy = { ...interestvalues };
+                        _copy.downPayment = event.target.value
+                        setInterestValues({ ..._copy })
+                      }}
+                      value={parseInt(interestvalues?.downPayment || 0)}
                     />
                     <span>$</span>
                   </div>
@@ -126,7 +167,13 @@ const MonthlyCost = ({ myProperty }) => {
                     <input
                       type="number"
                       className="w-100 leftInput"
-                      defaultValue={interestvalues?.downPaymentPercentAge}
+                      onBlur={(event) => setValues(homePrice || 0, taxRate.percentage, homeInsurance.perYearInsurance, interestvalues.downPayment, parseInt(event.target.value), interestvalues.interestRate, interestvalues.loanProgram)}
+                      onChange={(event) => {
+                        const _copy = { ...interestvalues };
+                        _copy.downPaymentPercentAge = event.target.value
+                        setInterestValues({ ..._copy })
+                      }}
+                      value={interestvalues?.downPaymentPercentAge}
                     />
                     <span>%</span>
                   </div>
@@ -138,10 +185,10 @@ const MonthlyCost = ({ myProperty }) => {
                 <div className="col-7 pl-0">
                   <label>Loan program</label>
                   <div>
-                    <select value={interestvalues?.loanProgram}>
-                      <option value="Fixed30Year">30-year fixed</option>
-                      <option value="Fixed15Year">15-year fixed</option>
-                      <option value="ARM5">5/1 ARM</option>
+                    <select onChange={(event) => setValues(homePrice || 0, taxRate.percentage, homeInsurance.perYearInsurance, interestvalues.downPayment, interestvalues.downPaymentPercentAge, interestvalues.interestRate, event.target.value)} value={interestvalues?.loanProgram}>
+                      <option value="30">30-year fixed</option>
+                      <option value="15">15-year fixed</option>
+                      <option value="30">5/1 ARM</option>
                     </select>
                   </div>
                 </div>
@@ -151,7 +198,13 @@ const MonthlyCost = ({ myProperty }) => {
                     <input
                       type="number"
                       className="w-100 leftInput"
-                      defaultValue={interestvalues?.interestRate}
+                      onBlur={(event) => setValues(homePrice || 0, taxRate.percentage, homeInsurance.perYearInsurance, interestvalues.downPayment, interestvalues.downPaymentPercentAge, parseFloat(event.target.value), interestvalues.loanProgram)}
+                      onChange={(event) => {
+                        const _copy = { ...interestvalues };
+                        _copy.interestRate = event.target.value
+                        setInterestValues({ ..._copy })
+                      }}
+                      value={interestvalues?.interestRate}
                     />
                     <span>%</span>
                   </div>
@@ -169,8 +222,8 @@ const MonthlyCost = ({ myProperty }) => {
             >
               <div className="gqqTSu">
                 <div className="jLwdhz">
-                  <span className="iuVuVk">Mortgage nsurance</span>
-                  <span className="cNBYuL">$0/mo</span>
+                  <span className="iuVuVk">Mortgage Insurance</span>
+                  <span className="cNBYuL">${parseInt(interestvalues.mortagePerMonth || 0)}/mo</span>
                 </div>
                 {/* switch icon */}
                 <div className="dropdownIcon">
@@ -186,7 +239,7 @@ const MonthlyCost = ({ myProperty }) => {
             {showMortage && (
               <div className="calculatorDetailDiv">
                 <div className="d-flex align-items-center">
-                  <input type="checkbox" />
+                  <input type="checkbox" checked={interestvalues.downPaymentPercentAge < 20} />
                   <label className="mb-0 ml-2">
                     Include mortgage insurance
                   </label>
@@ -209,7 +262,7 @@ const MonthlyCost = ({ myProperty }) => {
                 <div className="jLwdhz">
                   <span className="iuVuVk">Property taxes</span>
                   <span className="cNBYuL">
-                    ${taxRate?.monthTaxRate?.toFixed(2)}/mo
+                    ${parseInt(taxRate?.monthTaxRate)}/mo
                   </span>
                 </div>
                 {/* switch icon */}
@@ -232,7 +285,7 @@ const MonthlyCost = ({ myProperty }) => {
                 <div className="d-flex align-items-end mt-4">
                   <div className="col-3">
                     <label>Home price</label>
-                    <p>{myProperty?.listPrice}</p>
+                    <p>{homePrice}</p>
                   </div>
                   <div className="col-5">
                     <label>Tax rate</label>
@@ -240,7 +293,13 @@ const MonthlyCost = ({ myProperty }) => {
                       <input
                         type="number"
                         className="w-100 leftInput"
-                        defaultValue={taxRate?.percentage}
+                        onBlur={(event) => setValues(homePrice || 0, parseFloat(event.target.value), homeInsurance.perYearInsurance, interestvalues.downPayment, interestvalues.downPaymentPercentAge, interestvalues.interestRate, interestvalues.loanProgram)}
+                        onChange={(event) => {
+                          const _copy = { ...taxRate };
+                          _copy.percentage = event.target.value
+                          setTaxRate({ ..._copy })
+                        }}
+                        value={taxRate?.percentage}
                       />
                       <span>%</span>
                     </div>
@@ -266,7 +325,7 @@ const MonthlyCost = ({ myProperty }) => {
                 <div className="jLwdhz">
                   <span className="iuVuVk">Home insurance</span>
                   <span className="cNBYuL">
-                    ${homeInsurance?.perMonthInsurance?.toFixed(2)}/mo
+                    ${parseInt(homeInsurance?.perMonthInsurance)}/mo
                   </span>
                 </div>
                 {/* switch icon */}
@@ -285,9 +344,13 @@ const MonthlyCost = ({ myProperty }) => {
                     <div className="position-relative rightInput">
                       <input
                         type="number"
-                        defaultValue={homeInsurance?.perYearInsurance?.toFixed(
-                          2
-                        )}
+                        onBlur={(event) => setValues(homePrice || 0, taxRate.percentage, parseInt(event.target.value), interestvalues.downPayment, interestvalues.downPaymentPercentAge, interestvalues.interestRate, interestvalues.loanProgram)}
+                        onChange={(event) => {
+                          const _copy = { ...homeInsurance };
+                          _copy.perYearInsurance = event.target.value
+                          setHomeInsurance({ ..._copy })
+                        }}
+                        value={parseInt(homeInsurance?.perYearInsurance)}
                         className="w-100 leftInput"
                         style={{ paddingLeft: '30px' }}
                       />
