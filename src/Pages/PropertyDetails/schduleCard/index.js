@@ -8,6 +8,7 @@ import {
   NotificationContainer,
   NotificationManager,
 } from "react-notifications";
+import { Formik } from "formik";
 const Index = ({ modalDates, myProperty, setShowDateModal }) => {
   const replaceValue = (text, name, value) => {
     const lastName = name;
@@ -15,12 +16,15 @@ const Index = ({ modalDates, myProperty, setShowDateModal }) => {
     return sol.indexOf(name) !== -1 ? replaceValue(sol, lastName, value) : sol;
   };
   const [selectedDate, setSelectedDate] = useState(modalDates && modalDates[0]);
-  const [selectedTime, setSelectedTime] = useState("11:00 am");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [formInitial, setFormInitial] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    selectedTime: "9:00 am",
+  });
+console.log(selectedDate,"check selcted date")
   const responsiveDates = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -41,6 +45,10 @@ const Index = ({ modalDates, myProperty, setShowDateModal }) => {
     },
   };
   const times = [
+    "9:00 am",
+    "9:30 am",
+    "10:00 am",
+    "10:30 am",
     "11:00 am",
     "11:30 am",
     "12:00 pm",
@@ -59,8 +67,7 @@ const Index = ({ modalDates, myProperty, setShowDateModal }) => {
     "6:30 pm",
     "7:00 pm",
   ];
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const submitHandler = (values) => {
     let message = `
     <html>
     <head>
@@ -78,6 +85,7 @@ const Index = ({ modalDates, myProperty, setShowDateModal }) => {
     <p><b>Here are details.</b></p>
     <ul>
     <li>My Full-name is: [[name]]</li>
+    <li>My email is: [[phone]]</li>
     <li>My email is: [[email]]</li>
     <li>Date: [[date]]</li>
     <li>Time:[[time]]</li>
@@ -85,25 +93,22 @@ const Index = ({ modalDates, myProperty, setShowDateModal }) => {
     </body>
     </html>
     `;
-    if (!name) {
-    
-      setNameError("Please enter your name");
-      return;
-    }
-    if (!email) {
-      setEmailError("Please enter your email");
-      return;
-    }
+
     setLoading(true);
-    message = replaceValue(message, "[[name]]", name);
-    message = replaceValue(message, "[[email]]", email);
+    message = replaceValue(
+      message,
+      "[[name]]",
+      values.firstName + " " + values.lastName
+    );
+    message = replaceValue(message, "[[email]]", values.email);
+    message = replaceValue(message, "[[phone]]", values.phone);
     message = replaceValue(message, "[[date]]", selectedDate);
-    message = replaceValue(message, "[[time]]", selectedTime);
+    message = replaceValue(message, "[[time]]", values.selectedTime);
     message = replaceValue(message, "[[link]]", urlReturn(myProperty));
     let data = {
       FromAddress: emailFrom,
       ToAddresses: emailTo,
-      Subject: "Tour with a Buyer's Agent",
+      Subject: "Tour with a eHome Advisor",
       Message: message,
     };
     axios
@@ -111,34 +116,21 @@ const Index = ({ modalDates, myProperty, setShowDateModal }) => {
       .then((res) => {
         NotificationManager.success(
           "Email has been processed",
-          "Tour with agent"
+          "Tour with eHome Advisor"
         );
         setLoading(false);
       })
       .catch((err) => {
         NotificationManager.error(
           "Something went wrong.Please try again",
-          "Tour with agent"
+          "Tour with eHome Advisor"
         );
         setLoading(false);
       });
-    setName("");
-    setSelectedTime("11:00 am");
-    setSelectedDate(modalDates && modalDates[0]);
-    setEmail("");
     if (setShowDateModal) {
       setShowDateModal(false);
     }
   };
-  const NameHandler = (value) => {
-    setName(value);
-    setNameError("");
-  };
-  const emailHandler = (value) => {
-    setEmailError("");
-    setEmail(value);
-  };
-  console.log(selectedTime, "check time");
   return (
     <div className="ivyodi" id="schedule">
       <div className="col-10 mx-auto px-2 py-2 card">
@@ -146,106 +138,170 @@ const Index = ({ modalDates, myProperty, setShowDateModal }) => {
           className="bpPStC scheduleCardHeading"
           style={{ fontSize: "18px", textAlign: "center" }}
         >
-          <strong>Tour with a Buyer's Agent</strong>
+          <strong>Tour with eHome Advisor</strong>
         </p>
         <div className="gwtwTs">
-          We'll connect you with a local agent who can give you a personalized
-          tour of the home in-person or via video chat.
+          We will connect you with our eHome Advisor who can give you a
+          professional and personalized tour of this home or with video chat.
         </div>
-        <form onSubmit={(e) => submitHandler(e)}>
-          <input
-            type="text"
-            className="form-control mt-4"
-            placeholder="Name"
-            onChange={(e) => NameHandler(e.target.value)}
-          />
-          {nameError && (
-            <p className="mb-0" style={{ fontSize: "8px", color: "red" }}>
-              {nameError}
-            </p>
+        <Formik
+          enableReinitialize={true}
+          initialValues={formInitial}
+          validate={(values) => {
+            const errors = {};
+
+            if (!values.firstName) {
+              errors.firstName = "Required";
+            }
+            if (!values.lastName) {
+              errors.lastName = "Required";
+            }
+            if (!values.email) {
+              errors.email = "Required";
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+            ) {
+              errors.email = "Invalid email address";
+            }
+            if (!values.phone) {
+              errors.phone = "Required";
+            }
+            return errors;
+          }}
+          onSubmit={submitHandler}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                className="form-control mt-4"
+                placeholder="First Name"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.firstName}
+                name="firstName"
+              />
+              {errors.firstName && touched.firstName && (
+                <p className="mb-0" style={{ fontSize: "8px", color: "red" }}>
+                  {errors.firstName}
+                </p>
+              )}
+              <input
+                type="text"
+                className="form-control mt-2"
+                placeholder="Last Name"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.lastName}
+                name="lastName"
+              />
+              {errors.lastName && touched.lastName && (
+                <p className="mb-0" style={{ fontSize: "8px", color: "red" }}>
+                  {errors.lastName}
+                </p>
+              )}
+              <input
+                type="email"
+                className="form-control mt-2"
+                placeholder="Email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+                name="email"
+              />
+              {errors.email && touched.email && (
+                <p className="mb-0" style={{ fontSize: "8px", color: "red" }}>
+                  {errors.email}
+                </p>
+              )}
+              <input
+                type="tel"
+                className="form-control mt-2"
+                placeholder="Phone"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.phone}
+                name="phone"
+              />
+              {errors.phone && touched.phone && (
+                <p className="mb-0" style={{ fontSize: "8px", color: "red" }}>
+                  {errors.phone}
+                </p>
+              )}
+              <h5 className="dTAnOx py-4">Select a date</h5>
+              <div className="col-10 mx-auto position-relative">
+                {modalDates && (
+                  <Carousel responsive={responsiveDates}>
+                    {modalDates.map((date, index) => {
+                      return (
+                        <div className="mx-1" key={index}>
+                          <div
+                            className={
+                              selectedDate === date
+                                ? " dateCardActive"
+                                : "dateCardInActive"
+                            }
+                            onClick={() => setSelectedDate(date)}
+                          >
+                            <p className="day mb-0">
+                              {moment(date).format("ddd")}
+                            </p>
+                            <p className="mb-0">
+                              {moment(date).format("MMM")}&nbsp;
+                              {moment(date).format("D")}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </Carousel>
+                )}
+              </div>
+              <select
+                className="mt-4"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.selectedTime}
+                name="selectedTime"
+              >
+                {times &&
+                  times.map((time, index) => {
+                    return (
+                      <option key={index} value={time}>
+                        {time}
+                      </option>
+                    );
+                  })}
+              </select>
+              {errors.selectedTime && touched.selectedTime && (
+                <p className="mb-0" style={{ fontSize: "8px", color: "red" }}>
+                  {errors.selectedTime}
+                </p>
+              )}
+              <button
+                type="submit"
+                id="selectDatebutton"
+                className="offerMakeButton my-4"
+                style={{ backgroundColor: "#336699" }}
+              >
+                {loading ? "Requesting..." : "Request this time"}
+              </button>
+            </form>
           )}
-          <input
-            type="email"
-            className="form-control mt-2"
-            placeholder="Email"
-            onChange={(e) => emailHandler(e.target.value)}
-          />
-          {emailError && (
-            <p className="mb-0" style={{ fontSize: "8px", color: "red" }}>
-              {emailError}
-            </p>
-          )}
-          <h5 className="dTAnOx py-4">Select a date</h5>
-          <div className="col-10 mx-auto position-relative">
-            {modalDates && (
-              <Carousel responsive={responsiveDates}>
-                {modalDates.map((date, index) => {
-                  return (
-                    <div className="mx-1" key={index}>
-                      <div
-                        className={
-                          selectedDate === date
-                            ? " dateCardActive"
-                            : "dateCardInActive"
-                        }
-                        onClick={() => setSelectedDate(date)}
-                      >
-                        <p className="day mb-0">{moment(date).format("ddd")}</p>
-                        <p className="mb-0">
-                          {moment(date).format("MMM")}&nbsp;
-                          {moment(date).format("D")}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </Carousel>
-            )}
-          </div>
-          <select
-            className="mt-4"
-            onChange={(e) => setSelectedTime(e.target.value)}
-          >
-            {times &&
-              times.map((time, index) => {
-                return (
-                  <option key={index} value={time}>
-                    {time}
-                  </option>
-                );
-              })}
-          </select>
-          <button
-            type="submit"
-            id="selectDatebutton"
-            className="offerMakeButton my-4"
-            style={{ backgroundColor: "#336699" }}
-          >
-            {loading ? "Requesting..." : "Request this time"}
-          </button>
-        </form>
+        </Formik>
         <div
-          className="w-100 d-flex align-items-center mb-4 pl-4"
+          className="w-100 d-flex align-items-center mb-4"
           style={{ color: "#336699" }}
         >
-          <div
-            style={{
-              minWidth: "20px",
-              minHeight: "20px",
-              borderRadius: "20px",
-              backgroundColor: "#336699",
-            }}
-            className="d-flex justify-content-center align-items-center mr-1"
-          >
-            <i
-              class="fa fa-dollar-sign"
-              style={{
-                color: "white",
-                fontSize: "10px",
-              }}
-            ></i>
-          </div>{" "}
-          Public Health Advisory
+          By submitting this request you agree to out terms and conditions.
         </div>
       </div>
     </div>

@@ -26,6 +26,7 @@ import BathIcon from "../../assets/images/bath_icon.png";
 import FtIcon from "../../assets/images/ft_icon.png";
 import ScheduleCard from "./schduleCard";
 import { bePath } from "../../apiPaths";
+import NumberFormat from 'react-number-format';
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -61,7 +62,7 @@ const PropertyDetails = ({
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDateModal, setShowDateModal] = useState(false);
   const [similarHomes, setSimilarHomes] = useState(null);
-  console.log(myProperty, "check my property");
+  const [mCost,setMCost] = useState(0)
 
   // for getting blogs
 
@@ -101,12 +102,12 @@ const PropertyDetails = ({
       axios
         .get(
           bePath +
-          "/searchProperties?market=" +
-          myProperty.market +
-          "&extended=true&listingtype=" +
-          myProperty.listingType +
-          "&details=true&listingDate=>6/1/2015&zip=" +
-          myProperty.xf_postalcode
+            "/searchProperties?market=" +
+            myProperty.market +
+            "&extended=true&listingtype=" +
+            myProperty.listingType +
+            "&details=true&listingDate=>6/1/2015&zip=" +
+            myProperty.xf_postalcode
         )
         .then((res) => {
           if (res.data.result.listing && res.data.result.listing.length) {
@@ -117,12 +118,12 @@ const PropertyDetails = ({
       axios
         .get(
           bePath +
-          "/searchProperties?market=" +
-          myProperty.market +
-          "&extended=true&baths=" +
-          myProperty?.baths?.total +
-          "&details=true&listingDate=>6/1/2015&beds=" +
-          myProperty?.beds
+            "/searchProperties?market=" +
+            myProperty.market +
+            "&extended=true&baths=" +
+            myProperty?.baths?.total +
+            "&details=true&listingDate=>6/1/2015&beds=" +
+            myProperty?.beds
         )
         .then((res) => {
           if (res.data.result.listing && res.data.result.listing.length) {
@@ -138,8 +139,8 @@ const PropertyDetails = ({
       axios
         .get(
           "https://slipstream.homejunction.com/ws/markets/get?id=" +
-          myProperty.market +
-          "&details=true",
+            myProperty.market +
+            "&details=true",
           config
         )
         .then((res) => {
@@ -211,8 +212,8 @@ const PropertyDetails = ({
       items: 1,
     },
   };
-  // Responsive setting for slider dates
-  const responsiveDates = {
+  // Responsive setting for slider blogs
+  const responsiveBlogs = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
       breakpoint: { max: 4000, min: 3000 },
@@ -220,11 +221,11 @@ const PropertyDetails = ({
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 3,
+      items: 2,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
-      items: 3,
+      items: 2,
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
@@ -238,8 +239,9 @@ const PropertyDetails = ({
   let location = typeof window !== "undefined" && window.location;
   return (
     <div
-      className={`property-details-content ${modalLoader ? "d-flex justify-content-center align-items-center" : ""
-        }`}
+      className={`property-details-content ${
+        modalLoader ? "d-flex justify-content-center align-items-center" : ""
+      }`}
     >
       {/* The absolute div of status */}
       {!modalLoader && (
@@ -400,12 +402,12 @@ const PropertyDetails = ({
                             className="mr-1"
                           />
                           {myProperty.attomData &&
-                            myProperty.attomData.building ? (
+                          myProperty.attomData.building ? (
                             <span>
                               {myProperty.attomData &&
                                 myProperty.attomData.building.size.bldgSize +
-                                " " +
-                                "sqft"}
+                                  " " +
+                                  "sqft"}
                             </span>
                           ) : (
                             <>
@@ -449,7 +451,7 @@ const PropertyDetails = ({
                         {myProperty.address.street}
                         {myProperty.address.street && <br />}
                         {myProperty.address.city &&
-                          myProperty.address.city.indexOf("Twp") !== -1
+                        myProperty.address.city.indexOf("Twp") !== -1
                           ? myProperty.address.city.split("Twp.").join("")
                           : myProperty.address.city}{" "}
                         , {myProperty.address.state}
@@ -525,7 +527,9 @@ const PropertyDetails = ({
                         ></i>
                       </div>
                       <span className="sc-oTmZL kfNTWi">Est Paymt :&nbsp;</span>
-                      <span>$ per/mo</span>
+
+                     
+                      <span>$ {mCost && dollarUSLocale.format(parseInt(mCost)) } per/mo</span>
                     </div>
                   </div>
                 </div>
@@ -1219,32 +1223,29 @@ const PropertyDetails = ({
             </div>
 
             <ScheduleCard modalDates={modalDates} myProperty={myProperty} />
-            <MonthlyCost myProperty={myProperty} />
+            <MonthlyCost myProperty={myProperty} setMCost={setMCost}/>
             <div className="kkFAbf" id="taxAndPrice">
               <h4 className="dTAnOx">Tax history</h4>
               <div className="facts-card">
                 <ul className="fact-list">
-                  <li className="fact-item d-block">
-                    <i className="sc-pktCe gUXGEs zsg-icon-buildings"></i>
-                    <span className="cDEvWM">Tax amount:</span>
+                  <li className="fact-item flex-column">
+                    <span className="taxHead">Tax amount</span>
                     <span className="eBiAkN">
                       $
                       {myProperty?.attomData?.assessment?.tax?.taxAmt ||
                         myProperty?.xf_taxamount}
                     </span>
                   </li>
-                  <li className="fact-item d-block">
-                    <i className="sc-pktCe gUXGEs zsg-icon-buildings"></i>
-                    <span className="cDEvWM">Tax per size unit:</span>
+                  <li className="fact-item flex-column">
+                    <span className="taxHead">Tax per size unit</span>
                     <span className="eBiAkN">
                       $
                       {myProperty?.attomData?.assessment?.tax?.taxPerSizeUnit ||
                         myProperty?.xf_taxrate}
                     </span>
                   </li>
-                  <li className="fact-item d-block">
-                    <i className="sc-pktCe gUXGEs zsg-icon-buildings"></i>
-                    <span className="cDEvWM">Tax year:</span>
+                  <li className="fact-item flex-column">
+                    <span className="taxHead">Tax year</span>
                     <span className="eBiAkN">
                       {myProperty?.attomData?.assessment?.tax?.taxYear ||
                         myProperty?.xf_taxyear}
@@ -1292,7 +1293,7 @@ const PropertyDetails = ({
                 <h4 className="dTAnOx dZuCmF">Nearby schools in Marlboro</h4>
                 <div className="eUOzkf">
                   <h5 className="bSxNCK">
-                    Schools provided by the listing agent
+                    Schools provided by the listing advisor
                   </h5>
                   <div className="gtLCRl">
                     {myProperty.schools.elementary && (
@@ -1367,7 +1368,7 @@ const PropertyDetails = ({
             <div className="dHtGQa" id="blogs">
               <h5 className="dTAnOx dZuCmF">Blogs</h5>
               {blogs && (
-                <Carousel responsive={responsive}>
+                <Carousel responsive={responsiveBlogs}>
                   {blogs.map((blog, index) => {
                     return (
                       <a href={blog.link} target="_blank" key={index}>
@@ -1382,8 +1383,8 @@ const PropertyDetails = ({
                               <p>
                                 {blog.postcontent.length > 150
                                   ? blog.postcontent
-                                    .substring(0, 150)
-                                    .concat("...")
+                                      .substring(0, 150)
+                                      .concat("...")
                                   : blog.postcontent.length}
                               </p>
                             ) : (

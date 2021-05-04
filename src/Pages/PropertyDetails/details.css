@@ -1939,6 +1939,7 @@ input[type="radio"] + label {
 }
 .blogCard .blogBody {
   padding: 15px;
+  min-height: 100px;
 }
 .blogCard .blogBody h1 {
   font-size: 16px;
@@ -2138,4 +2139,15 @@ input[type="number"] {
 }
 #similar .locationIcon,#neighborhood .locationIcon{
   margin-right: 10px;
+}
+.taxHead{
+  color: rgb(42, 42, 51);
+  -webkit-font-smoothing: antialiased;
+  text-transform: capitalize;
+  font-family: "Open Sans", Tahoma, Geneva, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 24px;
+  margin: 0px 8px 0px 0px;
+  letter-spacing: 0.5px;
 }

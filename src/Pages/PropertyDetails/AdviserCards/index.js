@@ -61,7 +61,7 @@ const AdviserCards = ({ agentData, lenderData, myProperty }) => {
       <li>Do you want to get pre-approved by a lender:[[lender]]</li>
       </ul>
       <br/>
-      <p><b>Here are agent's details.</b></p>
+      <p><b>Here are advisor's details.</b></p>
       <ul>
       <li>Name: [[agentName]]</li>
       <li>Email: [[agentEmail]]</li>
@@ -116,7 +116,7 @@ const AdviserCards = ({ agentData, lenderData, myProperty }) => {
     data = {
       FromAddress: emailFrom,
       ToAddresses: emailTo,
-      Subject: agentData ? "Contact agent" : "Contact ehome agent",
+      Subject: agentData ? "Contact advisor" : "Contact ehome advisor",
       Message: message,
     };
     axios
@@ -124,14 +124,14 @@ const AdviserCards = ({ agentData, lenderData, myProperty }) => {
       .then((res) => {
         NotificationManager.success(
           "Email has been processed",
-          "Contact Agent"
+          "Contact Advisor"
         );
         setAgentLoading(false);
       })
       .catch((err) => {
         NotificationManager.error(
           "Something went wrong.Please try again",
-          "Contact Agent"
+          "Contact Advisor"
         );
         setAgentLoading(false);
       });
@@ -225,7 +225,7 @@ const AdviserCards = ({ agentData, lenderData, myProperty }) => {
     data = {
       FromAddress: emailFrom,
       ToAddresses: emailTo,
-      Subject: agentData ? "Contact lender" : "Contact ehome lender",
+      Subject: lenderData ? "Contact lender" : "Contact ehome lender",
       Message: message,
     };
     axios
@@ -267,7 +267,7 @@ const AdviserCards = ({ agentData, lenderData, myProperty }) => {
             </div>
             <div className="px-4">
               <h2 className="m-0">
-                Contact {!agentData && <span>ehome </span>} agent
+                Contact {!agentData && <span>ehome </span>} advisor
               </h2>
             </div>
           </div>
