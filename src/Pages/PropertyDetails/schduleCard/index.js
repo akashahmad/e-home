@@ -102,7 +102,7 @@ const Index = ({ modalDates, myProperty, setShowDateModal }) => {
     message = replaceValue(message, "[[link]]", urlReturn(myProperty));
     let data = {
       FromAddress: emailFrom,
-      ToAddresses: [emailTo],
+      ToAddresses: emailTo,
       Subject: "Tour with a Buyer's Agent",
       Message: message,
     };

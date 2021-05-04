@@ -99,7 +99,7 @@ const Index = ({
 
       let data = {
         FromAddress: emailFrom,
-        ToAddresses: [emailTo],
+        ToAddresses: emailTo,
         Subject: "Instant offer for property",
         Message: message,
       };

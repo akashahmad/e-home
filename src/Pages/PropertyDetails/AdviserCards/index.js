@@ -115,7 +115,7 @@ const AdviserCards = ({ agentData, lenderData, myProperty }) => {
     );
     data = {
       FromAddress: emailFrom,
-      ToAddresses: [emailTo],
+      ToAddresses: emailTo,
       Subject: agentData ? "Contact agent" : "Contact ehome agent",
       Message: message,
     };
@@ -224,7 +224,7 @@ const AdviserCards = ({ agentData, lenderData, myProperty }) => {
     );
     data = {
       FromAddress: emailFrom,
-      ToAddresses: [emailTo],
+      ToAddresses: emailTo,
       Subject: agentData ? "Contact lender" : "Contact ehome lender",
       Message: message,
     };
