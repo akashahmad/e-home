@@ -26,7 +26,7 @@ import BathIcon from "../../assets/images/bath_icon.png";
 import FtIcon from "../../assets/images/ft_icon.png";
 import ScheduleCard from "./schduleCard";
 import { bePath } from "../../apiPaths";
-import NumberFormat from 'react-number-format';
+import NumberFormat from "react-number-format";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -62,7 +62,7 @@ const PropertyDetails = ({
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDateModal, setShowDateModal] = useState(false);
   const [similarHomes, setSimilarHomes] = useState(null);
-  const [mCost,setMCost] = useState(0)
+  const [mCost, setMCost] = useState(0);
 
   // for getting blogs
 
@@ -528,8 +528,10 @@ const PropertyDetails = ({
                       </div>
                       <span className="sc-oTmZL kfNTWi">Est Paymt :&nbsp;</span>
 
-                     
-                      <span>$ {mCost && dollarUSLocale.format(parseInt(mCost)) } per/mo</span>
+                      <span>
+                        $ {mCost && dollarUSLocale.format(parseInt(mCost))}{" "}
+                        per/mo
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -904,15 +906,23 @@ const PropertyDetails = ({
                           <span className="foiYRz">
                             Heating features:
                             {myProperty.xf_heating &&
+                              typeof myProperty.xf_heating !== "string" &&
                               myProperty.xf_heating.length > 0 &&
                               myProperty.xf_heating.map((item) => {
                                 return <span> {item} </span>;
                               })}
+                            {myProperty.xf_heating &&
+                              typeof myProperty.xf_heating === "string" &&
+                              myProperty.xf_heating.split(",").join(" ")}
                             {myProperty.xf_heatsrc &&
+                              typeof myProperty.xf_heatsrc !== "string" &&
                               myProperty.xf_heatsrc.length > 0 &&
                               myProperty.xf_heatsrc.map((item) => {
                                 return <span> {item} </span>;
                               })}
+                            {myProperty.xf_heatsrc &&
+                              typeof myProperty.xf_heatsrc === "string" &&
+                              myProperty.xf_heatsrc.split(",").join(" ")}
                           </span>
                         </li>
                       </ul>
@@ -924,10 +934,14 @@ const PropertyDetails = ({
                           <span className="foiYRz">
                             Cooling features:
                             {myProperty.xf_cooling &&
+                              typeof myProperty.xf_cooling !== "string" &&
                               myProperty.xf_cooling.length > 0 &&
                               myProperty.xf_cooling.map((item) => {
                                 return <span> {item} </span>;
                               })}
+                            {myProperty.xf_cooling &&
+                              typeof myProperty.xf_cooling === "string" &&
+                              myProperty.xf_cooling.split(",").join(" ")}
                           </span>
                         </li>
                       </ul>
@@ -939,10 +953,14 @@ const PropertyDetails = ({
                           <span className="foiYRz">
                             Appliances included:
                             {myProperty.xf_appliances &&
+                              typeof myProperty.xf_appliances !== "string" &&
                               myProperty.xf_appliances.length > 0 &&
                               myProperty.xf_appliances.map((item) => {
                                 return <span> {item} </span>;
                               })}
+                            {myProperty.xf_appliances &&
+                              typeof myProperty.xf_appliances === "string" &&
+                              myProperty.xf_appliances.split(",").join(" ")}
                           </span>
                         </li>
                       </ul>
@@ -961,7 +979,7 @@ const PropertyDetails = ({
                         <li>
                           <span className="foiYRz">
                             Total number of fireplaces:{" "}
-                            {myProperty.xf_fireplaces}
+                            {myProperty?.xf_fireplaces}
                           </span>
                         </li>
                         <li>
@@ -1100,6 +1118,9 @@ const PropertyDetails = ({
                               myProperty.xf_exterior.map((item) => {
                                 return <span> {item} </span>;
                               })}
+                            {myProperty.xf_exterior &&
+                              typeof myProperty.xf_exterior === "string" &&
+                              myProperty.xf_exterior.split(",").join(" ")}
                           </span>
                         </li>
                         <li>
@@ -1109,10 +1130,14 @@ const PropertyDetails = ({
                           <span className="foiYRz">
                             Roof:
                             {myProperty.xf_roof &&
+                              typeof myProperty.xf_roof !== "string" &&
                               myProperty.xf_roof.length > 0 &&
                               myProperty.xf_roof.map((item) => {
                                 return <span> {item} </span>;
                               })}
+                            {myProperty.xf_roof &&
+                              typeof myProperty.xf_roof === "string" &&
+                              myProperty.xf_roof.split(",").join(" ")}
                           </span>
                         </li>
                         <li>
@@ -1223,7 +1248,7 @@ const PropertyDetails = ({
             </div>
 
             <ScheduleCard modalDates={modalDates} myProperty={myProperty} />
-            <MonthlyCost myProperty={myProperty} setMCost={setMCost}/>
+            <MonthlyCost myProperty={myProperty} setMCost={setMCost} />
             <div className="kkFAbf" id="taxAndPrice">
               <h4 className="dTAnOx">Tax history</h4>
               <div className="facts-card">

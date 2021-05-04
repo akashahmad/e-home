@@ -153,6 +153,7 @@ class Listings extends Component {
     }
     // else this.onChangeTypes(this.state.newActiveType);
     if (path[3]) {
+    
       this.onCardClick("", "", "", path[3], "", "external");
     }
     let search = this.props.history.location.search;
