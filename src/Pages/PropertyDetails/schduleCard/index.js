@@ -9,7 +9,7 @@ import {
   NotificationManager,
 } from "react-notifications";
 import { Formik } from "formik";
-const Index = ({ modalDates, myProperty, setShowDateModal }) => {
+const Index = ({ modalDates, myProperty, setShowDateModal,showDateModal}) => {
   const replaceValue = (text, name, value) => {
     const lastName = name;
     const sol = text.replace(name, value);
@@ -139,9 +139,13 @@ console.log(selectedDate,"check selcted date")
   }
   return (
     <div className="ivyodi schCard" id="schedule">
+      {
+        showDateModal &&
+      
        <div className="modalCLoseButton d-md-none" onClick={()=>toggleHandler()}>
             <i className="fa fa-times"></i>
           </div>
+}
       <div className="col-10 mx-auto px-2 py-2 card">
         <p
           className="bpPStC scheduleCardHeading"

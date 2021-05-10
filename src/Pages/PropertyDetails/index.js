@@ -10,15 +10,15 @@ import {
   toggleLoginModal,
   getAllAdverts,
 } from "../../store/actions/Auth";
-import moment from "moment";
+
 import MapProperty from "../../Components/MapProperty";
 import PropertyCard from "../../Components/PropertyCard";
 import MonthlyCost from "../../Components/MonthlyCost";
-import { apiUrl, publicToken } from "../../config";
+import {publicToken} from "../../config";
 import axios from "axios";
 import Carousel from "react-multi-carousel";
 import { Modal, ModalBody } from "reactstrap";
-import OutsideClick from "@alphasquad/outside-click";
+
 import OutsideClickHandler from "react-outside-click-handler";
 import LocationIcon from "../../assets/images/location_icon.png";
 import BedIcon from "../../assets/images/bed_icon.png";
@@ -26,7 +26,7 @@ import BathIcon from "../../assets/images/bath_icon.png";
 import FtIcon from "../../assets/images/ft_icon.png";
 import ScheduleCard from "./schduleCard";
 import { bePath } from "../../apiPaths";
-import NumberFormat from "react-number-format";
+
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -36,16 +36,11 @@ import {
   LinkedinIcon,
 } from "react-share";
 const PropertyDetails = ({
-  propertyId,
-  propertyMarket,
-  searchProperty,
   myProperty,
   propertyType,
   history,
   blogsData,
   onCardClick,
-  isSearched,
-  localData,
   modalLoader,
   toggle,
 }) => {
@@ -60,7 +55,6 @@ const PropertyDetails = ({
   // for tabs
 
   const [modalDates, setModalDates] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
   const [showDateModal, setShowDateModal] = useState(false);
   const [similarHomes, setSimilarHomes] = useState(null);
   const [mCost, setMCost] = useState(0);
@@ -1501,6 +1495,7 @@ const PropertyDetails = ({
                 <ScheduleCard
                   modalDates={modalDates}
                   myProperty={myProperty}
+                  showDateModal={showDateModal}
                   setShowDateModal={setShowDateModal}
                 />
               </div>

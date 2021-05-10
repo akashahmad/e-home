@@ -24,8 +24,9 @@ import {
   bedsList,
   saleMinPriceValues,
 } from "../../usageValues";
-import { map } from "jquery";
 import mapPlaceHolder from "../../assets/images/mapPlaceHolder.png";
+import { parse } from "query-string";
+
 class Listings extends Component {
   constructor(props) {
     super(props);
@@ -73,7 +74,6 @@ class Listings extends Component {
 
   componentWillReceiveProps(nextProps) {
     let { myProperties, mainLoader } = nextProps;
-    let homeTypeFilter = [];
     if (!mainLoader && myProperties) {
       this.setState({ localData: myProperties });
     }
@@ -132,100 +132,6 @@ class Listings extends Component {
         this.setState({ mapData: res.data.result.listing });
       });
   };
-
-  componentDidMount() {
-    // new logic for paginated call
-    this.loadListingsCard("gsmls", "Residential", 1);
-    // new logic for paginated call ends
-
-    // logic for loading mapData
-    this.loadMapHandler(this.state.activeMls, this.state.newActiveType);
-    // logic for loading mapData
-
-    const path = this.props.history.location.pathname.split("/");
-    if (path[3] && path[4]) {
-      this.onCardClick("", "", "", path[3], path[4], "external");
-    }
-    let search = this.props.history.location.search;
-    if (search) {
-      if (search.indexOf("agentId") !== -1) {
-        let agentId = search.split("=")[1];
-        if (agentId) {
-          axios
-            .get(wpPath + "/advisors/get/agents/uid=" + agentId)
-            .then((res) => {
-              localStorage.setItem("agentData", JSON.stringify(res.data));
-            });
-        }
-      } else if (search.indexOf("lenderId") !== -1) {
-        let lenderId = search.split("=")[1];
-        if (lenderId) {
-          axios
-            .get(wpPath2 + "/advisors/get/lenders/uid=" + lenderId)
-            .then((res) => {
-              localStorage.setItem("lenderData", JSON.stringify(res.data));
-            });
-        }
-      }
-    }
-    if (typeof window !== "undefined") {
-      window.addEventListener("beforeunload", (ev) => {
-        ev.preventDefault();
-        localStorage.removeItem("agentData");
-        localStorage.removeItem("lenderData");
-      });
-    }
-    // call for blogs
-    axios.get(wpPath + "/ehomesearch/get/posts").then((res) => {
-      this.setState({ blogs: res.data });
-    });
-  }
-
-  handleFormChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
-  onCardClick = (state, city, zip, id, market, type) => {
-    if (!type) {
-      let url =
-        (state ? state.split(" ").join("_") : "") +
-        "-" +
-        (city ? city.split(" ").join("_") : "") +
-        "-" +
-        zip.split(" ").join("_") +
-        `/${id}/${market}`;
-      this.props.history.replace(`/homedetails/${url}`, {
-        propertyId: id,
-        market,
-      });
-    }
-
-    let config = {
-      headers: {
-        Authorization: "Bearer " + publicToken,
-      },
-    };
-    this.setState({ modalLoader: true });
-    axios
-      .get(
-        bePath +
-          "/singleProperty?id=" +
-          id +
-          "&market=" +
-          market +
-          "&details=true&extended=true&images=true",
-        config
-      )
-      .then((res) => {
-        this.setState({ modalActive: res.data.result.listing[0] });
-        setTimeout(() => {
-          this.setState({ modalLoader: false });
-        }, 1000);
-      });
-
-    this.setState({ propertyModal: true });
-  };
-
   filterHandler = (pageNumber) => {
     let {
       beds,
@@ -237,6 +143,7 @@ class Listings extends Component {
       minSqft,
       newActiveType,
     } = this.state;
+
     if (
       searchText ||
       minPrice ||
@@ -308,6 +215,137 @@ class Listings extends Component {
     }
   };
 
+  componentWillUnmount() {}
+  componentDidMount() {
+    // Method for external property landing
+    const path = this.props.history.location.pathname.split("/");
+    if (path[3] && path[4]) {
+      this.onCardClick("", "", "", path[3], path[4], "external");
+    }
+    // Method for external property landing ends
+    // call for blogs
+    axios.get(wpPath + "/ehomesearch/get/posts").then((res) => {
+      this.setState({ blogs: res.data });
+    });
+
+    //  clearing localStorage on tab close
+    if (typeof window !== "undefined") {
+      window.addEventListener("beforeunload", (ev) => {
+        ev.preventDefault();
+        localStorage.removeItem("agentData");
+        localStorage.removeItem("lenderData");
+      });
+    }
+    // Now working with query string parameters
+    let search = this.props.history.location.search;
+    if (search) {
+      let parsedSearch = parse(search);
+      // For getting agent data
+      if (parsedSearch.agentId) {
+        axios
+          .get(wpPath + "/advisors/get/agents/uid=" + parsedSearch.agentId)
+          .then((res) => {
+            localStorage.setItem("agentData", JSON.stringify(res.data));
+          });
+        // For getting lender data
+      } else if (parsedSearch.lenderId) {
+        axios
+          .get(wpPath2 + "/advisors/get/lenders/uid=" + parsedSearch.lenderId)
+          .then((res) => {
+            localStorage.setItem("lenderData", JSON.stringify(res.data));
+          });
+      }
+      if (
+        parsedSearch.search ||
+        parsedSearch.mls ||
+        parsedSearch.rentMinPrice ||
+        parsedSearch.rentMaxPrice
+      ) {
+        if (parsedSearch.search) {
+          this.setState({ searchText: parsedSearch.search });
+        }
+        if (parsedSearch.mls) {
+          console.log(parsedSearch.mls, "check mls seach");
+          this.setState({ activeMls: parsedSearch.mls });
+        }
+        if (parsedSearch.rentMinPrice) {
+          this.setState({
+            minPrice: parsedSearch.rentMinPrice,
+            newActiveType: "Rental",
+          });
+        }
+        if (parsedSearch.rentMaxPrice) {
+          this.setState({
+            maxPrice: parsedSearch.rentMaxPrice,
+            newActiveType: "Rental",
+          });
+        }
+        if (parsedSearch.beds) {
+          this.setState({
+            beds: parsedSearch.beds,
+          });
+        }
+        setTimeout(() => {
+          this.filterHandler(1);
+        }, 3000);
+
+        return;
+      }
+    }
+    // new logic for paginated call
+    this.loadListingsCard("gsmls", "Residential", 1);
+    // new logic for paginated call ends
+
+    // logic for loading mapData
+    this.loadMapHandler(this.state.activeMls, this.state.newActiveType);
+    // logic for loading mapData ends
+  }
+
+  handleFormChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  onCardClick = (state, city, zip, id, market, type) => {
+    if (!type) {
+      let url =
+        (state ? state.split(" ").join("_") : "") +
+        "-" +
+        (city ? city.split(" ").join("_") : "") +
+        "-" +
+        zip.split(" ").join("_") +
+        `/${id}/${market}`;
+      this.props.history.replace(`/homedetails/${url}`, {
+        propertyId: id,
+        market,
+      });
+    }
+
+    let config = {
+      headers: {
+        Authorization: "Bearer " + publicToken,
+      },
+    };
+    this.setState({ modalLoader: true });
+    axios
+      .get(
+        bePath +
+          "/singleProperty?id=" +
+          id +
+          "&market=" +
+          market +
+          "&details=true&extended=true&images=true",
+        config
+      )
+      .then((res) => {
+        this.setState({ modalActive: res.data.result.listing[0] });
+        setTimeout(() => {
+          this.setState({ modalLoader: false });
+        }, 1000);
+      });
+
+    this.setState({ propertyModal: true });
+  };
+
   serchSubmitHandler = (e) => {
     e.preventDefault();
     this.filterHandler(1);
@@ -322,7 +360,7 @@ class Listings extends Component {
       error: false,
       isSearched: false,
     });
-    window.location.reload();
+    window.location.href = "/";
   };
   // on pagination Change
   pageChangeHandler = (value) => {
@@ -445,6 +483,7 @@ class Listings extends Component {
 
     //   method for formatiing price in US dollars
     let dollarUSLocale = Intl.NumberFormat("en-US");
+    
     return (
       <>
         <MyHeader
@@ -494,7 +533,7 @@ class Listings extends Component {
                 <div className="group-form baths-form">
                   <select
                     onChange={(e) => this.changeMarketHandler(e.target.value)}
-                    defaultValue={this.state.activeMls}
+                    value={this.state.activeMls}
                   >
                     <option value="cjmls">Central Jersey</option>
                     <option value="gsmls">Garden State</option>
@@ -871,7 +910,7 @@ class Listings extends Component {
               {this.state.isSearched && (
                 <button
                   onClick={() => this.resetSearchFilters()}
-                  className="ml-2 resetButton"
+                  className=" ml-md-2 resetButton mt-2 mt-md-0"
                 >
                   Reset
                 </button>

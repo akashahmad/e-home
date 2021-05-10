@@ -107,7 +107,11 @@ const Index = () => {
                   <img src={IconFoot} />
                 </div>
                 <p className="font-weight-bold text-center py-2 m-0">
-                  18295 ft
+                  {`${
+                    property?.building?.size?.bldgsize
+                      ? property?.building?.size?.bldgsize + ` sqft`
+                      : `-- sqft`
+                  }`}
                 </p>
               </div>
             </div>

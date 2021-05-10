@@ -101,7 +101,17 @@
   .modalCLoseButton i {
     color: white;
   }
-  .schCard{
+  .schCard {
     margin-top: 38px;
+  }
+  .steps_container > .d-flex {
+    flex-wrap: wrap;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column-reverse;
+  }
+  .steps_container > .d-flex .col-12:first-child{
+    margin-top: 50px;
   }
 }
