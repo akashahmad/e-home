@@ -131,8 +131,17 @@ console.log(selectedDate,"check selcted date")
       setShowDateModal(false);
     }
   };
+
+  const toggleHandler = ()=>{
+    if (setShowDateModal) {
+      setShowDateModal(false);
+    }
+  }
   return (
-    <div className="ivyodi" id="schedule">
+    <div className="ivyodi schCard" id="schedule">
+       <div className="modalCLoseButton d-md-none" onClick={()=>toggleHandler()}>
+            <i className="fa fa-times"></i>
+          </div>
       <div className="col-10 mx-auto px-2 py-2 card">
         <p
           className="bpPStC scheduleCardHeading"

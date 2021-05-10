@@ -100,7 +100,7 @@ class Listings extends Component {
     axios
       .get(
         bePath +
-          `/propertiesListing?market=${activeMLS}&listingType=${activeType}&pageNumber=${pageNumber}`
+          `/propertiesWithAttom?market=${activeMLS}&listingType=${activeType}&pageNumber=${pageNumber}`
       )
       .then((res) => {
         this.setState({
@@ -143,18 +143,8 @@ class Listings extends Component {
     // logic for loading mapData
 
     const path = this.props.history.location.pathname.split("/");
-    if (
-      this.props.history.location.state &&
-      this.props.history.location.state.market != "" &&
-      this.props.history.location.state.market != undefined
-    ) {
-      this.props.searchByMarket(this.props.history.location.state.market);
-      this.setState({ market: this.props.history.location.state.market });
-    }
-    // else this.onChangeTypes(this.state.newActiveType);
-    if (path[3]) {
-    
-      this.onCardClick("", "", "", path[3], "", "external");
+    if (path[3] && path[4]) {
+      this.onCardClick("", "", "", path[3], path[4], "external");
     }
     let search = this.props.history.location.search;
     if (search) {
@@ -203,7 +193,7 @@ class Listings extends Component {
         (city ? city.split(" ").join("_") : "") +
         "-" +
         zip.split(" ").join("_") +
-        `/${id}`;
+        `/${id}/${market}`;
       this.props.history.replace(`/homedetails/${url}`, {
         propertyId: id,
         market,
@@ -222,7 +212,7 @@ class Listings extends Component {
           "/singleProperty?id=" +
           id +
           "&market=" +
-          this.state.activeMls +
+          market +
           "&details=true&extended=true&images=true",
         config
       )
@@ -382,7 +372,7 @@ class Listings extends Component {
         Authorization: "Bearer " + publicToken,
       },
     };
-    this.setState({ cardLoader: true, isMapActive: true,error:false});
+    this.setState({ cardLoader: true, isMapActive: true, error: false });
     axios
       .get(
         `https://slipstream.homejunction.com/ws/listings/search?details=true&extended=true&images=true&market=${
@@ -396,12 +386,12 @@ class Listings extends Component {
         this.setState({
           listingSidedata: res.data.result.listings,
           cardLoader: false,
-          isSearched:true
-
+          isSearched: true,
         });
-      }).catch(err=>{
-        this.setState({ cardLoader: false, error: false });
       })
+      .catch((err) => {
+        this.setState({ cardLoader: false, error: false });
+      });
   };
   render() {
     const {
@@ -501,6 +491,17 @@ class Listings extends Component {
                     <option value='7'>The Shore NJ</option>
                   </select>
                 </div> */}
+                <div className="group-form baths-form">
+                  <select
+                    onChange={(e) => this.changeMarketHandler(e.target.value)}
+                    defaultValue={this.state.activeMls}
+                  >
+                    <option value="cjmls">Central Jersey</option>
+                    <option value="gsmls">Garden State</option>
+                    <option value="mormls">Monmouth Ocean Regional</option>
+                    <option value="njmls">New Jersey</option>
+                  </select>
+                </div>
                 <div className="group-form zillow-button-div position-relative">
                   <div
                     onClick={() =>
@@ -526,8 +527,8 @@ class Listings extends Component {
                   {showPriceModal && (
                     <div className="priceModal">
                       <p className="title">Price Range</p>
-                      <div className="d-flex col-12 px-0">
-                        <div className="col-6 pl-0">
+                      <div className="d-flex col-12 px-0 flex-wrap">
+                        <div className="col-md-6 col-12 pl-0 mb-2 mb-md-0">
                           <input
                             type="number"
                             value={minPrice ? minPrice : null}
@@ -584,7 +585,7 @@ class Listings extends Component {
                           )}
                         </div>
 
-                        <div className="col-6 pr-0">
+                        <div className="col-md-6 col-12 pr-0 pl-0">
                           <input
                             type="number"
                             value={maxPrice ? maxPrice : null}
@@ -680,7 +681,7 @@ class Listings extends Component {
                   {showBedModal && (
                     <div className="priceModal">
                       <p className="title mb-0">Bedrooms</p>
-                      <div className="bedsSelectRow d-flex">
+                      <div className="bedsSelectRow d-flex flex-wrap">
                         {bedsList &&
                           bedsList.map((bed, index) => {
                             let isSelected = beds === bed.value;
@@ -693,7 +694,7 @@ class Listings extends Component {
                                 onClick={() =>
                                   this.setState({ beds: bed.value })
                                 }
-                                className="bedSelectButtn"
+                                className="bedSelectButtn mb-2 mb-md-0"
                                 key={index}
                               >
                                 {bed.text}
@@ -702,7 +703,7 @@ class Listings extends Component {
                           })}
                       </div>
                       <p className="title mt-4 mb-0">Bedrooms</p>
-                      <div className="bedsSelectRow d-flex">
+                      <div className="bedsSelectRow d-flex flex-wrap">
                         {bedsList &&
                           bedsList.map((bed, index) => {
                             let isSelected = baths === bed.value;
@@ -715,7 +716,7 @@ class Listings extends Component {
                                 onClick={() =>
                                   this.setState({ baths: bed.value })
                                 }
-                                className="bedSelectButtn"
+                                className="bedSelectButtn mb-2 mb-md-0"
                                 key={index}
                               >
                                 {bed.text}
@@ -760,8 +761,8 @@ class Listings extends Component {
                   {showSqftModal && (
                     <div className="priceModal">
                       <p className="title">SQFT</p>
-                      <div className="d-flex col-12 px-0">
-                        <div className="col-6 pl-0">
+                      <div className="d-flex col-12 px-0 flex-wrap">
+                        <div className="col-12 col-md-12 pl-0 mb-2 mb-md-0">
                           <input
                             type="number"
                             defaultValue={minSqft ? minSqft : null}
@@ -798,7 +799,7 @@ class Listings extends Component {
                           )}
                         </div>
 
-                        <div className="col-6 pr-0">
+                        <div className="col-12 col-md-12 pr-0 pl-0">
                           <input
                             type="number"
                             defaultValue={maxSqft ? maxSqft : null}
@@ -882,7 +883,7 @@ class Listings extends Component {
         {mapView ? (
           <section className="listing-sec-area">
             <div className="container-fluid">
-              <div className="row">
+              <div className="row flex-column-reverse flex-md-row">
                 <div class="col-lg-6 col-md-12 col-sm-12 listing-column">
                   <div class="listing-inner">
                     <div class="title-area">
@@ -893,8 +894,8 @@ class Listings extends Component {
                         <h3>...</h3>
                       )} */}
                       <div class="right-area">
-                        <p>Select Market</p>
-                        <select
+                        {/* <p>Select Market</p> */}
+                        {/* <select
                           onChange={(e) =>
                             this.changeMarketHandler(e.target.value)
                           }
@@ -906,7 +907,7 @@ class Listings extends Component {
                             Monmouth Ocean Regional
                           </option>
                           <option value="njmls">New Jersey</option>
-                        </select>
+                        </select> */}
                       </div>
                     </div>
 
@@ -1074,6 +1075,7 @@ class Listings extends Component {
                 localData={localData}
                 isSearched={this.state.isSearched}
                 modalLoader={modalLoader}
+                toggle={togglePropertyModal}
               />
             </ModalBody>
           </Modal>

@@ -67,13 +67,17 @@ export const PropertyCard = (props) => {
                   thousandSeparator={true}
                 />
               </h5>
-              <p className="mt-0">EST.payment: $/mo</p>
             </div>
             <p>
-              <img src={LocationIcon} alt="Location Icon" className="locationIcon"/>
+              <img
+                src={LocationIcon}
+                alt="Location Icon"
+                className="locationIcon"
+              />
               {props.propertyValues.address.street}
               {props.propertyValues.address.street && <br />}
-              {cityAddress} , {props.propertyValues.address.state}&nbsp;{props.propertyValues.address.zip}
+              {cityAddress} , {props.propertyValues.address.state}&nbsp;
+              {props.propertyValues.address.zip}
             </p>
             <div className="property-utils">
               {props.propertyValues.beds && (
@@ -95,14 +99,11 @@ export const PropertyCard = (props) => {
                   </span>
                 </figure>
               )}
-              {props.propertyValues.lotSize && (
+              {props.propertyValues?.building?.size?.bldgsize && (
                 <figure>
                   <img src={FtIcon} alt="Feet Icon" />
                   <NumberFormat
-                    value={
-                      props.propertyValues.lotSize &&
-                      props.propertyValues.lotSize.sqft
-                    }
+                    value={props.propertyValues?.building?.size?.bldgsize}
                     displayType={"text"}
                     thousandSeparator={true}
                     renderText={(value) => <span>{value} ft</span>}

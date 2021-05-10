@@ -13,6 +13,6 @@ export const urlReturn = (property) => {
     (city ? city.split(" ").join("_") : "") +
     "-" +
     zip.split(" ").join("_") +
-    `/${id}`;
+    `/${id}/${market}`;
   return url;
 };

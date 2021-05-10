@@ -1,0 +1,107 @@
+@media (max-width: 479px) and (min-width: 320px) {
+  /* Header styling starts */
+  .header .navbar {
+    padding: 0 0 0 0 !important;
+    z-index: 999999999 !important;
+  }
+  .header .navbar .navbar-brand img {
+    width: 150px !important;
+  }
+  .page-title .inner-container {
+    padding: 80px 0 0;
+  }
+  .page-title .title-box {
+    padding: 8px 0 50px;
+  }
+  .header .navbar .navbar-nav .nav-item .nav-link {
+    color: white !important;
+  }
+  .navbar-nav li:last-child {
+    margin-top: 20px;
+  }
+  /* Header styling ends */
+  /* Search filter area starts */
+  .form-search form {
+    display: flex;
+    flex-direction: column;
+  }
+  .big-search input {
+    width: 100%;
+  }
+  .form-search form .zillow-button-div {
+    margin-bottom: 10px;
+    margin-right: 0px;
+  }
+  .form-search form select {
+    width: 100%;
+  }
+  .form-search form .group-form.baths-form {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .zillow-button-div .priceModal {
+    width: 100%;
+  }
+  .listing-sec-area .map-column .map-area .map-box {
+    height: 500px;
+  }
+  .listingPagination {
+    flex-wrap: wrap;
+  }
+  .footerUpper .mainSection .formDiv {
+    width: 100%;
+    padding: 30px 10px 30px 10px !important;
+  }
+  .footerUpper .mainSection .formDiv .inner h1 {
+    font-size: 20px;
+    line-height: normal;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .FooterSearchField {
+    width: 100%;
+    font-size: 12px;
+  }
+  .FooterFormSubmitbtn {
+    right: 1px;
+  }
+
+  /* css for modal starts */
+  .photos-container {
+    display: none;
+  }
+  .detail-content {
+    min-width: 100%;
+    max-width: 100%;
+    padding-top: 30px;
+    overflow: scroll;
+  }
+  .cTBvcC {
+    font-size: 20px;
+  }
+  .ds-bed-bath-living-area {
+    font-size: 10px;
+  }
+  .property-details-content {
+    height: 100%;
+    overflow: scroll;
+  }
+  .modalCLoseButton {
+    height: 25px;
+    width: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: rgb(51, 102, 153);
+    position: absolute;
+    left: 10px;
+    top: 10px;
+  }
+  .modalCLoseButton i {
+    color: white;
+  }
+  .schCard{
+    margin-top: 38px;
+  }
+}

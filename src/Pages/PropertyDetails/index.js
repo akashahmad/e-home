@@ -47,6 +47,7 @@ const PropertyDetails = ({
   isSearched,
   localData,
   modalLoader,
+  toggle,
 }) => {
   const [activeMenu, setActiveMenu] = useState("overview");
   const [relatedResult, setRelatedResults] = useState(null);
@@ -245,7 +246,7 @@ const PropertyDetails = ({
     >
       {/* The absolute div of status */}
       {!modalLoader && (
-        <div className="sc-pJurq cTjcEC detailTypetTag">
+        <div className="sc-pJurq cTjcEC detailTypetTag d-none d-md-flex">
           <div
             style={{
               minWidth: "20px",
@@ -286,6 +287,9 @@ const PropertyDetails = ({
       </section>
       {!modalLoader && myProperty && (
         <section className="detail-content">
+          <div className="modalCLoseButton d-md-none" onClick={() => toggle()}>
+            <i className="fa fa-times"></i>
+          </div>
           <div className="detail-header">
             <Link to="/" className="logo">
               <img src={logo} />
@@ -352,7 +356,7 @@ const PropertyDetails = ({
             <div className="detail-intro">
               <div className="ds-summary-row-container">
                 <div className="ds-summary-row-content">
-                  <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex align-items-center justify-content-between flex-column flex-md-row mb-4 mb-md-0">
                     {myProperty.listPrice && (
                       <span className="cTBvcC">
                         <span>
@@ -425,8 +429,8 @@ const PropertyDetails = ({
                   </div>
                 </div>
               </div>
-              <div className="d-flex align-items-end">
-                <div className="col-6">
+              <div className="d-flex align-items-end flex-wrap">
+                <div className="col-md-6 col-12">
                   <div className="hweBDL ds-price-change-address-row">
                     <img src={LocationIcon} />
                     <div>
@@ -487,6 +491,27 @@ const PropertyDetails = ({
                   </div> */}
 
                   <div className="ds-mortgage-row">
+                    <div className="sc-pJurq cTjcEC mb-2 d-md-none">
+                      <div
+                        style={{
+                          minWidth: "20px",
+                          minHeight: "20px",
+                          borderRadius: "20px",
+                          backgroundColor: "#336699",
+                        }}
+                        className="d-flex justify-content-center align-items-center mr-1"
+                      >
+                        <i
+                          class="fa fa-info"
+                          style={{
+                            color: "white",
+                            fontSize: "10px",
+                          }}
+                        ></i>
+                      </div>
+                      <span className="sc-oTmZL kfNTWi">Status :&nbsp;</span>
+                      <span>For {propertyType ? propertyType : "N/A"}</span>
+                    </div>
                     <div className="sc-pJurq cTjcEC mb-2">
                       <div
                         style={{
@@ -508,7 +533,7 @@ const PropertyDetails = ({
                       <span className="sc-oTmZL kfNTWi">MLS# &nbsp;</span>
                       <span>12354556</span>
                     </div>
-                    <div className="sc-pJurq cTjcEC">
+                    <div className="sc-pJurq cTjcEC mb-2 mb-md-0">
                       <div
                         style={{
                           minWidth: "20px",
@@ -516,7 +541,7 @@ const PropertyDetails = ({
                           borderRadius: "20px",
                           backgroundColor: "#336699",
                         }}
-                        className="d-flex justify-content-center align-items-center mr-1"
+                        className="d-flex justify-content-center align-items-center mr-1 "
                       >
                         <i
                           class="fa fa-money-bill-wave"
@@ -536,7 +561,7 @@ const PropertyDetails = ({
                   </div>
                 </div>
 
-                <div className="col-6 d-flex flex-column justify-content-center">
+                <div className="col-md-6 col-12 d-flex flex-column justify-content-center">
                   <div className="sc-pJurq cTjcEC mb-2">
                     <div
                       style={{
@@ -562,6 +587,7 @@ const PropertyDetails = ({
                       {myProperty.daysOnHJI ? myProperty.daysOnHJI : "N/A"}
                     </span>
                   </div>
+
                   <div className="sc-pJurq cTjcEC">
                     <span className="sc-oTmZL kfNTWi">
                       <Link
@@ -590,6 +616,7 @@ const PropertyDetails = ({
                       </Link>
                     </span>
                   </div>
+
                   {/* <b>Go Tour This Home</b>
                   <div>
                     {" "}
@@ -611,8 +638,8 @@ const PropertyDetails = ({
               <div></div>
             </div>
           )}
-          <div className="gBFBii ds-buttons ">
-            <div className="col-6">
+          <div className="gBFBii ds-buttons flex-wrap">
+            <div className="col-md-6 col-12 mb-2 mb-md-0">
               <button
                 onClick={() => setShowDateModal(true)}
                 className="offerMakeButton"
@@ -621,7 +648,7 @@ const PropertyDetails = ({
                 Schedule a Showing
               </button>
             </div>
-            <div className="col-6">
+            <div className="col-md-6 col-12">
               <Link
                 to={`/wizard/${myProperty.id}?market=${myProperty.market}`}
                 className="w-100"
@@ -1427,17 +1454,19 @@ const PropertyDetails = ({
               <div className="home-details-listing-provided-by">
                 <div className="bUREIR">
                   <div className="inlRtt">
-                    <img alt="" src={provider.assets.logo.url} />
+                    <img alt="" src={provider?.assets?.logo?.url} />
                   </div>
                   <b>Copyrights:</b>
                   <p className="bDTsLB">
-                    {provider.lexicon.en_US.copyright.replace(
+                    {provider?.lexicon?.en_US?.copyright.replace(
                       "&copy; {current_date_year}",
                       "2021"
                     )}
                   </p>
                   <b>Disclaimer:</b>
-                  <p className="bDTsLB">{provider.lexicon.en_US.disclaimer}</p>
+                  <p className="bDTsLB">
+                    {provider?.lexicon?.en_US?.disclaimer}
+                  </p>
                 </div>
               </div>
             )}

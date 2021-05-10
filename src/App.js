@@ -4,6 +4,7 @@ import "./App.css";
 import Main from "./Components/Main";
 import MyFooter from "./Components/MyFooter";
 import "react-multi-carousel/lib/styles.css";
+import "./responsive.css"
 import "react-notifications/lib/notifications.css";
 import {
   NotificationContainer,

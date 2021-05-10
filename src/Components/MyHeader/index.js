@@ -24,7 +24,7 @@ class MyHeader extends Component {
               <nav className="navbar navbar-expand-md navbar-light">
                   <div className="container-fluid">
                       <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                          <i className=""><img src={image14} alt="" /></i>
+                      <i class="fa fa-bars"></i>
                       </button>
                       <Link className="navbar-brand" to="/"><img src={logo} alt="logo" style={{width:'200px'}}/></Link>
                       <div className="collapse navbar-collapse" id="navbarSupportedContent">
