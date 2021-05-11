@@ -380,6 +380,7 @@ class Listings extends Component {
   // on market change Handler
   changeMarketHandler = (value) => {
     this.setState({ activeMls: value }, function () {
+      this.setState({ error: false });
       this.loadListingsCard(value, this.state.newActiveType, 1);
       this.loadMapHandler(value, this.state.newActiveType);
       this.setState({ isMapActive: false });
@@ -483,7 +484,7 @@ class Listings extends Component {
 
     //   method for formatiing price in US dollars
     let dollarUSLocale = Intl.NumberFormat("en-US");
-    
+
     return (
       <>
         <MyHeader
