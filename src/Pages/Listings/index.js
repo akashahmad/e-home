@@ -133,6 +133,8 @@ class Listings extends Component {
       });
   };
   filterHandler = (pageNumber) => {
+    let search = this.props.history.location.search;
+    let parsedSearch = search ? parse(search) : null;
     let {
       beds,
       minPrice,
@@ -151,7 +153,8 @@ class Listings extends Component {
       beds ||
       baths ||
       maxSqft ||
-      minSqft
+      minSqft ||
+      (parsedSearch && parsedSearch?.rent)
     ) {
       if (minPrice && maxPrice) {
         if (minPrice >= maxPrice) {
@@ -240,6 +243,7 @@ class Listings extends Component {
     let search = this.props.history.location.search;
     if (search) {
       let parsedSearch = parse(search);
+
       // For getting agent data
       if (parsedSearch.agentId) {
         axios
@@ -259,25 +263,27 @@ class Listings extends Component {
         parsedSearch.search ||
         parsedSearch.mls ||
         parsedSearch.rentMinPrice ||
-        parsedSearch.rentMaxPrice
+        parsedSearch.rentMaxPrice ||
+        parsedSearch.rent
       ) {
         if (parsedSearch.search) {
           this.setState({ searchText: parsedSearch.search });
         }
         if (parsedSearch.mls) {
-          console.log(parsedSearch.mls, "check mls seach");
           this.setState({ activeMls: parsedSearch.mls });
+        }
+
+        if (parsedSearch.rent) {
+          this.setState({ newActiveType: "Rental" });
         }
         if (parsedSearch.rentMinPrice) {
           this.setState({
             minPrice: parsedSearch.rentMinPrice,
-            newActiveType: "Rental",
           });
         }
         if (parsedSearch.rentMaxPrice) {
           this.setState({
             maxPrice: parsedSearch.rentMaxPrice,
-            newActiveType: "Rental",
           });
         }
         if (parsedSearch.beds) {
