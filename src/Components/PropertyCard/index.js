@@ -13,9 +13,13 @@ export const PropertyCard = (props) => {
   const classes = useStyles();
   let cityAddress =
     props.propertyValues.address.city &&
-    props.propertyValues.address.city.indexOf("Twp") !== -1
+      props.propertyValues.address.city.indexOf("Twp") !== -1
       ? props.propertyValues.address.city.split("Twp.").join("")
       : props.propertyValues.address.city;
+
+
+  let size = props?.propertyValues?.size || props?.propertyValues?.building?.size?.bldgsize || null
+
   return (
     <div
       className="listing-block"
@@ -49,8 +53,8 @@ export const PropertyCard = (props) => {
               style={{ resize: "contain", width: "100%", height: "290px" }}
               src={
                 props.propertyValues.images &&
-                props.propertyValues.images &&
-                props.propertyValues.images
+                  props.propertyValues.images &&
+                  props.propertyValues.images
                   ? props.propertyValues.images[0]
                   : listing
               }
@@ -99,14 +103,14 @@ export const PropertyCard = (props) => {
                   </span>
                 </figure>
               )}
-              {props.propertyValues?.building?.size?.bldgsize && (
+              {size && (
                 <figure>
                   <img src={FtIcon} alt="Feet Icon" />
                   <NumberFormat
-                    value={props.propertyValues?.building?.size?.bldgsize}
+                    value={size}
                     displayType={"text"}
                     thousandSeparator={true}
-                    renderText={(value) => <span>{value} ft</span>}
+                    renderText={(value) => <span>{value} sqft</span>}
                   />
                 </figure>
               )}

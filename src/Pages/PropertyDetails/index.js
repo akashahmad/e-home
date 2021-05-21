@@ -232,6 +232,7 @@ const PropertyDetails = ({
     onCardClick(state, city, zip, id, market);
   };
   let location = typeof window !== "undefined" && window.location;
+  let size = myProperty?.size || myProperty?.attomData?.building?.size?.bldgsize || null
   return (
     <div
       className={`property-details-content ${
@@ -399,11 +400,9 @@ const PropertyDetails = ({
                             style={{ width: "20px" }}
                             className="mr-1"
                           />
-                          {myProperty.attomData &&
-                          myProperty.attomData.building ? (
+                          {size ? (
                             <span>
-                              {myProperty.attomData &&
-                                myProperty.attomData.building.size.bldgSize +
+                              {size +
                                   " " +
                                   "sqft"}
                             </span>

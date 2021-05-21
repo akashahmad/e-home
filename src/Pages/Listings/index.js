@@ -60,7 +60,7 @@ class Listings extends Component {
       minSqft: "",
       maxSqft: "",
       showSqftModal: false,
-      activeMls: "gsmls",
+      activeMls: "bright",
       newActiveType: "Residential",
       listingPageNumber: 1,
       listingSidedata: null,
@@ -546,6 +546,10 @@ class Listings extends Component {
                     <option value="gsmls">Garden State</option>
                     <option value="mormls">Monmouth Ocean Regional</option>
                     <option value="njmls">New Jersey</option>
+                    <option value="bright">Bright</option>
+                    <option value="cmcar">Cape May</option>
+                    <option value="hudson">Hudson City</option>
+                    
                   </select>
                 </div>
                 <div className="group-form zillow-button-div position-relative">
