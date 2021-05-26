@@ -2074,21 +2074,26 @@ input[type="number"] {
   cursor: pointer;
   border-radius: 4px;
 }
-#schedule .react-multiple-carousel__arrow--left,.date-details .react-multiple-carousel__arrow--left{
+#schedule .react-multiple-carousel__arrow--left,
+.date-details .react-multiple-carousel__arrow--left {
   left: calc(-12% + 1px) !important;
 }
 #schedule .react-multiple-carousel__arrow--left:focus,
-#schedule .react-multiple-carousel__arrow--right:focus,.date-details  .react-multiple-carousel__arrow--left:focus,
-.date-details .react-multiple-carousel__arrow--right:focus{
+#schedule .react-multiple-carousel__arrow--right:focus,
+.date-details .react-multiple-carousel__arrow--left:focus,
+.date-details .react-multiple-carousel__arrow--right:focus {
   outline: none;
 }
-#schedule .react-multiple-carousel__arrow--right,.date-details .react-multiple-carousel__arrow--right{
+#schedule .react-multiple-carousel__arrow--right,
+.date-details .react-multiple-carousel__arrow--right {
   right: calc(-12% + 1px) !important;
 }
-#schedule .react-multi-carousel-list, .date-details .react-multi-carousel-list {
+#schedule .react-multi-carousel-list,
+.date-details .react-multi-carousel-list {
   position: unset;
 }
-#schedule select ,.date-details select{
+#schedule select,
+.date-details select {
   width: 90%;
   margin: 10px auto;
   padding: 9px 48px 9px 16px;
@@ -2113,7 +2118,8 @@ input[type="number"] {
   appearance: none;
   background-position: right;
 }
-#schedule #selectDatebutton ,.date-details .offerMakeButton{
+#schedule #selectDatebutton,
+.date-details .offerMakeButton {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
@@ -2122,25 +2128,26 @@ input[type="number"] {
 .property-details-content {
   position: relative;
 }
-.detailTypetTag{
+.detailTypetTag {
   position: absolute;
   background-color: white;
-    margin-top: 20px;
-    margin-left: 20px;
-    padding: 5px 10px;
+  margin-top: 20px;
+  margin-left: 20px;
+  padding: 5px 10px;
 }
-.ds-price-change-address-row{
+.ds-price-change-address-row {
   display: flex;
   align-items: flex-start;
   margin-top: 5px;
 }
-.ds-price-change-address-row h1{
+.ds-price-change-address-row h1 {
   margin-left: 10px;
 }
-#similar .locationIcon,#neighborhood .locationIcon{
+#similar .locationIcon,
+#neighborhood .locationIcon {
   margin-right: 10px;
 }
-.taxHead{
+.taxHead {
   color: rgb(42, 42, 51);
   -webkit-font-smoothing: antialiased;
   text-transform: capitalize;
@@ -2150,4 +2157,15 @@ input[type="number"] {
   line-height: 24px;
   margin: 0px 8px 0px 0px;
   letter-spacing: 0.5px;
+}
+
+
+/* styles for adding the how many days in the modal against for sale */
+.days {
+  left: 42%;
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .days {
+    left: 30%;
+  }
 }

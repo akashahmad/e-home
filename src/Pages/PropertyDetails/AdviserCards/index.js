@@ -427,7 +427,7 @@ const AdviserCards = ({ agentData, lenderData, myProperty }) => {
                     {agentLoading ? (
                       "Submitting"
                     ) : (
-                      <span> Email {agentData && <span>Realtor</span>}</span>
+                      <span> Email Advisor {agentData && <span>Realtor</span>}</span>
                     )}
                   </button>
                 </div>
@@ -610,7 +610,7 @@ const AdviserCards = ({ agentData, lenderData, myProperty }) => {
                     {lenderLoading ? (
                       "Submitting"
                     ) : (
-                      <span>Email {agentData && <span>Realtor</span>}</span>
+                      <span>Get Prequalified Today {agentData && <span>Realtor</span>}</span>
                     )}
                   </button>
                 </div>
