@@ -23,7 +23,7 @@ const Index = () => {
       "-" +
       zip.split(" ").join("_") +
       `/${id}`;
-    history.replace(`/homedetails/${url}`, {
+    history.replace(`/homedetails/${url}/${market}`, {
       propertyId: id,
       market,
     });
@@ -109,8 +109,8 @@ const Index = () => {
                 <p className="font-weight-bold text-center py-2 m-0">
                   {`${
                     property?.building?.size?.bldgsize
-                      ? property?.building?.size?.bldgsize + ` sqft`
-                      : `-- sqft`
+                      ? property?.building?.size?.bldgsize/43560 + ` acres`
+                      : `-- acres`
                   }`}
                 </p>
               </div>

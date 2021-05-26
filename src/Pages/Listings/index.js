@@ -299,7 +299,7 @@ class Listings extends Component {
       }
     }
     // new logic for paginated call
-    this.loadListingsCard("gsmls", "Residential", 1);
+    this.loadListingsCard("bright", "Residential", 1);
     // new logic for paginated call ends
 
     // logic for loading mapData
@@ -385,7 +385,7 @@ class Listings extends Component {
   };
   // on market change Handler
   changeMarketHandler = (value) => {
-    this.setState({ activeMls: value }, function () {
+      this.setState({ activeMls: value }, function () {
       this.setState({ error: false });
       this.loadListingsCard(value, this.state.newActiveType, 1);
       this.loadMapHandler(value, this.state.newActiveType);

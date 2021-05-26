@@ -14,7 +14,7 @@ import {
 import MapProperty from "../../Components/MapProperty";
 import PropertyCard from "../../Components/PropertyCard";
 import MonthlyCost from "../../Components/MonthlyCost";
-import {publicToken} from "../../config";
+import { publicToken } from "../../config";
 import axios from "axios";
 import Carousel from "react-multi-carousel";
 import { Modal, ModalBody } from "reactstrap";
@@ -232,47 +232,73 @@ const PropertyDetails = ({
     onCardClick(state, city, zip, id, market);
   };
   let location = typeof window !== "undefined" && window.location;
-  let size = myProperty?.size || myProperty?.attomData?.building?.size?.bldgsize || null
+  let size =
+    myProperty?.size || myProperty?.attomData?.building?.size?.bldgsize || null;
   return (
     <div
       className={`property-details-content ${
         modalLoader ? "d-flex justify-content-center align-items-center" : ""
-      }`}
-    >
+      }`}>
       {/* The absolute div of status */}
       {!modalLoader && (
-        <div className="sc-pJurq cTjcEC detailTypetTag d-none d-md-flex">
-          <div
-            style={{
-              minWidth: "20px",
-              minHeight: "20px",
-              borderRadius: "20px",
-              backgroundColor: "#336699",
-            }}
-            className="d-flex justify-content-center align-items-center mr-1"
-          >
-            <i
-              class="fa fa-info"
+        <>
+          <div className='sc-pJurq cTjcEC detailTypetTag d-none d-md-flex'>
+            <div
               style={{
-                color: "white",
-                fontSize: "10px",
+                minWidth: "20px",
+                minHeight: "20px",
+                borderRadius: "20px",
+                backgroundColor: "#336699",
               }}
-            ></i>
+              className='d-flex justify-content-center align-items-center mr-1'>
+              <i
+                class='fa fa-info'
+                style={{
+                  color: "white",
+                  fontSize: "10px",
+                }}></i>
+            </div>
+            <span className='sc-oTmZL kfNTWi'>Status :&nbsp;</span>
+            <span>For {propertyType}</span>
           </div>
-          <span className="sc-oTmZL kfNTWi">Status :&nbsp;</span>
-          <span>For {propertyType}</span>
-        </div>
+
+          <div className='sc-pJurq cTjcEC detailTypetTag d-none d-md-flex days'>
+            <div
+              style={{
+                minWidth: "20px",
+                minHeight: "20px",
+                borderRadius: "20px",
+                backgroundColor: "#336699",
+              }}
+              className='d-flex justify-content-center align-items-center mr-1'>
+              <i
+                class='fa fa-info'
+                style={{
+                  color: "white",
+                  fontSize: "10px",
+                }}></i>
+            </div>
+            <span className='sc-oTmZL kfNTWi'>Days On Market :&nbsp;</span>
+            <span>
+              {myProperty
+                ? myProperty.daysOnHJI
+                  ? myProperty.daysOnHJI
+                  : "N/A"
+                : "N/A"}
+            </span>
+          </div>
+        </>
       )}
       {/* The absolute div of status */}
-      <section className="photos-container">
+      <section className='photos-container'>
         {!modalLoader && myProperty && myProperty.images ? (
           myProperty.images.map((item) => {
             return (
-              <img className="photo-tile-image" src={item} alt="tile-image" />
+              <img className='photo-tile-image' src={item} alt='tile-image' />
             );
           })
         ) : (
-          <div class="lds-ring">
+          <div class='lds-ring'>
             <div></div>
             <div></div>
             <div></div>
@@ -281,50 +307,45 @@ const PropertyDetails = ({
         )}
       </section>
       {!modalLoader && myProperty && (
-        <section className="detail-content">
-          <div className="modalCLoseButton d-md-none" onClick={() => toggle()}>
-            <i className="fa fa-times"></i>
+        <section className='detail-content'>
+          <div className='modalCLoseButton d-md-none' onClick={() => toggle()}>
+            <i className='fa fa-times'></i>
           </div>
-          <div className="detail-header">
-            <Link to="/" className="logo">
+          <div className='detail-header'>
+            <Link to='/' className='logo'>
               <img src={logo} />
             </Link>
-            <ul className="sharing-actions">
-              <li className="action">
-                <svg viewBox="0 0 32 32" focusable="false" role="img">
+            <ul className='sharing-actions'>
+              <li className='action'>
+                <svg viewBox='0 0 32 32' focusable='false' role='img'>
                   <path
-                    stroke="none"
-                    d="M27.66 6.19a7.85 7.85 0 00-11 .13L16 7l-.65-.66a7.85 7.85 0 00-11-.13 8.23 8.23 0 00.09 11.59l.42.42L15.29 28.7a1 1 0 001.42 0l10.44-10.5.42-.42a8.23 8.23 0 00.09-11.59zm-1.42 10.06l-.52.52L16 26.55l-9.72-9.78-.52-.52A6.15 6.15 0 014 13.19a5.91 5.91 0 011.62-5.43 5.81 5.81 0 014.67-1.71 6 6 0 013.78 1.87l.5.5 1.08 1.08a.5.5 0 00.7 0l1.08-1.08.5-.5a6 6 0 013.78-1.87 5.81 5.81 0 014.67 1.71A5.91 5.91 0 0128 13.19a6.15 6.15 0 01-1.76 3.06z"
-                  ></path>
+                    stroke='none'
+                    d='M27.66 6.19a7.85 7.85 0 00-11 .13L16 7l-.65-.66a7.85 7.85 0 00-11-.13 8.23 8.23 0 00.09 11.59l.42.42L15.29 28.7a1 1 0 001.42 0l10.44-10.5.42-.42a8.23 8.23 0 00.09-11.59zm-1.42 10.06l-.52.52L16 26.55l-9.72-9.78-.52-.52A6.15 6.15 0 014 13.19a5.91 5.91 0 011.62-5.43 5.81 5.81 0 014.67-1.71 6 6 0 013.78 1.87l.5.5 1.08 1.08a.5.5 0 00.7 0l1.08-1.08.5-.5a6 6 0 013.78-1.87 5.81 5.81 0 014.67 1.71A5.91 5.91 0 0128 13.19a6.15 6.15 0 01-1.76 3.06z'></path>
                 </svg>
-                <span className="label"> Save </span>
+                <span className='label'> Save </span>
               </li>
               <li
-                className="action shareList"
-                onClick={() => setShowSocial(!showSocial)}
-              >
+                className='action shareList'
+                onClick={() => setShowSocial(!showSocial)}>
                 <svg
-                  version="1.1"
-                  viewBox="0 0 23 18"
-                  xmlns="http://www.w3.org/2000/svg"
-                  focusable="false"
-                >
-                  <g fill-rule="evenodd">
+                  version='1.1'
+                  viewBox='0 0 23 18'
+                  xmlns='http://www.w3.org/2000/svg'
+                  focusable='false'>
+                  <g fill-rule='evenodd'>
                     <g
-                      transform="translate(0)"
-                      className="ds-action-bar-icon-fill"
-                      fill-rule="nonzero"
-                    >
-                      <path d="m22.504 7.0047l-9.4663-6.7849c-0.2188-0.18177-0.53451-0.22356-0.79965-0.10586-0.26514 0.11771-0.42736 0.37168-0.41087 0.64327v3.4148c-2.9503 0.066134-5.77 1.1388-7.9168 3.0118-2.3605 2.2392-3.4984 5.3966-3.3895 9.5391 0.0061638 0.30779 0.2342 0.57373 0.55684 0.64938h0.18158c0.2629 2.775e-4 0.50471-0.13305 0.62947-0.34708 0.89579-1.5115 4.2005-6.2922 9.8174-6.2922h0.12105v3.2245l0.060526 0.44785 0.33895 0.15675c0.25053 0.11823 0.55234 0.092065 0.77474-0.067177l9.2242-6.6169 0.27842-0.25751v-0.61579zm-9.43 6.0571v-2.7431c4.845e-4 -0.35828-0.30312-0.65386-0.69-0.67177-5.3505-0.31349-8.8853 3.2021-10.604 5.4749 0.023449-2.6474 1.1158-5.1911 3.0626-7.132 2.0065-1.7327 4.6512-2.6935 7.3963-2.6871h0.14526c0.19332-1.3199e-4 0.37937-0.068163 0.52053-0.19033l0.21789-0.24632v-3.2021l7.9532 5.6989-8.0016 5.6989z"></path>
+                      transform='translate(0)'
+                      className='ds-action-bar-icon-fill'
+                      fill-rule='nonzero'>
+                      <path d='m22.504 7.0047l-9.4663-6.7849c-0.2188-0.18177-0.53451-0.22356-0.79965-0.10586-0.26514 0.11771-0.42736 0.37168-0.41087 0.64327v3.4148c-2.9503 0.066134-5.77 1.1388-7.9168 3.0118-2.3605 2.2392-3.4984 5.3966-3.3895 9.5391 0.0061638 0.30779 0.2342 0.57373 0.55684 0.64938h0.18158c0.2629 2.775e-4 0.50471-0.13305 0.62947-0.34708 0.89579-1.5115 4.2005-6.2922 9.8174-6.2922h0.12105v3.2245l0.060526 0.44785 0.33895 0.15675c0.25053 0.11823 0.55234 0.092065 0.77474-0.067177l9.2242-6.6169 0.27842-0.25751v-0.61579zm-9.43 6.0571v-2.7431c4.845e-4 -0.35828-0.30312-0.65386-0.69-0.67177-5.3505-0.31349-8.8853 3.2021-10.604 5.4749 0.023449-2.6474 1.1158-5.1911 3.0626-7.132 2.0065-1.7327 4.6512-2.6935 7.3963-2.6871h0.14526c0.19332-1.3199e-4 0.37937-0.068163 0.52053-0.19033l0.21789-0.24632v-3.2021l7.9532 5.6989-8.0016 5.6989z'></path>
                     </g>
                   </g>
                 </svg>
-                <span className="label"> Share </span>
+                <span className='label'> Share </span>
                 {showSocial && (
                   <OutsideClickHandler
-                    onOutsideClick={() => setShowSocial(false)}
-                  >
-                    <div className="socialSharingDiv">
+                    onOutsideClick={() => setShowSocial(false)}>
+                    <div className='socialSharingDiv'>
                       <FacebookShareButton url={location && location}>
                         <div onClick={() => setShowSocial(false)}>
                           <FacebookIcon round={true} />
@@ -348,12 +369,12 @@ const PropertyDetails = ({
             </ul>
           </div>
           {!modalLoader && myProperty ? (
-            <div className="detail-intro">
-              <div className="ds-summary-row-container">
-                <div className="ds-summary-row-content">
-                  <div className="d-flex align-items-center justify-content-between flex-column flex-md-row mb-4 mb-md-0">
+            <div className='detail-intro'>
+              <div className='ds-summary-row-container'>
+                <div className='ds-summary-row-content'>
+                  <div className='d-flex align-items-center justify-content-between flex-column flex-md-row mb-4 mb-md-0'>
                     {myProperty.listPrice && (
-                      <span className="cTBvcC">
+                      <span className='cTBvcC'>
                         <span>
                           <span>
                             ${dollarUSLocale.format(myProperty.listPrice)}
@@ -362,129 +383,30 @@ const PropertyDetails = ({
                       </span>
                     )}
 
-                    <div className="ds-bed-bath-living-area-header">
-                      <span className="ds-bed-bath-living-area-container">
-                        <span className="ds-bed-bath-living-area mr-3">
-                          <img
-                            src={BedIcon}
-                            alt="Bed Icon"
-                            style={{ width: "20px" }}
-                            className="mr-1"
-                          />
-                          <span>{myProperty.beds && myProperty.beds}</span>
-                          <span className="ds-summary-row-label-secondary">
-                            {" "}
-                            Beds
-                          </span>
-                        </span>
-                        <span className="ds-bed-bath-living-area mr-3">
-                          <img
-                            src={BathIcon}
-                            alt="Bed Icon"
-                            style={{ width: "20px" }}
-                            className="mr-1"
-                          />
-                          <span>
-                            {" "}
-                            {myProperty?.baths && myProperty?.baths?.total}
-                          </span>
-                          <span className="ds-summary-row-label-secondary">
-                            {" "}
-                            Baths
-                          </span>
-                        </span>
-                        <span className="ds-bed-bath-living-area">
-                          <img
-                            src={FtIcon}
-                            alt="Bed Icon"
-                            style={{ width: "20px" }}
-                            className="mr-1"
-                          />
-                          {size ? (
-                            <span>
-                              {size +
-                                  " " +
-                                  "sqft"}
-                            </span>
-                          ) : (
-                            <>
-                              {" "}
-                              <span>--</span>
-                              <span className="ds-summary-row-label-secondary">
-                                {" "}
-                                sqft
-                              </span>
-                            </>
-                          )}
-                        </span>
-                      </span>
+                    <div className='ds-bed-bath-living-area-header'>
+                      <div className='hweBDL ds-price-change-address-row'>
+                        <img src={LocationIcon} />
+                        <div>
+                          <h1 className='efSAZl' style={{ fontSize: "10px" }}>
+                            {myProperty.address.street}
+                            {myProperty.address.street && <br />}
+                            {myProperty.address.city &&
+                            myProperty.address.city.indexOf("Twp") !== -1
+                              ? myProperty.address.city.split("Twp.").join("")
+                              : myProperty.address.city}{" "}
+                            , {myProperty.address.state}
+                            &nbsp;{myProperty.address.zip}
+                          </h1>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="d-flex align-items-end flex-wrap">
-                <div className="col-md-6 col-12">
-                  <div className="hweBDL ds-price-change-address-row">
-                    <img src={LocationIcon} />
-                    <div>
-                      <h1 className="efSAZl" style={{ fontSize: "10px" }}>
-                        {/* {
-                          <span>
-                            {myProperty.address.street &&
-                              myProperty.address.street}
-                            ,
-                          </span>
-                        }
-                        <span>
-                          &nbsp;
-                          {myProperty.address.city &&
-                          myProperty.address.city.indexOf("Twp") !== -1
-                            ? myProperty.address.city.split("Twp.").join("")
-                            : myProperty.address.city}
-                          ,{" "}
-                          {myProperty.address.state && myProperty.address.state}{" "}
-                          {myProperty.address.zip && myProperty.address.zip}
-                        </span> */}
-                        {myProperty.address.street}
-                        {myProperty.address.street && <br />}
-                        {myProperty.address.city &&
-                        myProperty.address.city.indexOf("Twp") !== -1
-                          ? myProperty.address.city.split("Twp.").join("")
-                          : myProperty.address.city}{" "}
-                        , {myProperty.address.state}
-                        &nbsp;{myProperty.address.zip}
-                      </h1>
-                    </div>
-                  </div>
-
-                  {/* <div
-                    className="sc-qXhiz cvmVKB ds-chip-removable-content"
-                    style={{
-                      visibility: "visible",
-                      height: "26px",
-                      opacity: 1,
-                    }}
-                  >
-                    <p className="hHpaKQ">
-                      <span className="sc-pkUbs bJnyvn ds-status-details">
-                        <span className="ds-status-icon zsg-icon-for-sale"></span>
-                        For {propertyType}
-                      </span>
-                      <span className="bDWFjp">
-                        <span>
-                          <button id="dsChipZestimateTooltip" className="gPeOdD">Zestimate<sup>®</sup></button>
-                          :&nbsp;
-                          <span className="einFCw">
-                            ${dollarUSLocale.format(myProperty.listPrice)}
-                          </span>
-                        </span>
-                      </span>
-                    </p>
-                  
-                  </div> */}
-
-                  <div className="ds-mortgage-row">
-                    <div className="sc-pJurq cTjcEC mb-2 d-md-none">
+              <div className='d-flex align-items-end flex-wrap'>
+                <div className='col-md-6 col-12'>
+                  <div className='hweBDL ds-price-change-address-row'>
+                    <div className='sc-pJurq cTjcEC mb-2 mb-md-0'>
                       <div
                         style={{
                           minWidth: "20px",
@@ -492,60 +414,15 @@ const PropertyDetails = ({
                           borderRadius: "20px",
                           backgroundColor: "#336699",
                         }}
-                        className="d-flex justify-content-center align-items-center mr-1"
-                      >
+                        className='d-flex justify-content-center align-items-center mr-1 '>
                         <i
-                          class="fa fa-info"
+                          class='fa fa-money-bill-wave'
                           style={{
                             color: "white",
                             fontSize: "10px",
-                          }}
-                        ></i>
+                          }}></i>
                       </div>
-                      <span className="sc-oTmZL kfNTWi">Status :&nbsp;</span>
-                      <span>For {propertyType ? propertyType : "N/A"}</span>
-                    </div>
-                    <div className="sc-pJurq cTjcEC mb-2">
-                      <div
-                        style={{
-                          minWidth: "20px",
-                          minHeight: "20px",
-                          borderRadius: "20px",
-                          backgroundColor: "#336699",
-                        }}
-                        className="d-flex justify-content-center align-items-center mr-1"
-                      >
-                        <i
-                          class="fa fa-chart-area"
-                          style={{
-                            color: "white",
-                            fontSize: "10px",
-                          }}
-                        ></i>
-                      </div>
-                      <span className="sc-oTmZL kfNTWi">MLS# &nbsp;</span>
-                      <span>12354556</span>
-                    </div>
-                    <div className="sc-pJurq cTjcEC mb-2 mb-md-0">
-                      <div
-                        style={{
-                          minWidth: "20px",
-                          minHeight: "20px",
-                          borderRadius: "20px",
-                          backgroundColor: "#336699",
-                        }}
-                        className="d-flex justify-content-center align-items-center mr-1 "
-                      >
-                        <i
-                          class="fa fa-money-bill-wave"
-                          style={{
-                            color: "white",
-                            fontSize: "10px",
-                          }}
-                        ></i>
-                      </div>
-                      <span className="sc-oTmZL kfNTWi">Est Paymt :&nbsp;</span>
-
+                      <span className='sc-oTmZL kfNTWi'>Est Paymt :&nbsp;</span>
                       <span>
                         $ {mCost && dollarUSLocale.format(parseInt(mCost))}{" "}
                         per/mo
@@ -553,168 +430,144 @@ const PropertyDetails = ({
                     </div>
                   </div>
                 </div>
+              </div>
 
-                <div className="col-md-6 col-12 d-flex flex-column justify-content-center">
-                  <div className="sc-pJurq cTjcEC mb-2">
-                    <div
-                      style={{
-                        minWidth: "20px",
-                        minHeight: "20px",
-                        borderRadius: "20px",
-                        backgroundColor: "#336699",
-                      }}
-                      className="d-flex justify-content-center align-items-center mr-1"
-                    >
-                      <i
-                        class="fa fa-calendar-day"
-                        style={{
-                          color: "white",
-                          fontSize: "10px",
-                        }}
-                      ></i>
-                    </div>
-                    <span className="sc-oTmZL kfNTWi">
-                      Days On Market :&nbsp;
-                    </span>
-                    <span>
-                      {myProperty.daysOnHJI ? myProperty.daysOnHJI : "N/A"}
-                    </span>
-                  </div>
-
-                  <div className="sc-pJurq cTjcEC">
-                    <span className="sc-oTmZL kfNTWi">
-                      <Link
-                        to={`/wizard/${myProperty.id}?market=${myProperty.market}`}
-                        className="w-100 d-flex align-items-center"
-                      >
-                        <div
-                          style={{
-                            minWidth: "20px",
-                            minHeight: "20px",
-                            borderRadius: "20px",
-                            backgroundColor: "#336699",
-                          }}
-                          className="d-flex justify-content-center align-items-center mr-1"
-                        >
-                          <i
-                            class="fa fa-dollar-sign"
-                            style={{
-                              color: "white",
-                              fontSize: "10px",
-                              marginLeft: "3px",
-                            }}
-                          ></i>
-                        </div>{" "}
-                        Get Pre-Qualified Today
-                      </Link>
-                    </span>
-                  </div>
-
-                  {/* <b>Go Tour This Home</b>
-                  <div>
-                    {" "}
+              <div
+                className='ds-bed-bath-living-area-header'
+                style={{ marginLeft: "1rem" }}>
+                <span className='ds-bed-bath-living-area-container'>
+                  <span className='ds-bed-bath-living-area mr-3'>
                     <img
-                      src="https://i.ibb.co/hYHQmbD/calendar-512.webp"
-                      style={{ width: "64px" }}
+                      src={BedIcon}
+                      alt='Bed Icon'
+                      style={{ width: "20px" }}
+                      className='mr-1'
                     />
-                  </div>
-                  <input type="date" className="w-100 px-2" />
-                  <button className="scheduleButton">Schedule Tour</button> */}
-                </div>
+                    <span>{myProperty.beds && myProperty.beds}</span>
+                    <span className='ds-summary-row-label-secondary'>
+                      {" "}
+                      Beds
+                    </span>
+                  </span>
+                  <span className='ds-bed-bath-living-area mr-3'>
+                    <img
+                      src={BathIcon}
+                      alt='Bed Icon'
+                      style={{ width: "20px" }}
+                      className='mr-1'
+                    />
+                    <span>
+                      {" "}
+                      {myProperty?.baths && myProperty?.baths?.total}
+                    </span>
+                    <span className='ds-summary-row-label-secondary'>
+                      {" "}
+                      Baths
+                    </span>
+                  </span>
+                  <span className='ds-bed-bath-living-area'>
+                    <img
+                      src={FtIcon}
+                      alt='Bed Icon'
+                      style={{ width: "20px" }}
+                      className='mr-1'
+                    />
+                    {size ? (
+                      <span>{(size / 43560).toFixed(3) + " " + "acres"}</span>
+                    ) : (
+                      <>
+                        {" "}
+                        <span>--</span>
+                        <span className='ds-summary-row-label-secondary'>
+                          {" "}
+                          acres
+                        </span>
+                      </>
+                    )}
+                  </span>
+                </span>
               </div>
             </div>
           ) : (
-            <div class="lds-ring">
+            <div class='lds-ring'>
               <div></div>
               <div></div>
               <div></div>
               <div></div>
             </div>
           )}
-          <div className="gBFBii ds-buttons flex-wrap">
-            <div className="col-md-6 col-12 mb-2 mb-md-0">
+          <div className='gBFBii ds-buttons flex-wrap'>
+            <div className='col-md-6 col-12 mb-2 mb-md-0'>
               <button
                 onClick={() => setShowDateModal(true)}
-                className="offerMakeButton"
-                style={{ backgroundColor: "#336699" }}
-              >
+                className='offerMakeButton'
+                style={{ backgroundColor: "#336699" }}>
                 Schedule a Showing
               </button>
             </div>
-            <div className="col-md-6 col-12">
+            <div className='col-md-6 col-12'>
               <Link
                 to={`/wizard/${myProperty.id}?market=${myProperty.market}`}
-                className="w-100"
-              >
-                <button className="offerMakeButton">Instant Offer</button>
+                className='w-100'>
+                <button className='offerMakeButton'>Instant Offer</button>
               </Link>
             </div>
           </div>
-          <div className="leYhyN position-relative">
+          <div className='leYhyN position-relative'>
             {/* left angle svg */}
             <svg
               onClick={() => scrollHandler("left")}
-              viewBox="0 0 32 32"
-              className="Icon-c11n-8-18-0__sc-13llmml-0 kUILak IconChevronRightOutline-c11n-8-18-0__sc-170wm20-0 iDMqEV leftArrowModalScroll"
-              aria-hidden="true"
-              focusable="false"
-              role="img"
-            >
+              viewBox='0 0 32 32'
+              className='Icon-c11n-8-18-0__sc-13llmml-0 kUILak IconChevronRightOutline-c11n-8-18-0__sc-170wm20-0 iDMqEV leftArrowModalScroll'
+              aria-hidden='true'
+              focusable='false'
+              role='img'>
               <title>Chevron Right</title>
               <path
-                stroke="none"
-                d="M29.7 8.8a1 1 0 00-1.4 0L16 21 3.7 8.8a1 1 0 00-1.4 0 1 1 0 000 1.4l13 13a1 1 0 001.4 0l13-13a1 1 0 000-1.4z"
-              ></path>
+                stroke='none'
+                d='M29.7 8.8a1 1 0 00-1.4 0L16 21 3.7 8.8a1 1 0 00-1.4 0 1 1 0 000 1.4l13 13a1 1 0 001.4 0l13-13a1 1 0 000-1.4z'></path>
             </svg>
             {/* right angle svg */}
             <svg
               onClick={() => scrollHandler("")}
-              viewBox="0 0 32 32"
-              className="Icon-c11n-8-18-0__sc-13llmml-0 kUILak IconChevronRightOutline-c11n-8-18-0__sc-170wm20-0 iDMqEV rightArrowModalScroll"
-              aria-hidden="true"
-              focusable="false"
-              role="img"
-            >
+              viewBox='0 0 32 32'
+              className='Icon-c11n-8-18-0__sc-13llmml-0 kUILak IconChevronRightOutline-c11n-8-18-0__sc-170wm20-0 iDMqEV rightArrowModalScroll'
+              aria-hidden='true'
+              focusable='false'
+              role='img'>
               <title>Chevron Right</title>
               <path
-                stroke="none"
-                d="M29.7 8.8a1 1 0 00-1.4 0L16 21 3.7 8.8a1 1 0 00-1.4 0 1 1 0 000 1.4l13 13a1 1 0 001.4 0l13-13a1 1 0 000-1.4z"
-              ></path>
+                stroke='none'
+                d='M29.7 8.8a1 1 0 00-1.4 0L16 21 3.7 8.8a1 1 0 00-1.4 0 1 1 0 000 1.4l13 13a1 1 0 001.4 0l13-13a1 1 0 000-1.4z'></path>
             </svg>
-            <div className="yASsG">
+            <div className='yASsG'>
               <nav
-                aria-label="page"
-                className="bMkZsT scrollNav position-relative"
-                id="scrollNav"
-              >
-                <ul className="hJXnIl">
+                aria-label='page'
+                className='bMkZsT scrollNav position-relative'
+                id='scrollNav'>
+                <ul className='hJXnIl'>
                   <li
-                    className="eVYrJu"
-                    onClick={() => setActiveMenu("overview")}
-                  >
+                    className='eVYrJu'
+                    onClick={() => setActiveMenu("overview")}>
                     <a
-                      href="#overview"
-                      className={`bhJxVt ${activeMenuhandler("overview")}`}
-                    >
+                      href='#overview'
+                      className={`bhJxVt ${activeMenuhandler("overview")}`}>
                       Overview
                     </a>
                   </li>
-                  <li className="eVYrJu" onClick={() => setActiveMenu("facts")}>
+                  <li className='eVYrJu' onClick={() => setActiveMenu("facts")}>
                     <a
-                      href="#facts"
-                      className={`bhJxVt ${activeMenuhandler("facts")}`}
-                    >
+                      href='#facts'
+                      className={`bhJxVt ${activeMenuhandler("facts")}`}>
                       Facts & Features
                     </a>
                   </li>
                   <li
-                    className="eVYrJu"
-                    onClick={() => setActiveMenu("advisors")}
-                  >
+                    className='eVYrJu'
+                    onClick={() => setActiveMenu("advisors")}>
                     <a
-                      href="#advisors"
-                      className={`bhJxVt ${activeMenuhandler("advisors")}`}
-                    >
+                      href='#advisors'
+                      className={`bhJxVt ${activeMenuhandler("advisors")}`}>
                       Contact Advisors
                     </a>
                   </li>
@@ -730,13 +583,11 @@ const PropertyDetails = ({
                     </a>
                   </li> */}
                   <li
-                    className="eVYrJu"
-                    onClick={() => setActiveMenu("showing")}
-                  >
+                    className='eVYrJu'
+                    onClick={() => setActiveMenu("showing")}>
                     <a
-                      href="#schedule"
-                      className={`bhJxVt ${activeMenuhandler("showing")}`}
-                    >
+                      href='#schedule'
+                      className={`bhJxVt ${activeMenuhandler("showing")}`}>
                       Schdule a Showing
                     </a>
                   </li>
@@ -751,71 +602,61 @@ const PropertyDetails = ({
                       Make an Offer
                     </a>
                   </li> */}
-                  <li className="eVYrJu" onClick={() => setActiveMenu("cost")}>
+                  <li className='eVYrJu' onClick={() => setActiveMenu("cost")}>
                     <a
-                      href="#cost"
-                      className={`bhJxVt ${activeMenuhandler("cost")}`}
-                    >
+                      href='#cost'
+                      className={`bhJxVt ${activeMenuhandler("cost")}`}>
                       Monthly cost
                     </a>
                   </li>
                   <li
-                    className="eVYrJu"
-                    onClick={() => setActiveMenu("taxAndPrice")}
-                  >
+                    className='eVYrJu'
+                    onClick={() => setActiveMenu("taxAndPrice")}>
                     <a
-                      href="#taxAndPrice"
-                      className={`bhJxVt ${activeMenuhandler("taxAndPrice")}`}
-                    >
+                      href='#taxAndPrice'
+                      className={`bhJxVt ${activeMenuhandler("taxAndPrice")}`}>
                       Price & Tax History
                     </a>
                   </li>
                   {myProperty.schools && (
                     <li
-                      className="eVYrJu"
-                      onClick={() => setActiveMenu("schools")}
-                    >
+                      className='eVYrJu'
+                      onClick={() => setActiveMenu("schools")}>
                       <a
-                        href="#schools"
-                        className={`bhJxVt ${activeMenuhandler("schools")}`}
-                      >
+                        href='#schools'
+                        className={`bhJxVt ${activeMenuhandler("schools")}`}>
                         Nearby schools
                       </a>
                     </li>
                   )}
                   {relatedResult && (
                     <li
-                      className="eVYrJu"
-                      onClick={() => setActiveMenu("neighborhood")}
-                    >
+                      className='eVYrJu'
+                      onClick={() => setActiveMenu("neighborhood")}>
                       <a
-                        href="#neighborhood"
+                        href='#neighborhood'
                         className={`bhJxVt ${activeMenuhandler(
                           "neighborhood"
-                        )}`}
-                      >
+                        )}`}>
                         Neighborhood
                       </a>
                     </li>
                   )}
                   {similarHomes && (
                     <li
-                      className="eVYrJu"
-                      onClick={() => setActiveMenu("similar")}
-                    >
+                      className='eVYrJu'
+                      onClick={() => setActiveMenu("similar")}>
                       <a
-                        href="#similar"
-                        className={`bhJxVt ${activeMenuhandler("similar")}`}
-                      >
+                        href='#similar'
+                        className={`bhJxVt ${activeMenuhandler("similar")}`}>
                         Similar homes
                       </a>
                     </li>
                   )}
-                  <li className="eVYrJu" onClick={() => setActiveMenu("blogs")}>
+                  <li className='eVYrJu' onClick={() => setActiveMenu("blogs")}>
                     <a
-                      href="#blogs"
-                      className={`bhJxVt ${activeMenuhandler("blogs")}`}
-                    >
+                      href='#blogs'
+                      className={`bhJxVt ${activeMenuhandler("blogs")}`}>
                       Blogs
                     </a>
                   </li>
@@ -824,11 +665,10 @@ const PropertyDetails = ({
             </div>
           </div>
           <div
-            className="scroll-contant position-relative"
-            id="modalScrollArea"
-          >
-            <div className="px-3">
-              <div className="ibZOdk">
+            className='scroll-contant position-relative'
+            id='modalScrollArea'>
+            <div className='px-3'>
+              <div className='ibZOdk'>
                 {myProperty && (
                   <MapProperty
                     propertiesList={[myProperty]}
@@ -836,94 +676,105 @@ const PropertyDetails = ({
                   />
                 )}
               </div>
-              <h5 className="bloUvX" id="overview">
+              <h5 className='bloUvX' id='overview'>
                 Overview
               </h5>
 
-              <div className="ds-overview-section">
-                <div className="gwtwTs">{myProperty.description}</div>
-                <button className="kPatDd csGbhU">Read more</button>
+              <div className='ds-overview-section'>
+                <div className='gwtwTs'>{myProperty.description}</div>
+                <button className='kPatDd csGbhU'>Read more</button>
               </div>
             </div>
 
-            <div className="kkFAbf" id="facts">
-              <h4 className="dTAnOx">Facts and features</h4>
-              <div className="facts-card">
-                <ul className="fact-list">
+            <div className='kkFAbf' id='facts'>
+              <h4 className='dTAnOx'>Facts and features</h4>
+              <div className='facts-card'>
+                <ul className='fact-list'>
                   {Object.entries(features).map((item) => {
                     return (
-                      <li className="fact-item">
-                        <i className="sc-pktCe gUXGEs zsg-icon-buildings"></i>
-                        <span className="cDEvWM">{item[0]}:</span>
-                        <span className="eBiAkN">{item[1]}</span>
+                      <li className='fact-item'>
+                        <i className='sc-pktCe gUXGEs zsg-icon-buildings'></i>
+                        <span className='cDEvWM'>{item[0]}:</span>
+                        <span className='eBiAkN'>{item[1]}</span>
                       </li>
                     );
                   })}
-                  <li className="fact-item">
-                    <i className="sc-pktCe gUXGEs zsg-icon-parking"></i>
-                    <span className="cDEvWM">Parking:</span>
-                    <span className="eBiAkN">{myProperty.xf_garagedesc}</span>
+                  <li className='fact-item'>
+                    <i className='sc-pktCe gUXGEs zsg-icon-parking'></i>
+                    <span className='cDEvWM'>Parking:</span>
+                    <span className='eBiAkN'>{myProperty.xf_garagedesc}</span>
                   </li>
-                  <li className="fact-item">
-                    <i className="sc-pktCe gUXGEs zsg-icon-hoa"></i>
-                    <span className="cDEvWM">HOA:</span>
-                    <span className="eBiAkN">$360 annually</span>
+                  <li className='fact-item'>
+                    <i className='sc-pktCe gUXGEs zsg-icon-hoa'></i>
+                    <span className='cDEvWM'>HOA:</span>
+                    <span className='eBiAkN'>$360 annually</span>
                   </li>
-                  <li className="fact-item">
-                    <i className="sc-pktCe gUXGEs zsg-icon-price-sqft"></i>
-                    <span className="cDEvWM">Price/sqft:</span>
-                    <span className="eBiAkN">$-</span>
+                  <li className='fact-item'>
+                    <i className='sc-pktCe gUXGEs zsg-icon-price-sqft'></i>
+                    <span className='cDEvWM'>Price/sqft:</span>
+                    <span className='eBiAkN'>$-</span>
+                  </li>
+
+                  <li className='fact-item'>
+                    <i
+                      class='fa fa-chart-area'
+                      style={{
+                        color: "white",
+                        fontSize: "10px",
+                      }}></i>
+                    <span className='cDEvWM'>MLS#:</span>
+                    <span className='eBiAkN'>12354556</span>
                   </li>
                 </ul>
               </div>
-              <div className="ekDNZJ">
-                <div className="kAvzkP">
-                  <h5 className="gHAGDn">Interior details</h5>
-                  <div className="wVdMu">
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Bedrooms and bathrooms</h6>
-                      <ul className="gsEezU">
+              <div className='ekDNZJ'>
+                <div className='kAvzkP'>
+                  <h5 className='gHAGDn'>Interior details</h5>
+                  <div className='wVdMu'>
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Bedrooms and bathrooms</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Bedrooms: {myProperty.beds}
                           </span>
                         </li>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Bathrooms: {myProperty && myProperty?.baths?.total}
                           </span>
                         </li>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Full bathrooms:{" "}
                             {myProperty && myProperty?.baths?.full}
                           </span>
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Basement</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Basement</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Basement: {myProperty && myProperty.xf_basement}
                           </span>
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Flooring</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Flooring</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz"> </span>
+                          <span className='foiYRz'> </span>
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Heating</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Heating</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Heating features:
                             {myProperty.xf_heating &&
                               typeof myProperty.xf_heating !== "string" &&
@@ -947,11 +798,11 @@ const PropertyDetails = ({
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Cooling</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Cooling</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Cooling features:
                             {myProperty.xf_cooling &&
                               typeof myProperty.xf_cooling !== "string" &&
@@ -966,11 +817,11 @@ const PropertyDetails = ({
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Appliances</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Appliances</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Appliances included:
                             {myProperty.xf_appliances &&
                               typeof myProperty.xf_appliances !== "string" &&
@@ -985,76 +836,76 @@ const PropertyDetails = ({
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Other interior features</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Other interior features</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">Total structure area: </span>
+                          <span className='foiYRz'>Total structure area: </span>
                         </li>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Total interior livable area: sqft
                           </span>
                         </li>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Total number of fireplaces:{" "}
                             {myProperty?.xf_fireplaces}
                           </span>
                         </li>
                         <li>
-                          <span className="foiYRz">Fireplace features: </span>
+                          <span className='foiYRz'>Fireplace features: </span>
                         </li>
                       </ul>
                     </div>
                   </div>
                 </div>
-                <div className="kAvzkP">
-                  <h5 className="gHAGDn">Property details</h5>
-                  <div className="wVdMu">
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Parking</h6>
-                      <ul className="gsEezU">
+                <div className='kAvzkP'>
+                  <h5 className='gHAGDn'>Property details</h5>
+                  <div className='wVdMu'>
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Parking</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Total spaces: {myProperty.xf_garage}
                           </span>
                         </li>
                         <li>
-                          <span className="foiYRz">Parking features: </span>
+                          <span className='foiYRz'>Parking features: </span>
                         </li>
                         <li>
-                          <span className="foiYRz">Garage spaces: </span>
+                          <span className='foiYRz'>Garage spaces: </span>
                         </li>
                         <li>
-                          <span className="foiYRz">Covered spaces: </span>
+                          <span className='foiYRz'>Covered spaces: </span>
                         </li>
                         <li>
-                          <span className="foiYRz">Attached garage: </span>
+                          <span className='foiYRz'>Attached garage: </span>
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Accessibility</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Accessibility</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Accessibility features:{" "}
                           </span>
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Property</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Property</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">Levels: </span>
+                          <span className='foiYRz'>Levels: </span>
                         </li>
                         <li>
-                          <span className="foiYRz">Stories: </span>
+                          <span className='foiYRz'>Stories: </span>
                         </li>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Exterior features:
                             {myProperty.xf_exterior &&
                               myProperty.xf_exterior.length > 0 &&
@@ -1064,38 +915,38 @@ const PropertyDetails = ({
                           </span>
                         </li>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Patio and porch details:{" "}
                           </span>
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Lot</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Lot</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Lot size:{" "}
                             {myProperty.lotSize && myProperty.lotSize.sqft} sqft
                           </span>
                         </li>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Lot size dimensions: 100 x 200
                           </span>
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Other property information</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Other property information</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Parcel number: 3000224000000007
                           </span>
                         </li>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Zoning description: Planned
                             Residential,Residential,Single Family
                           </span>
@@ -1104,19 +955,19 @@ const PropertyDetails = ({
                     </div>
                   </div>
                 </div>
-                <div className="kAvzkP">
-                  <h5 className="gHAGDn">Construction details</h5>
-                  <div className="wVdMu">
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Type and style</h6>
-                      <ul className="gsEezU">
+                <div className='kAvzkP'>
+                  <h5 className='gHAGDn'>Construction details</h5>
+                  <div className='wVdMu'>
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Type and style</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Home type: {myProperty.xf_subproptype}
                           </span>
                         </li>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Architectural style:
                             {myProperty.xf_style &&
                               myProperty.xf_style.length > 0 &&
@@ -1127,11 +978,11 @@ const PropertyDetails = ({
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Material information</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Material information</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Construction materials:
                             {myProperty.xf_exterior &&
                               myProperty.xf_exterior.length > 0 &&
@@ -1144,10 +995,10 @@ const PropertyDetails = ({
                           </span>
                         </li>
                         <li>
-                          <span className="foiYRz">Foundation: </span>
+                          <span className='foiYRz'>Foundation: </span>
                         </li>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Roof:
                             {myProperty.xf_roof &&
                               typeof myProperty.xf_roof !== "string" &&
@@ -1161,15 +1012,15 @@ const PropertyDetails = ({
                           </span>
                         </li>
                         <li>
-                          <span className="foiYRz">Windows: </span>
+                          <span className='foiYRz'>Windows: </span>
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Condition</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Condition</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             New construction:
                             {myProperty.newConstruction ? (
                               <span>Yes</span>
@@ -1179,17 +1030,17 @@ const PropertyDetails = ({
                           </span>
                         </li>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Year built: {myProperty.xf_yearbuilt}
                           </span>
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Other construction</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Other construction</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Builder model: Custom Normandy
                           </span>
                         </li>
@@ -1197,14 +1048,14 @@ const PropertyDetails = ({
                     </div>
                   </div>
                 </div>
-                <div className="kAvzkP">
-                  <h5 className="gHAGDn">Utilities / Green Energy Details</h5>
-                  <div className="wVdMu">
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Utility</h6>
-                      <ul className="gsEezU">
+                <div className='kAvzkP'>
+                  <h5 className='gHAGDn'>Utilities / Green Energy Details</h5>
+                  <div className='wVdMu'>
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Utility</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Sewer information: Public Sewer
                           </span>
                         </li>
@@ -1212,54 +1063,54 @@ const PropertyDetails = ({
                     </div>
                   </div>
                 </div>
-                <div className="kAvzkP">
-                  <h5 className="gHAGDn">Community and Neighborhood Details</h5>
-                  <div className="wVdMu">
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Security</h6>
-                      <ul className="gsEezU">
+                <div className='kAvzkP'>
+                  <h5 className='gHAGDn'>Community and Neighborhood Details</h5>
+                  <div className='wVdMu'>
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Security</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Security features: Security System
                           </span>
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Community</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Community</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">
+                          <span className='foiYRz'>
                             Community features: Association, Playground, Pool,
                             Swimming, Tennis Court(s)
                           </span>
                         </li>
                       </ul>
                     </div>
-                    <div className="kYVsju">
-                      <h6 className="einFCw">Location</h6>
-                      <ul className="gsEezU">
+                    <div className='kYVsju'>
+                      <h6 className='einFCw'>Location</h6>
+                      <ul className='gsEezU'>
                         <li>
-                          <span className="foiYRz">Region: Marlboro</span>
+                          <span className='foiYRz'>Region: Marlboro</span>
                         </li>
                       </ul>
                     </div>
                   </div>
                 </div>
 
-                <ul className="jUMuUb">
-                  <li className="ds-data-link"></li>
+                <ul className='jUMuUb'>
+                  <li className='ds-data-link'></li>
                 </ul>
-                <div className="fQkkzS"></div>
+                <div className='fQkkzS'></div>
               </div>
-              <div className="ivyodi" id="advisors">
-                <p className="bpPStC" style={{ fontSize: "18px" }}>
+              <div className='ivyodi' id='advisors'>
+                <p className='bpPStC' style={{ fontSize: "18px" }}>
                   <strong>Our eHomeoffer Advisors</strong>
                 </p>
               </div>
             </div>
 
-            <div className="jOzrMc">
+            <div className='jOzrMc'>
               <AdviserCards
                 agentData={agentData}
                 lenderData={lenderData}
@@ -1269,29 +1120,29 @@ const PropertyDetails = ({
 
             <ScheduleCard modalDates={modalDates} myProperty={myProperty} />
             <MonthlyCost myProperty={myProperty} setMCost={setMCost} />
-            <div className="kkFAbf" id="taxAndPrice">
-              <h4 className="dTAnOx">Tax history</h4>
-              <div className="facts-card">
-                <ul className="fact-list">
-                  <li className="fact-item flex-column">
-                    <span className="taxHead">Tax amount</span>
-                    <span className="eBiAkN">
+            <div className='kkFAbf' id='taxAndPrice'>
+              <h4 className='dTAnOx'>Tax history</h4>
+              <div className='facts-card'>
+                <ul className='fact-list'>
+                  <li className='fact-item flex-column'>
+                    <span className='taxHead'>Tax amount</span>
+                    <span className='eBiAkN'>
                       $
                       {myProperty?.attomData?.assessment?.tax?.taxAmt ||
                         myProperty?.xf_taxamount}
                     </span>
                   </li>
-                  <li className="fact-item flex-column">
-                    <span className="taxHead">Tax per size unit</span>
-                    <span className="eBiAkN">
+                  <li className='fact-item flex-column'>
+                    <span className='taxHead'>Tax per size unit</span>
+                    <span className='eBiAkN'>
                       $
                       {myProperty?.attomData?.assessment?.tax?.taxPerSizeUnit ||
                         myProperty?.xf_taxrate}
                     </span>
                   </li>
-                  <li className="fact-item flex-column">
-                    <span className="taxHead">Tax year</span>
-                    <span className="eBiAkN">
+                  <li className='fact-item flex-column'>
+                    <span className='taxHead'>Tax year</span>
+                    <span className='eBiAkN'>
                       {myProperty?.attomData?.assessment?.tax?.taxYear ||
                         myProperty?.xf_taxyear}
                     </span>
@@ -1300,9 +1151,9 @@ const PropertyDetails = ({
               </div>
               {myProperty?.attomData?.saleHistory && (
                 <>
-                  <h4 className="dTAnOx">Price history</h4>
-                  <div className="facts-card">
-                    <table className="w-100">
+                  <h4 className='dTAnOx'>Price history</h4>
+                  <div className='facts-card'>
+                    <table className='w-100'>
                       <thead>
                         <tr>
                           <th>
@@ -1334,13 +1185,13 @@ const PropertyDetails = ({
             </div>
 
             {myProperty.schools && (
-              <div className="dHtGQa" id="schools">
-                <h4 className="dTAnOx dZuCmF">Nearby schools in Marlboro</h4>
-                <div className="eUOzkf">
-                  <h5 className="bSxNCK">
+              <div className='dHtGQa' id='schools'>
+                <h4 className='dTAnOx dZuCmF'>Nearby schools in Marlboro</h4>
+                <div className='eUOzkf'>
+                  <h5 className='bSxNCK'>
                     Schools provided by the listing advisor
                   </h5>
-                  <div className="gtLCRl">
+                  <div className='gtLCRl'>
                     {myProperty.schools.elementary && (
                       <div>Elementary: {myProperty.schools.elementary}</div>
                     )}
@@ -1351,7 +1202,7 @@ const PropertyDetails = ({
                       <div>High: {myProperty.schools.high}</div>
                     )}
                   </div>
-                  <p className="fhpxsu">
+                  <p className='fhpxsu'>
                     This data may not be complete. We recommend contacting the
                     local school district to confirm school assignments for this
                     home.
@@ -1360,18 +1211,17 @@ const PropertyDetails = ({
               </div>
             )}
             {relatedResult && (
-              <div className="dHtGQa" id="neighborhood">
-                <h5 className="dTAnOx dZuCmF">Neighborhood</h5>
+              <div className='dHtGQa' id='neighborhood'>
+                <h5 className='dTAnOx dZuCmF'>Neighborhood</h5>
                 {relatedResult && (
                   <Carousel responsive={responsive}>
                     {relatedResult &&
                       relatedResult.map((singleRelated, index) => {
                         return (
                           <div
-                            className="mx-auto col-md-10"
+                            className='mx-auto col-md-10'
                             key={index}
-                            style={{ paddingTop: "20px" }}
-                          >
+                            style={{ paddingTop: "20px" }}>
                             <PropertyCard
                               propertyValues={singleRelated}
                               history={history}
@@ -1386,18 +1236,17 @@ const PropertyDetails = ({
             )}
 
             {similarHomes && (
-              <div className="dHtGQa" id="similar">
-                <h5 className="dTAnOx dZuCmF">Similar homes</h5>
+              <div className='dHtGQa' id='similar'>
+                <h5 className='dTAnOx dZuCmF'>Similar homes</h5>
                 {similarHomes && (
                   <Carousel responsive={responsive}>
                     {similarHomes &&
                       similarHomes.map((singleRelated, index) => {
                         return (
                           <div
-                            className="mx-auto col-md-10"
+                            className='mx-auto col-md-10'
                             key={index}
-                            style={{ paddingTop: "20px" }}
-                          >
+                            style={{ paddingTop: "20px" }}>
                             <PropertyCard
                               propertyValues={singleRelated}
                               history={history}
@@ -1410,19 +1259,19 @@ const PropertyDetails = ({
                 )}
               </div>
             )}
-            <div className="dHtGQa" id="blogs">
-              <h5 className="dTAnOx dZuCmF">Blogs</h5>
+            <div className='dHtGQa' id='blogs'>
+              <h5 className='dTAnOx dZuCmF'>Blogs</h5>
               {blogs && (
                 <Carousel responsive={responsiveBlogs}>
                   {blogs.map((blog, index) => {
                     return (
-                      <a href={blog.link} target="_blank" key={index}>
-                        <div className="blogCard mx-2">
+                      <a href={blog.link} target='_blank' key={index}>
+                        <div className='blogCard mx-2'>
                           <div
-                            className="imageArea"
+                            className='imageArea'
                             style={{ backgroundImage: `url(${blog.image})` }}
                           />
-                          <div className="blogBody">
+                          <div className='blogBody'>
                             <h1>{blog.name}</h1>
                             {blog.postcontent ? (
                               <p>
@@ -1444,53 +1293,52 @@ const PropertyDetails = ({
               )}
             </div>
             {provider && (
-              <div className="home-details-listing-provided-by">
-                <div className="bUREIR">
-                  <div className="inlRtt">
-                    <img alt="" src={provider?.assets?.logo?.url} />
+              <div className='home-details-listing-provided-by'>
+                <div className='bUREIR'>
+                  <div className='inlRtt'>
+                    <img alt='' src={provider?.assets?.logo?.url} />
                   </div>
                   <b>Copyrights:</b>
-                  <p className="bDTsLB">
+                  <p className='bDTsLB'>
                     {provider?.lexicon?.en_US?.copyright.replace(
                       "&copy; {current_date_year}",
                       "2021"
                     )}
                   </p>
                   <b>Disclaimer:</b>
-                  <p className="bDTsLB">
+                  <p className='bDTsLB'>
                     {provider?.lexicon?.en_US?.disclaimer}
                   </p>
                 </div>
               </div>
             )}
 
-            <div className="ds-breadcrumb-container">
-              <ul className="ds-breadcrumbs">
+            <div className='ds-breadcrumb-container'>
+              <ul className='ds-breadcrumbs'>
                 <li>
-                  <a href="#">New Jersey</a>
+                  <a href='#'>New Jersey</a>
                 </li>
                 <li>
                   <span></span>
-                  <a href="#">Marlboro</a>
+                  <a href='#'>Marlboro</a>
                 </li>
                 <li>
                   <span></span>
-                  <a href="#">07746</a>
+                  <a href='#'>07746</a>
                 </li>
                 <li>
                   <span></span>
-                  <a href="#">40 Girard St</a>
+                  <a href='#'>40 Girard St</a>
                 </li>
               </ul>
             </div>
           </div>
           <Modal
-            modalClassName="date-details"
+            modalClassName='date-details'
             toggle={() => setShowDateModal(false)}
-            isOpen={showDateModal}
-          >
+            isOpen={showDateModal}>
             <ModalBody>
-              <div className="mx-auto  p-2 card">
+              <div className='mx-auto  p-2 card'>
                 <ScheduleCard
                   modalDates={modalDates}
                   myProperty={myProperty}
